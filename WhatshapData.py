@@ -7,15 +7,12 @@ class WhatshapData(object):
         self.phasedName = phaseFileName;
         self.variantFileName = inputVCF;
         self.sequenceFileName = inputBAM;
+        self.command = "";
 
     def cmd(self):
-        self.command = "whatshap phase --ignore-read-groups --distrust-genotypes"
+        self.command = "whatshap phase --ignore-read-groups --distrust-genotypes";
         self.command += " --indels --reference (insert ref file here)"
         self.command += " --include-homozygous -o ${output}" + self.phasedName;
         self.command += " ${output}" + self.variantFileName;
         self.command += " ${output}" + self.sequenceFileName;
-        print(self.command);
-
-
-test = WhatshapData(12345, "phaseFile", "VCFfile", "BAMfile");
-test.cmd();
+        return self.command;
