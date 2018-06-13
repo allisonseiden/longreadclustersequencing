@@ -1,0 +1,10 @@
+load BED file into pandas
+group by chromosome
+subtract start values of every pair
+if the value is less than [tolerance for cluster] then
+num_clusters++
+if not, move on
+do for every chromosome
+make sure not to override the num_clusters for each chromosome -- maybe store in a separate list
+or add a column for each group that has num_clusters value
+can then sum all the clusters per patient
