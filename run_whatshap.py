@@ -22,4 +22,4 @@ def whatshap(ID):
 
 if __name__ == '__main__':
     pool = mp.Pool(processes=6);
-    pool.map(whatshap, patientID[1]);
+    pool.map(whatshap, "1-01019");
