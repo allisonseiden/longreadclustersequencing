@@ -1,5 +1,4 @@
 import subprocess
-from WhatshapData import WhatshapData
 
 patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389", "1-04460", "1-04537", "1-05443", "1-05673", "1-05846"];
 
@@ -15,6 +14,4 @@ for ID in patientID:
         print("========WhatshapData object created for patient family " + ID + " for chromosome " + str(i));
         command = whatshap_object.cmd();
         print("--------Running whatshap for patient family " + ID + " on chromosome " + str(i));
-
-        print(command);
-        #subprocess.call(command, shell=True);
+        subprocess.call(command, shell=True);
