@@ -7,7 +7,7 @@ for ID in patientID:
     subprocess.call(cd, shell=True);
     for i in range(1, 23):
         filename = ID + "_chr" + str(i) + ".vcf";
-        split = "tabix -h ../" + ID + ".hg38.trio.vcf.gz chr" + str(i) + " > " + filename;
+        split = "tabix -h /hpc/users/seidea02/www/PacbioProject/DNV_calls/VCF/TrioVCF/" + ID + ".hg38.trio.vcf.gz chr" + str(i) + " > " + filename;
         subprocess.call(split, shell=True);
         compress = "bgzip " + filename;
         subprocess.call(compress, shell=True);
