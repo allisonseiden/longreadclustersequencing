@@ -13,7 +13,7 @@ class WhatshapData:
         self.command = "";
 
     def cmd(self):
-        self.command = "whatshap phase --ped " + self.ped + "--ignore-read-groups";
+        self.command = "whatshap phase --ped " + self.ped + " --ignore-read-groups";
         self.command += " --distrust-genotypes --indels";
         self.command += " --reference /sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa";
         self.command += " --include-homozygous -o " + self.phasedName + self.variantFileName;
