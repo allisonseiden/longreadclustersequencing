@@ -2,7 +2,7 @@ import subprocess
 from WhatshapData import WhatshapData
 import multiprocessing as mp
 
-patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389", "1-04460", "1-04537", "1-05443", "1-05673", "1-05846"];
+patientID = ["1-03897", "1-04190", "1-04389", "1-04460", "1-04537", "1-05443", "1-05673", "1-05846"];
 
 #for ID in patientID:
 def whatshap(ID):
@@ -22,4 +22,4 @@ def whatshap(ID):
 
 if __name__ == '__main__':
     pool = mp.Pool(processes=6);
-    pool.map(whatshap("1-01019"));
+    pool.map(whatshap, patientID);
