@@ -6,3 +6,6 @@ samtools view file_name | wc -l
 
 # make index files with python script, use subprocess? before calling whatshap
 # for every individual, make their index file first
+
+# samtools sort commands
+samtools sort -o ID_edit_sorted.bam -O bam ID_edit.bam 
