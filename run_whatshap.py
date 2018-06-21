@@ -11,9 +11,9 @@ def whatshap(ID):
     dad_input = "/hpc/users/seidea02/www/PacbioProject/IlluminaHg38Bams/" + ID + "-02.hg38.dedup.clean.recal.cram ";
     mom_input = "/hpc/users/seidea02/www/PacbioProject/IlluminaHg38Bams/" + ID + "-01.hg38.dedup.clean.recal.cram ";
     for i in range(1, 23):
-        chrom = str(i);
-        phaseFileName = ID + "_chr" + chrom + "_phased.vcf ";
-        inputVCF = "/hpc/users/seidea02/www/PacbioProject/DNV_calls/VCF/TrioVCF/" + ID + "/" + ID + "_chr" + chrom + ".vcf.gz ";
+        chrom = "chr{0}".format(i);
+        phaseFileName = ID + "_" + chrom + "_phased.vcf ";
+        inputVCF = "/hpc/users/seidea02/www/PacbioProject/DNV_calls/VCF/TrioVCF/" + ID + "/" + ID + "_" + chrom + ".vcf.gz ";
         whatshap_object = WhatshapData(ID, pedFileName, phaseFileName, inputVCF, child_input, dad_input, mom_input);
         print("========WhatshapData object created for patient family " + ID + " on chromosome " + chrom);
         command = whatshap_object.cmd();
