@@ -1,0 +1,32 @@
+This is WhatsHap 0.16 running under Python 3.5.0
+Working on 1 samples from 1 family
+======== Working on chromosome 'chr20'
+---- Processing individual 1-00801
+Using maximum coverage per sample of 15X
+Number of variants skipped due to missing genotypes: 911
+Number of remaining heterozygous variants: 58904
+Reading alignments and detecting alleles ...
+Found 64002 reads covering 58263 variants
+Kept 49817 reads that cover at least two variants each
+Reducing coverage to at most 15X by selecting most informative reads ...
+Selected 47476 reads covering 57908 variants
+Best-case phasing would result in 1145 non-singleton phased blocks (1500 in total)
+... after read selection: 1145 non-singleton phased blocks (1145 in total)
+Variants covered by at least one phase-informative read in at least one individual after read selection: 57908
+Phasing 1 sample by solving the MEC problem ...
+MEC cost: 635400
+No. of phased blocks: 1145
+Largest component contains 938 variants (1.6% of accessible variants) between position 30318570 and 30418203
+======== Writing VCF
+Done writing VCF
+
+== SUMMARY ==
+Maximum memory usage: 1.289 GB
+Time spent reading BAM:                        82.3 s
+Time spent parsing VCF:                        86.3 s
+Time spent selecting reads:                    30.0 s
+Time spent phasing:                            97.2 s
+Time spent writing VCF:                       129.4 s
+Time spent finding components:                  4.4 s
+Time spent on rest:                            49.6 s
+Total elapsed time:                           479.3 s
