@@ -14,4 +14,4 @@ for ID in patientID:
         command += " --indels -o " + ID + "/" + ID + "_chr" + str(i) + "_phased.vcf ";
         command += vcf_filename + " " + bam_filename;
         sp.call(command, shell=True);
-        print("======Sucessfully ran whatshap for " + ID " on chromosome " + str(i));
+        print("======Sucessfully ran whatshap for " + ID + " on chromosome " + str(i));
