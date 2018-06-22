@@ -10,3 +10,4 @@ for i in range(1,16):
     command += "--indels -o 1-00801/1-00801_chr" + str(i) + "_phased.vcf ";
     command += vcf_filename + " " + bam_filename;
     sp.call(command, shell=True);
+    print("======Sucessfully ran whatshap for 1-00801 on chromosome " + str(i));
