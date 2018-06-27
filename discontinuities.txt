@@ -1,0 +1,70 @@
+Sample 1-00801
+  chromosome 22
+    de novo at: 33569060
+    chr22:33396463-33649515
+
+  chromosome 21 -- no de novos
+
+  chromosome 20
+    de novo at: 62466289
+    chr20:62447580-62499944
+
+    de novo at: 48884995
+    chr20:48863586-48915498
+
+    de novo at: 39588834
+    chr20:39489659-39851460
+
+  chromosome 19 -- only de novo is unphased
+
+  chromosome 18 -- no de novos
+
+  chromosome 17
+    de novo at: 7245740
+    chr17:7211830-7357549
+
+    de novo at: 21241969
+    chr17:21229748-21256198
+
+    de novo at: 54589885
+    chr17:54583280-54624372
+
+    de novo at: 78603256
+    chr17:78578485-78622442
+
+    de novo at: 82081417
+    chr17:82070260-82122432
+
+  chromosome 16
+    de novo at: 65339
+    chr16:49492-82032
+
+    de novo at: 392302
+    chr16:381890-395734
+
+    de novo at: 578008
+    chr16:550859-579447
+
+    de novo at: 2391698 (unphased)
+
+    de novo at: 9021367
+    chr16:9002626-9035098
+
+    de novo at: 49361884
+    chr16:49323886-49388134
+
+    de novo at: 51748211
+    chr16:51745279-51769548
+
+    de novo at: 65303395
+    chr16:65269163-65344111
+
+    de novo at: 76205665
+    chr16:76173143-76293835
+
+    de novo at: 82975821
+    chr16:82822408-83014774
+
+  chromosome 15
+    de novo at: 31444339
+    chr15:31441437-31447350
