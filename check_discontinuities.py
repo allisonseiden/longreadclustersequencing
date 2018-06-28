@@ -64,14 +64,14 @@ def search_discon(vcf_df, chromosome):
         dnv_index = vcf_df.index[vcf_df['POS'] == dn].item();
         hap = vcf_df['1-00801'][dnv_index];
         u_discon= dnv_index;
-        while hap[:3] != "0/1" and hap[:3] != "1/0":
+        while hap[:3] != "0/1" or hap[:3] != "1/0":
             u_discon -= 1;
             hap = vcf_df['1-00801'][u_discon];
         upper_pos = vcf_df['POS'][u_discon];
         bounds[dn].append(upper_pos);
         hap = vcf_df['1-00801'][dnv_index];
         l_discon = dnv_index;
-        while hap[:3] != "0/1" and hap[:3] != "1/0":
+        while hap[:3] != "0/1" or hap[:3] != "1/0":
             l_discon += 1;
             hap = vcf_df['1-00801'][l_discon];
         lower_pos = vcf_df['POS'][l_discon];
