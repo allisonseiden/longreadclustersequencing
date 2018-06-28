@@ -82,7 +82,10 @@ def search_discon(vcf_df, chromosome):
 for chr in dnvs:
     vcf_df = d[chr];
     all_bounds = search_discon(vcf_df, chr);
+    print(chr);
+    print('\n');
     print(all_bounds);
+    print('\n');
 
 
 
