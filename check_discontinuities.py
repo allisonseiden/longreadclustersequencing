@@ -6,6 +6,6 @@ chr22_100801 = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs
                                 comment = '#');
 
 #print(chr22_100801.loc[:,['POS','1-00801']]);
-pos_hap = pd.DataFrame(chr22_108801.loc[:['POS', '1-00801']]);
+pos_hap = pd.DataFrame(chr22_100801.loc[:['POS', '1-00801']]);
 test = pd.Series(pos_hap.loc[:,'1-00801']);
 print(test.size);
