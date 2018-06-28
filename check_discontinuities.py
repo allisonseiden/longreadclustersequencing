@@ -32,6 +32,62 @@ for chrom in chrom_list:
         dnv_list.append(dnv_100801['End'][index]);
     dnvs[chrom] = dnv_list;
 
+# no longer need full bed file, all relevant data placed in dnvs dictionary; free memory
+del dnv_100801;
+
+# look for correct VCF file from dictionary d
+# for chr in dnvs:
+#     vcf_df = d[chr];
+#     for de_novo in dnvs[chr]:
+#         dnv_index = vcf_df.index[vcf_df['POS'] == de_novo].item();
+#         # dnv_hap = vcf_df['1-00801'][dnv_index];
+#         # print(dnv_hap);
+#         discon_index = dnv_index;
+#         discon_hap = vcf_df['1-00801'][discon_index];
+#         print(discon_hap[:3]);
+#         while discon_hap[:3] != "0/1" or discon_hap[:3] != "1/0":
+#             discon_index -= 1;
+#             discon_hap = vcf_df['1-00801'][discon_index];
+#         upper_index = dison_index;
+#         print(vcf_df['1-00801'][upper_index][:3]);
+#
+#
+#             upper_index = discon_index;
+#     print(vcf_df['1-00801'][discon_index]);
+
+def search_discon(self, vcf_df, chromosome):
+    bounds = {}
+    vcf_df = d['chr22'];
+    de_novo_list = dnvs['chr22'];
+    for dn in de_novo_list:
+        bounds[dn] = [];
+        dnv_index = vcf_df.index[vcf_df['POS'] == dn].item();
+        hap = vcf_df['1-00801'][dnv_index];
+        u_discon= dnv_index;
+        while hap[:3] != "0/1" and hap[:3] != "1/0":
+            u_discon -= 1;
+            hap = vcf_df['1-00801'][u_discon];
+        upper_pos = vcf_df['POS'][u_discon];
+        bounds[dn].append(upper_pos);
+        hap = vcf_df['1-00801'][dnv_index];
+        l_discon = dnv_index;
+        while hap[:3] != "0/1" and hap[:3] != "1/0":
+            l_discon += 1;
+            hap = vcf_df['1-00801'][l_discon];
+        lower_pos = vcf_df['POS'][l_discon];
+        bounds[dn].append(lower_pos);
+    return bounds;
+
+
+for chr in dnvs:
+    vcf_df = d[chr];
+    all_bounds = search_discon(vcf_df, chr);
+    print(all_bounds);
+
+
+
+
+
 # for chrom in chrom_list:
 #     print(chrom)
 #     hap = d[chrom]['1-00801'];
