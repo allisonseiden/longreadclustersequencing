@@ -57,8 +57,8 @@ del dnv_100801;
 
 def search_discon(vcf_df, chromosome):
     bounds = {}
-    vcf_df = d['chr22'];
-    de_novo_list = dnvs['chr22'];
+    vcf_df = d[chromosome];
+    de_novo_list = dnvs[chromosome];
     for dn in de_novo_list:
         bounds[dn] = [];
         dnv_index = vcf_df.index[vcf_df['POS'] == dn].item();
