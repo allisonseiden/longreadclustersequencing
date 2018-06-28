@@ -68,3 +68,210 @@ Sample 1-00801
   chromosome 15
     de novo at: 31444339
     chr15:31441437-31447350
+
+  chromosome 14
+    de novo at: 50853075
+    chr14:50823154-50870908
+
+    de novo at: 71270187
+    chr14:71235429-71272053
+
+    de novo at: 75192883
+    chr14:75066383-75225386
+
+  chromosome 13
+    de novo at: 34084254
+    chr13:34069895-34111258
+
+    de novo at: 38489600
+    chr13:38348689-38536479
+
+    de novo at: 54781512
+    chr13:54722647-54835767
+
+    de novo at: 85003443
+    chr13:84925207-85021416
+
+    de novo at: 97256709
+    chr13:97203873-97271112
+
+  chromosome 12
+    de novo at: 56129471
+    chr12:56125785-56190447
+
+    de novo at: 75272545
+    chr12:75237396-75291480
+
+  chromosome 11
+    de novo at: 1790440
+    chr11:1785347-1808648
+
+    de novo at: 55526634
+    chr11:55484139-55532671
+
+    de novo at: 64018630
+    chr11:63985415-64022867
+
+    de novo at: 64359675
+    chr11:64356016-64369120
+
+    de novo at: 87938944
+    chr11:87910633-87977530
+
+  chromosome 10
+    de novo at: 30347781
+    chr10:30274436-30412613
+
+    de novo at: 54506038
+    chr10:54505722-54549220
+
+    de novo at: 64696050
+    chr10:64681124-64712937
+
+    de novo at: 99905926
+    chr10:99847918-99915214
+
+    de novo at: 106810026
+    chr10:106806384-106878777
+
+    de novo at: 127397524
+    chr10:127386056-127408889
+
+  chromosome 9 (no de novos)
+
+  chromosome 8
+    de novo at: 28743537
+    chr8:
+
+    de novo at: 105687021
+    chr8:
+
+    de novo at: 106717486
+    chr8:
+
+    de novo at: 106717486
+    chr8:
+
+  chromosome 7
+    de novo at: 2573135
+    chr7:
+
+    de novo at: 114810105
+    chr7:
+
+    de novo at: 138092931
+    chr7:
+
+  chromosome 6
+    de novo at: 44879226
+    chr6:
+
+    de novo at: 125561284
+    chr6:
+
+    de novo at: 133903448
+    chr6:
+
+    de novo at: 149533597
+    chr6:
+
+  chromosome 5
+   de novo at: 462792
+   chr5:
+
+   de novo at: 11646764
+   chr5:
+
+   de novo at: 20615508
+   chr5:
+
+   de novo at: 72378426
+   chr5:
+
+   de novo at: 108986506
+   chr5:
+
+   de novo at: 159939718
+   chr5:
+
+   de novo at: 162810241
+   chr5:
+
+  chromosome 4
+    de novo at: 6233833
+    chr4:
+
+    de novo at: 36751919
+    chr4:
+
+    de novo at: 122167765
+    chr4:
+
+  chromosome 3
+    de novo at: 11800979
+    chr3:
+
+    de novo at: 26929249
+    chr3:
+
+    de novo at: 54187503
+    chr3:
+
+    de novo at: 69852169
+    chr3:
+
+    de novo at: 106745863
+    chr3:
+
+    de novo at: 109056891
+    chr3:
+
+    de novo at: 142818800
+    chr3:
+
+  chromosome 2
+    de novo at: 24405876
+    chr2:
+
+    de novo at: 74457998
+    chr2:
+
+    de novo at: 121903540
+    chr2:
+
+    de novo at: 124011236
+    chr2:
+
+    de novo at: 129874778
+    chr2:
+
+    de novo at: 131121373
+    chr2:
+
+    de novo at: 158890470
+    chr2:
+
+    de novo at: 163483530
+    chr2:
+
+    de novo at: 163483530
+    chr2:
+
+    de novo at: 203573661
+    chr2:
+
+  chromosome 1
+    de novo at: 91888322
+    chr1:
+
+    de novo at: 175878381
+    chr1:
+
+    de novo at: 177305831
+    chr1:
+
+    de novo at: 180412654
+    chr1:
+
+    de novo at: 229130163
+    chr1:
