@@ -55,7 +55,7 @@ del dnv_100801;
 #             upper_index = discon_index;
 #     print(vcf_df['1-00801'][discon_index]);
 
-def search_discon(self, vcf_df, chromosome):
+def search_discon(vcf_df, chromosome):
     bounds = {}
     vcf_df = d['chr22'];
     de_novo_list = dnvs['chr22'];
