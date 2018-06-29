@@ -98,10 +98,11 @@ class PhasedData:
         for chr in self.bounds:
             self.to_phase[chr] = self.find_variants_for_phasing_chr(chr);
 
-    def assign_to_parent(self, chromosome):
+    def assign_to_parent_by_chr(self, chromosome):
+        chr_parent = {}
         curr_vcf = self.vcf_dfs[chromosome];
         for dnv in self.to_phase[chromosome]:
-            self.phased_to_parent[dnv] = [];
+            chr_parent[dnv] = [];
             dnv_index = curr_vcf.index[curr_vcf['POS'] == dnv].item();
             de_novo_hap = curr_vcf[self.id][dnv_index];
             for var in self.to_phase[chromosome][dnv]:
@@ -114,11 +115,15 @@ class PhasedData:
                 dad = curr_vcf[self.dad][index];
                 if child[:3] == de_novo_hap[:3]:
                     if mom[1:3] == "/1":
-                        self.phased_to_parent[dnv].append("mom");
+                        chr_parent[dnv].append("mom");
                     else:
-                        self.phased_to_parent[dnv].append("dad");
+                        chr_parent[dnv].append("dad");
                 if child[:3] != de_novo_hap[:3]:
                     if mom[1:3] == "/1":
-                        self.phased_to_parent[dnv].append("dad");
+                        chr_to_parent[dnv].append("dad");
                     else:
-                        self.phased_to_parent[dnv].append("mom");
+                        chr_parent[dnv].append("mom");
+
+    def assign_to_parent(self):
+        for chr in self.dnvs:
+            self.phased_to_parent[chr] = self.assign_to_parent_by_chr(chr);
