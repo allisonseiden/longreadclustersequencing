@@ -60,8 +60,9 @@ def search_discon(vcf_df, chromosome):
     return bounds;
 
 # make function call to create dictionary of all bounds
-all_bounds = [];
+all_bounds = {};
 for chr in dnvs:
     vcf_df = d[chr];
-    all_bounds.append(search_discon(vcf_df, chr));
-    print(all_bounds);
+    all_bounds[chr] = search_discon(vcf_df, chr);
+
+print(all_bounds);
