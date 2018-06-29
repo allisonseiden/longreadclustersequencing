@@ -37,7 +37,7 @@ del dnv_100801;
 
 # function to search for discontinuities
 def search_discon(vcf_df, chromosome):
-    bounds = {}
+    bounds = {};
     vcf_df = d[chromosome];
     de_novo_list = dnvs[chromosome];
     for dn in de_novo_list:
@@ -60,6 +60,8 @@ def search_discon(vcf_df, chromosome):
     return bounds;
 
 # make function call to create dictionary of all bounds
+all_bounds = [];
 for chr in dnvs:
     vcf_df = d[chr];
-    all_bounds = search_discon(vcf_df, chr);
+    all_bounds.append(search_discon(vcf_df, chr));
+    print(all_bounds);
