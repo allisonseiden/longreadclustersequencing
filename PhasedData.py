@@ -62,34 +62,34 @@ class PhasedData:
             self.bounds[chr] = self.search_discon(chr);
 
     def find_variants_for_phasing(self):
-        for chr in self.bounds:
-            print("chromosome: " + chr);
-            curr_vcf = self.vcf_dfs[chr];
-            for dnv in self.bounds[chr]:
-                print(dnv);
-                # de novo is dnv
-                # list of bounds for de novo is all_bounds[chr][dnv]
-                curr_bounds = self.bounds[chr][dnv];
-                print("current bounds: " + curr_bounds)
-                self.to_phase[dnv] = [];
-                print("upper bound: " + curr_bounds[0]);
+        #for chr in self.bounds:
+            #print("chromosome: " + chr);
+        curr_vcf = self.vcf_dfs['chr22'];
+        for dnv in self.bounds['chr22']:
+            print(dnv);
+            # de novo is dnv
+            # list of bounds for de novo is all_bounds[chr][dnv]
+            curr_bounds = self.bounds['chr22'][dnv];
+            print(curr_bounds)
+            self.to_phase[dnv] = [];
+            print("upper bound: " + curr_bounds[0]);
                 #u_index_list = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].tolist();
                 #print(u_index_list);
                 #u_index = u_index_list[0];
-                l_index_list = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].tolist();
+                #l_index_list = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].tolist();
                 #l_index = l_index_list[0];
 
-                position = u_index;
-                while position <= l_index:
-                    child = curr_vcf[self.id][position];
-                    mom = curr_vcf[self.mom][position];
-                    dad = curr_vcf[self.dad][position];
-                    if child[:3] == "0|1" or child[:3] == "1|0":
-                        if mom[:3] == "0/0" and (dad[:3] == "1/1" or dad[:3] == "0/1"):
-                            self.to_phase[dnv].append(curr_vcf['POS'][position]);
-                        if dad[:3] == "0/0" and (mom[:3] == "1/1" or mom[:3] == "0/1"):
-                            self.to_phase[dnv].append(curr_vcf['POS'][position]);
-                    position += 1;
+            position = u_index;
+            while position <= l_index:
+                child = curr_vcf[self.id][position];
+                mom = curr_vcf[self.mom][position];
+                dad = curr_vcf[self.dad][position];
+                if child[:3] == "0|1" or child[:3] == "1|0":
+                    if mom[:3] == "0/0" and (dad[:3] == "1/1" or dad[:3] == "0/1"):
+                        self.to_phase[dnv].append(curr_vcf['POS'][position]);
+                    if dad[:3] == "0/0" and (mom[:3] == "1/1" or mom[:3] == "0/1"):
+                        self.to_phase[dnv].append(curr_vcf['POS'][position]);
+                position += 1;
 
     def assign_to_parent(self, chromosome):
         curr_vcf = self.vcf_dfs[chromosome];
