@@ -24,7 +24,7 @@ class PhasedData:
         for keys in self.vcf_dfs:
             print(keys);
 
-        print('------------End of vcf dictionary keys');
+        #print('------------End of vcf dictionary keys');
 
     def create_dnvs_dictionary(self):
         num_dnvs = self.bed.shape[0];
@@ -40,8 +40,8 @@ class PhasedData:
             for index in indices:
                 self.dnvs[chrom].append(self.bed['End'][index]);
 
-        print(self.dnvs);
-        print('--------------End of dnv dictionary');
+        #print(self.dnvs);
+        #print('--------------End of dnv dictionary');
 
     def search_discon(self, chromosome):
         chr_bounds = {};
