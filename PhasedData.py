@@ -21,6 +21,10 @@ class PhasedData:
             self.vcf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '/' + self.id + '_chr' + num + '_phased.vcf',
                                             sep='\t', names = ['CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT', '1-00801', '1-00801-01', '1-00801-02'],
                                             comment = '#');
+        for keys in self.vcf_dfs:
+            print(keys);
+
+        print('------------End of vcf dictionary keys');
 
     def create_dnvs_dictionary(self):
         num_dnvs = self.bed.shape[0];
@@ -35,6 +39,9 @@ class PhasedData:
             self.dnvs[chrom] = [];
             for index in indices:
                 self.dnvs[chrom].append(self.bed['End'][index]);
+
+        print(self.dnvs);
+        print('--------------End of dnv dictionary');
 
     def search_discon(self, chromosome):
         chr_bounds = {};
@@ -60,6 +67,9 @@ class PhasedData:
     def fill_bounds_dictionary(self):
         for chr in self.dnvs:
             self.bounds[chr] = self.search_discon(chr);
+
+        print(self.bounds);
+        print('------------------End of bounds');
 
     def find_variants_for_phasing(self):
         #for chr in self.bounds:
