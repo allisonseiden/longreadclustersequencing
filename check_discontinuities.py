@@ -35,28 +35,9 @@ for chrom in chrom_list:
 # no longer need full bed file, all relevant data placed in dnvs dictionary; free memory
 del dnv_100801;
 
-# look for correct VCF file from dictionary d
-# for chr in dnvs:
-#     vcf_df = d[chr];
-#     for de_novo in dnvs[chr]:
-#         dnv_index = vcf_df.index[vcf_df['POS'] == de_novo].item();
-#         # dnv_hap = vcf_df['1-00801'][dnv_index];
-#         # print(dnv_hap);
-#         discon_index = dnv_index;
-#         discon_hap = vcf_df['1-00801'][discon_index];
-#         print(discon_hap[:3]);
-#         while discon_hap[:3] != "0/1" or discon_hap[:3] != "1/0":
-#             discon_index -= 1;
-#             discon_hap = vcf_df['1-00801'][discon_index];
-#         upper_index = dison_index;
-#         print(vcf_df['1-00801'][upper_index][:3]);
-#
-#
-#             upper_index = discon_index;
-#     print(vcf_df['1-00801'][discon_index]);
-
+# function to search for discontinuities
 def search_discon(vcf_df, chromosome):
-    bounds = {}
+    bounds = {};
     vcf_df = d[chromosome];
     de_novo_list = dnvs[chromosome];
     for dn in de_novo_list:
@@ -78,37 +59,9 @@ def search_discon(vcf_df, chromosome):
         bounds[dn].append(lower_pos);
     return bounds;
 
-
+# make function call to create dictionary of all bounds
+all_bounds = [];
 for chr in dnvs:
     vcf_df = d[chr];
-    all_bounds = search_discon(vcf_df, chr);
-    print(chr);
-    print('\n');
+    all_bounds.append(search_discon(vcf_df, chr));
     print(all_bounds);
-    print('\n');
-
-
-
-
-
-# for chrom in chrom_list:
-#     print(chrom)
-#     hap = d[chrom]['1-00801'];
-#     print(hap);
-
-
-
-# def search_discon(self, chromosome):
-#     hap = d[chromosome]['1-00801'];
-
-
-# #print(chr22_100801.loc[:,['POS','1-00801']]);
-# pos_hap = chr22[['POS', '1-00801']];
-# hap = chr22['1-00801'];
-# length = hap.size;
-
-
-# for i in range(0,length):
-#     mod_hap = hap[i][:3];
-#     if mod_hap == "0/1" or mod_hap == "1/0":
-#         print(mod_hap);
