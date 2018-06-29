@@ -96,7 +96,7 @@ class PhasedData:
 
     def find_variants_for_phasing(self):
         for chr in self.bounds:
-            self.to_phase = self.find_variants_for_phasing_chr(chr);
+            self.to_phase[chr] = self.find_variants_for_phasing_chr(chr);
 
     def assign_to_parent(self, chromosome):
         curr_vcf = self.vcf_dfs[chromosome];
