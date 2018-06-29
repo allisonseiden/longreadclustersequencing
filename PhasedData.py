@@ -69,10 +69,12 @@ class PhasedData:
                 # list of bounds for de novo is all_bounds[chr][dnv]
                 curr_bounds = self.bounds[chr][dnv];
                 self.to_phase[dnv] = [];
-                index_list = curr_vcf.index[curr_vcf['POS'] == curr_bounds].tolist();
-                u_index = index_list[0];
-                l_index = index_list[1];
-                #l_index_list = curr_vcf.index[curr_vcf['POS'] == curr_bounds].tolist();
+                u_index_list = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].tolist();
+                print(u_index_list);
+                #u_index = u_index_list[0];
+                l_index_list = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].tolist();
+                #l_index = l_index_list[0];
+
                 position = u_index;
                 while position <= l_index:
                     child = curr_vcf[self.id][position];
