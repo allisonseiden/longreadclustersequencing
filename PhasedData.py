@@ -59,7 +59,7 @@ class PhasedData:
 
     def fill_bounds_dictionary(self):
         for chr in self.dnvs:
-            self.bounds[chr] = search_discon(chr);
+            self.bounds[chr] = self.search_discon(chr);
 
     def find_variants_for_phasing(self):
         for chr in self.bounds:
