@@ -82,6 +82,7 @@ class PhasedData:
             curr_bounds = self.bounds['chr22'][dnv];
             #print(curr_bounds)
             self.to_phase[dnv] = [];
+            print(self.vcf_dfs['chr22']['POS'] == curr_bounds[0]);
             #print(curr_bounds[0]);
             upper_bound = self.vcf_dfs['chr22'][self.vcf_dfs['chr22']['POS'] == curr_bounds[0]].index.item();
             print(upper_bound);
