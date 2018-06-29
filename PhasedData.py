@@ -21,10 +21,10 @@ class PhasedData:
             self.vcf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '/' + self.id + '_chr' + num + '_phased.vcf',
                                             sep='\t', names = ['CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT', '1-00801', '1-00801-01', '1-00801-02'],
                                             comment = '#');
-        #for keys in self.vcf_dfs:
-        #    print(keys);
+        for keys in self.vcf_dfs:
+            print(keys);
 
-        #print('------------End of vcf dictionary keys');
+        print('------------End of vcf dictionary keys');
 
     def create_dnvs_dictionary(self):
         num_dnvs = self.bed.shape[0];
@@ -40,8 +40,8 @@ class PhasedData:
             for index in indices:
                 self.dnvs[chrom].append(self.bed['End'][index]);
 
-        #print(self.dnvs);
-        #print('--------------End of dnv dictionary');
+        print(self.dnvs);
+        print('--------------End of dnv dictionary');
 
     def search_discon(self, chromosome):
         chr_bounds = {};
@@ -68,22 +68,24 @@ class PhasedData:
         for chr in self.dnvs:
             self.bounds[chr] = self.search_discon(chr);
 
-        #print(self.bounds);
-        #print('------------------End of bounds');
+        print(self.bounds);
+        print('------------------End of bounds');
 
-    def find_variants_for_phasing(self):
+    def find_variants_for_phasing(self, chromosome):
         #for chr in self.bounds:
             #print("chromosome: " + chr);
-        curr_vcf = self.vcf_dfs['chr22'];
-        for dnv in self.bounds['chr22']:
+        curr_vcf = self.vcf_dfs[chromosome];
+        print('------------------------chromosome vcf from find variants')
+        print(curr_vcf);
+        for dnv in self.bounds[chromosome]:
             #print(dnv);
             # de novo is dnv
             # list of bounds for de novo is all_bounds[chr][dnv]
             #curr_bounds = self.bounds['chr22'][dnv];
             #print(curr_bounds)
             self.to_phase[dnv] = [];
-            print(self.bounds['chr22']);
-            print(self.bounds['chr22'][dnv]);
+            print(self.bounds[chromosome]);
+            #print(self.bounds['chr22'][dnv]);
             #if(self.vcf_dfs['chr22']['POS'] == curr_bounds[0]):
                 #print('hello');
             #print(curr_bounds[0]);
