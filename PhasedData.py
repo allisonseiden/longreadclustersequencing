@@ -25,7 +25,7 @@ class PhasedData:
     def create_dnvs_dictionary(self):
         num_dnvs = self.bed.shape[0];
         chrom_list = [];
-        for row in range(0, num_dnv):
+        for row in range(0, num_dnvs):
             chr_num = self.bed.loc[row, 'Chrom'];
             if chr_num not in chrom_list:
                 chrom_list.append(chr_num);
