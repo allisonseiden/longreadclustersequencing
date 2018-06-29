@@ -83,9 +83,10 @@ class PhasedData:
             #print(curr_bounds)
             self.to_phase[dnv] = [];
             #print(curr_bounds[0]);
-            upper_bound = curr_bounds[0];
-            u_index_list = curr_vcf.index[curr_vcf['POS'] == upper_bound].tolist()
-            print(u_index_list);
+            upper_bound = self.vcf_dfs.get_loc(curr_bounds[0]);
+            print(upper_bound);
+            #u_index_list = self.vcf_dfs['chr22'].index[self.vcf_dfs['chr22']['POS'] == upper_bound].tolist()
+            #print(u_index_list);
                 #print(u_index_list);
                 #u_index = u_index_list[0];
                 #l_index_list = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].tolist();
