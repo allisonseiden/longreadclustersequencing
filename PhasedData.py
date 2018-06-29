@@ -120,7 +120,7 @@ class PhasedData:
                         chr_parent[dnv].append("dad");
                 if child[:3] != de_novo_hap[:3]:
                     if mom[1:3] == "/1":
-                        chr_to_parent[dnv].append("dad");
+                        chr_parent[dnv].append("dad");
                     else:
                         chr_parent[dnv].append("mom");
 
