@@ -45,12 +45,11 @@ class PhasedData:
 
     def search_discon(self, chromosome):
         chr_bounds = {};
-        for chr in self.dnvs:
-            print('current chromosome: ');
-            print(chr);
-            curr_vcf = self.vcf_dfs[chr];
-            print('list of de novos for current chromosome: ');
-            print(self.dnvs[chr]);
+        print('current chromosome: ');
+        print(chromosome);
+        curr_vcf = self.vcf_dfs[chromosome];
+        print('list of de novos for current chromosome: ');
+        print(self.dnvs[chromosome]);
             # #for dnv in self.dnvs[chr]:
             #     chr_bounds[dnv] = [];
             #     dnv_index = curr_vcf.index[curr_vcf['POS'] == dnv].item();
