@@ -1,0 +1,16 @@
+create a class with instance variables:
+  patient ID
+  bed file data frame
+  dictionary with chromosome key and value is vcf data frame
+  dictionary with bounds
+
+functions:
+  make dictionary from bed file with keys that are chromosomes and value is list of de novo positions on that chromosome
+  search discontinuities function
+  function that returns bounds (change from search discontinuities function, make it's own getter function)
+
+
+in main function:
+create objects for each patient 
+run functions in order for each patient
+can use for loop with IDs? only need IDs for bed file and vcf file names
