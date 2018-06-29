@@ -63,13 +63,16 @@ class PhasedData:
 
     def find_variants_for_phasing(self):
         for chr in self.bounds:
+            print("chromosome: " + chr);
             curr_vcf = self.vcf_dfs[chr];
             for dnv in self.bounds[chr]:
+                print("de novo: " + dnv);
                 # de novo is dnv
                 # list of bounds for de novo is all_bounds[chr][dnv]
                 curr_bounds = self.bounds[chr][dnv];
+                print("current bounds: " + curr_bounds)
                 self.to_phase[dnv] = [];
-                print(curr_bounds[0]);
+                print("upper bound: " + curr_bounds[0]);
                 #u_index_list = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].tolist();
                 #print(u_index_list);
                 #u_index = u_index_list[0];
