@@ -107,7 +107,7 @@ class PhasedData:
             for var in self.to_phase[chromosome][dnv]:
                 index = curr_vcf.index[curr_vcf['POS'] == var].item();
                 if len(curr_vcf['REF'][index]) > 1 or len(curr_vcf['ALT'][index]) > 1:
-                    print("Skipped variant at position " + str(vcf_df['POS'][index]));
+                    print("Skipped variant at position " + str(curr_vcf['POS'][index]));
                     continue;
                 child = curr_vcf[self.id][index];
                 mom = curr_vcf[self.id][index];
