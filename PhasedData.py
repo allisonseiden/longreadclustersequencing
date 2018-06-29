@@ -79,12 +79,13 @@ class PhasedData:
             #print(dnv);
             # de novo is dnv
             # list of bounds for de novo is all_bounds[chr][dnv]
-            curr_bounds = self.bounds['chr22'][dnv];
+            #curr_bounds = self.bounds['chr22'][dnv];
             #print(curr_bounds)
             self.to_phase[dnv] = [];
-            print(curr_bounds[0]);
-            if(self.vcf_dfs['chr22']['POS'] == curr_bounds[0]):
-                print('hello');
+            print(self.bounds['chr22']);
+            print(self.bounds['chr22'][dnv]);
+            #if(self.vcf_dfs['chr22']['POS'] == curr_bounds[0]):
+                #print('hello');
             #print(curr_bounds[0]);
             upper_bound = self.vcf_dfs['chr22'][self.vcf_dfs['chr22']['POS'] == curr_bounds[0]].index.item();
             print(upper_bound);
