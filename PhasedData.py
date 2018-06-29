@@ -110,8 +110,8 @@ class PhasedData:
                     print("Skipped variant at position " + str(curr_vcf['POS'][index]));
                     continue;
                 child = curr_vcf[self.id][index];
-                mom = curr_vcf[self.id][index];
-                dad = curr_vcf[self.id][index];
+                mom = curr_vcf[self.mom][index];
+                dad = curr_vcf[self.dad][index];
                 if child[:3] == de_novo_hap[:3]:
                     if mom[1:3] == "/1":
                         self.phased_to_parent[dnv].append("mom");
