@@ -46,22 +46,26 @@ class PhasedData:
     def search_discon(self, chromosome):
         chr_bounds = {};
         for chr in self.dnvs:
+            print('current chromosome: ');
+            print(chr);
             curr_vcf = self.vcf_dfs[chr];
-            for dnv in self.dnvs[chr]:
-                chr_bounds[dnv] = [];
-                dnv_index = curr_vcf.index[curr_vcf['POS'] == dnv].item();
-                hap = curr_vcf[self.id][dnv_index];
-                u_discon= dnv_index;
-                while hap[:3] != "0/1" and hap[:3] != "1/0":
-                    u_discon -= 1;
-                    hap = curr_vcf[self.id][u_discon];
-                chr_bounds[dnv].append(curr_vcf['POS'][u_discon]);
-                hap = curr_vcf[self.id][dnv_index];
-                l_discon = dnv_index;
-                while hap[:3] != "0/1" and hap[:3] != "1/0":
-                    l_discon += 1;
-                    hap = curr_vcf[self.id][l_discon];
-                chr_bounds[dnv].append(curr_vcf['POS'][l_discon]);
+            print('list of de novos for current chromosome: ');
+            print(self.dnvs[chr]);
+            # #for dnv in self.dnvs[chr]:
+            #     chr_bounds[dnv] = [];
+            #     dnv_index = curr_vcf.index[curr_vcf['POS'] == dnv].item();
+            #     hap = curr_vcf[self.id][dnv_index];
+            #     u_discon= dnv_index;
+            #     while hap[:3] != "0/1" and hap[:3] != "1/0":
+            #         u_discon -= 1;
+            #         hap = curr_vcf[self.id][u_discon];
+            #     chr_bounds[dnv].append(curr_vcf['POS'][u_discon]);
+            #     hap = curr_vcf[self.id][dnv_index];
+            #     l_discon = dnv_index;
+            #     while hap[:3] != "0/1" and hap[:3] != "1/0":
+            #         l_discon += 1;
+            #         hap = curr_vcf[self.id][l_discon];
+            #     chr_bounds[dnv].append(curr_vcf['POS'][l_discon]);
         return chr_bounds;
 
     def fill_bounds_dictionary(self):
