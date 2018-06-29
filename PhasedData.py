@@ -68,8 +68,8 @@ class PhasedData:
                 # de novo is dnv
                 # list of bounds for de novo is all_bounds[chr][dnv]
                 curr_bounds = self.bounds[chr][dnv];
-                print(curr_bounds);
                 self.to_phase[dnv] = [];
+                print(curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]]);
                 u_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].item();
                 l_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[1]].item();
                 position = u_index;
