@@ -141,7 +141,7 @@ class PhasedData:
 
         print('---DNVs phased to parent for ' + self.id);
 
-    def convert_to_dataframe(self):    
+    def convert_to_dataframe(self):
         id_list = [];
         chrom_list = [];
         location_list = [];
@@ -177,8 +177,8 @@ class PhasedData:
         length = self.parent_df.shape[0];
 
         for i in range(0, length):
-            ma = df['Mom Count'][i];
-            pa = df['Dad Count'][i];
+            ma = self.parent_df['Mom Count'][i];
+            pa = self.parent_df['Dad Count'][i];
             if ma == 0 and pa == 0:
                 unphased.append(1);
                 from_mom.append(0);
