@@ -72,6 +72,7 @@ class PhasedData:
         chr_phase = {};
         curr_vcf = self.vcf_dfs[chromosome];
         for dnv in self.bounds[chromosome]:
+            print(dnv);
                 # de novo is dnv
                 # list of bounds for de novo is all_bounds[chr][dnv]
             curr_bounds = self.bounds[chromosome][dnv];
