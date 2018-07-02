@@ -27,6 +27,8 @@ if __name__ == '__main__':
     for patient in phased_data_objects:
         complete_df.append(patient.parent_df);
 
+    print(complete_df);
+
 
 
 # for patient_object in phased_data_objects:
