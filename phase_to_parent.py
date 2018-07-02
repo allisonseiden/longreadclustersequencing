@@ -19,3 +19,5 @@ for patient_object in phased_data_objects:
     patient_object.assign_to_parent();
     patient_object.convert_to_dataframe();
     complete_df.append(patient_object.parent_df);
+
+print(complete_df);
