@@ -15,7 +15,7 @@ for patient_object in phased_data_objects:
     patient_object.fill_bounds_dictionary();
     patient_object.find_variants_for_phasing();
     patient_object.assign_to_parent();
-    patient_object.count_mom_and_dad();
+    #patient_object.count_mom_and_dad();
     #patient_object.print_mom_and_dad_count();
     patient_object.convert_to_dataframe();
     #print(patient_object.num_each_parent);
