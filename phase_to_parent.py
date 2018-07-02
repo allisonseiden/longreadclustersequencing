@@ -21,7 +21,7 @@ def run_phase_to_parent(ID):
     phased_data_objects.append(patient);
 
 if __name__ == '__main__':
-    pool = mp.Pool(processes=3);
+    pool = mp.Pool(processes=2);
     pool.map(run_phase_to_parent, patientIDs);
 
     for patient in phased_data_objects:
