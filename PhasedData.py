@@ -168,8 +168,11 @@ class PhasedData:
             self.num_each_parent[chr] = num_parent_chr;
 
     def convert_to_dataframe(self):
-        df = pd.DataFrame(self.num_each_parent);
+        df = pd.DataFrame({'ID' : [], 'Chrom' : [], 'Location' : [],
+                            'Mom Count' : [], 'Dad Count' : []});
         print(df);
+
+
 
 
     # def print_mom_and_dad_count(self):
