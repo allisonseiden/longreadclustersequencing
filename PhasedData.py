@@ -95,7 +95,7 @@ class PhasedData:
         return chr_phase;
 
     def find_variants_for_phasing(self):
-        for chr in self.dnv:
+        for chr in self.dnvs:
             self.to_phase[chr] = self.find_variants_for_phasing_chr(chr);
             print(self.to_phase[chr]);
 
