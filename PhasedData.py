@@ -97,7 +97,6 @@ class PhasedData:
     def find_variants_for_phasing(self):
         for chr in self.dnvs:
             self.to_phase[chr] = self.find_variants_for_phasing_chr(chr);
-            print(self.to_phase[chr]);
 
     def assign_to_parent_by_chr(self, chromosome):
         chr_parent = {}
