@@ -15,7 +15,10 @@ class PhasedData:
         self.bounds = {};
         self.to_phase = {};
         self.phased_to_parent = {};
-        # self.num_each_parent = {};
+        self.parent_df = pd.DataFrame({'ID' : [], 'Chrom' : [], 'Location' : [],
+                            'Mom Count' : [], 'Dad Count' : [],
+                            'From Mom' : [], 'From Dad' : [], 'Troubleshoot' : [],
+                            'Unphased' : []});
 
     def create_vcf_dictionary(self):
         for i in range(1,23):
@@ -79,12 +82,9 @@ class PhasedData:
         print('---Bounds dictionary created for ' + self.id);
 
     def find_variants_for_phasing_chr(self, chromosome):
-        #for chr in self.bounds:
         chr_phase = {};
         curr_vcf = self.vcf_dfs[chromosome];
         for dnv in self.bounds[chromosome]:
-                # de novo is dnv
-                # list of bounds for de novo is all_bounds[chr][dnv]
             curr_bounds = self.bounds[chromosome][dnv];
             chr_phase[dnv] = [];
             u_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].item();
@@ -141,11 +141,7 @@ class PhasedData:
 
         print('---DNVs phased to parent for ' + self.id);
 
-    def convert_to_dataframe(self):
-        df = pd.DataFrame({'ID' : [], 'Chrom' : [], 'Location' : [],
-                            'Mom Count' : [], 'Dad Count' : [],
-                            'From Mom' : [], 'From Dad' : [], 'Troubleshoot' : [],
-                            'Unphased' : []});
+    def convert_to_dataframe(self):    
         id_list = [];
         chrom_list = [];
         location_list = [];
@@ -172,13 +168,13 @@ class PhasedData:
                 mom_count.append(mom);
                 dad_count.append(dad);
 
-        df['ID'] = id_list;
-        df['Chrom'] = chrom_list;
-        df['Location'] = location_list;
-        df['Mom Count'] = mom_count;
-        df['Dad Count'] = dad_count;
+        self.parent_df['ID'] = id_list;
+        self.parent_df['Chrom'] = chrom_list;
+        self.parent_df['Location'] = location_list;
+        self.parent_df['Mom Count'] = mom_count;
+        self.parent_df['Dad Count'] = dad_count;
 
-        length = df.shape[0];
+        length = self.parent_df.shape[0];
 
         for i in range(0, length):
             ma = df['Mom Count'][i];
@@ -204,19 +200,17 @@ class PhasedData:
                 from_dad.append(0);
                 trouble.append(1);
 
-        df['From Mom'] = from_mom;
-        df['From Dad'] = from_dad;
-        df['Troubleshoot'] = trouble;
-        df['Unphased'] = unphased;
+        self.parent_df['From Mom'] = from_mom;
+        self.parent_df['From Dad'] = from_dad;
+        self.parent_df['Troubleshoot'] = trouble;
+        self.parent_df['Unphased'] = unphased;
 
-        df = df[['ID', 'Chrom', 'Location', 'Mom Count', 'Dad Count', 'From Mom',
-                 'From Dad', 'Troubleshoot', 'Unphased']];
+        self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'Mom Count',
+                                            'Dad Count', 'From Mom', 'From Dad',
+                                            'Troubleshoot', 'Unphased']];
 
-        totals = df.groupby('ID').sum();
-        totals.loc[:,['ID', 'From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
-
-
-        print(totals);
+        self.parent_df = self.parent_df.groupby('ID').sum();
+        self.parent_df = self.parent_df.loc[:,['ID', 'From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
 
 
 
