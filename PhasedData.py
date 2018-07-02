@@ -213,7 +213,7 @@ class PhasedData:
                  'From Dad', 'Troubleshoot', 'Unphased']];
 
         df.groupby('ID').sum();
-        totals = df[:['ID', 'From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
+        totals = df.loc[:['ID', 'From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
 
 
         print(totals);
