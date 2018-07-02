@@ -168,7 +168,7 @@ class PhasedData:
             self.num_each_parent[chr] = num_parent_chr;
 
     def convert_to_dataframe(self):
-        df = pd.DataFrame(num_each_parent);
+        df = pd.DataFrame(self.num_each_parent);
         print(df);
 
 
