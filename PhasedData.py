@@ -15,6 +15,7 @@ class PhasedData:
         self.bounds = {};
         self.to_phase = {};
         self.phased_to_parent = {};
+        self.num_each_parent = {};
 
     def create_vcf_dictionary(self):
         for i in range(1,23):
@@ -142,3 +143,21 @@ class PhasedData:
             self.phased_to_parent[chr] = self.assign_to_parent_by_chr(chr);
 
         print('---DNVs phased to parent for ' + self.id);
+
+    def count_mom_and_dad(self):
+        for chr in self.phased_to_parent:
+            num_parent_chr = {};
+            for dnv in self.phased_to_parent[chr]:
+                num_parent_chr[dnv] = [];
+                for parent in self.phased_to_parent[chr][dnv]:
+                    mom = 0;
+                    dad = 0;
+                    if parent == 'mom':
+                        mom += 1;
+                    elif parent == 'dad':
+                        dad += 1;
+                    else:
+                        continue;
+                num_parent_chr[dnv].append(str(mom) + 'm');
+                num_parent_chr[dnv].append(str(dad) + 'd');
+            self.num_each_parent[chr] = num_parent_chr;
