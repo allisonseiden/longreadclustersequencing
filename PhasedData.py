@@ -158,13 +158,23 @@ class PhasedData:
                         dad += 1;
                     else:
                         continue;
+                #total = mom + dad;
+                #percent_mom = mom/total * 100;
+                #percent_dad = dad/total * 100;
                 num_parent_chr[dnv].append(mom);
                 num_parent_chr[dnv].append(dad);
+                #num_parent_chr[dnv].append(percent_mom);
+                #num_parent_chr[dnv].append(percent_dad);
             self.num_each_parent[chr] = num_parent_chr;
 
-    def print_mom_and_dad_count(self):
-        print('ID\tChrom\tDNV\tMom\tDad')
-        for chr in self.num_each_parent:
-            for dnv in self.num_each_parent[chr]:
-                line = self.id + '\t' + str(chr) + '\t' + str(dnv) + '\t' + str(dnv[0]) + '\t' + str(dnv[1]);
-                print(line);
+    def convert_to_dataframe(self):
+        df = pd.DataFrame(num_each_parent);
+        print(df);
+
+
+    # def print_mom_and_dad_count(self):
+    #     print('ID\tChrom\tDNV\tMom\tDad')
+    #     for chr in self.num_each_parent:
+    #         for dnv in self.num_each_parent[chr]:
+    #             line = self.id + '\t' + str(chr) + '\t' + str(dnv) + '\t' + str(dnv[0]) + '\t' + str(dnv[1]);
+    #             print(line);
