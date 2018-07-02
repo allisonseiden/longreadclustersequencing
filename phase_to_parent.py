@@ -10,8 +10,9 @@ for ID in patientIDs:
     phased_data_objects.append(PhasedData(ID));
 
 for patient_object in phased_data_objects:
-    patient_object.create_vcf_dictionary();
+    patient_object.create_vcf_no_indels();
     patient_object.create_dnvs_dictionary();
     patient_object.fill_bounds_dictionary();
     patient_object.find_variants_for_phasing();
     patient_object.assign_to_parent();
+    print(patient_object.phased_to_parent);
