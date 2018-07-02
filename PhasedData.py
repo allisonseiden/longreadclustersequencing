@@ -26,6 +26,15 @@ class PhasedData:
                                                 comment = '#');
         print('---VCF dictionary created for ' + self.id);
 
+    def create_vcf_no_indels(self):
+        for i in range(1,23):
+            num = str(i);
+            self.vcf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '_no_indels/' + self.id + '_chr' + num + '_phased.vcf',
+                                                sep='\t', names = ['CHROM', 'POS', 'ID', 'REF',
+                                                'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
+                                                self.id, self.mom, self.dad],
+                                                comment = '#');
+
     def create_dnvs_dictionary(self):
         num_dnvs = self.bed.shape[0];
         chrom_list = [];
@@ -104,9 +113,7 @@ class PhasedData:
     def assign_to_parent_by_chr(self, chromosome):
         chr_parent = {}
         curr_vcf = self.vcf_dfs[chromosome];
-        print(self.to_phase[chromosome]);
         for dnv in self.to_phase[chromosome]:
-            print(dnv);
             chr_parent[dnv] = [];
             dnv_index = curr_vcf.index[curr_vcf['POS'] == dnv].item();
             de_novo_hap = curr_vcf[self.id][dnv_index];
