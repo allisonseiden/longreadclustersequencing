@@ -170,12 +170,12 @@ class PhasedData:
     def convert_to_dataframe(self):
         df = pd.DataFrame({'ID' : [], 'Chrom' : [], 'Location' : [],
                             'Mom Count' : [], 'Dad Count' : []});
+        id_list = [];
+        chrom_list = [];
+        location_list = [];
+        mom_list = [];
+        dad_list = [];
         for chr in self.phased_to_parent:
-            id_list = [];
-            chrom_list = [];
-            location_list = [];
-            mom_list = [];
-            dad_list = [];
             for dnv in self.phased_to_parent[chr]:
                 id_list.append(self.id);
                 chrom_list.append(chr);
