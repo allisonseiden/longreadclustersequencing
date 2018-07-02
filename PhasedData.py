@@ -210,7 +210,7 @@ class PhasedData:
                                             'Troubleshoot', 'Unphased']];
 
         self.parent_df = self.parent_df.groupby('ID').sum();
-        self.parent_df = self.parent_df.loc[:,['ID', 'From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
+        self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
 
 
 
