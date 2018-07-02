@@ -212,10 +212,11 @@ class PhasedData:
         df = df[['ID', 'Chrom', 'Location', 'Mom Count', 'Dad Count', 'From Mom',
                  'From Dad', 'Troubleshoot', 'Unphased']];
 
-        test = df.groupby(['ID', 'Chrom']).sum();
+        df.groupby('ID').sum();
+        totals = df[:['ID', 'From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
 
 
-        print(test);
+        print(totals);
 
 
 
