@@ -125,7 +125,7 @@ class PhasedData:
                         chr_parent[dnv].append("dad");
                     else:
                         chr_parent[dnv].append("mom");
-            return chr_parent;
+        return chr_parent;
 
     def assign_to_parent(self):
         for chr in self.to_phase:
