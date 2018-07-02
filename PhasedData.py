@@ -171,13 +171,23 @@ class PhasedData:
         df = pd.DataFrame({'ID' : [], 'Chrom' : [], 'Location' : [],
                             'Mom Count' : [], 'Dad Count' : []});
         for chr in self.num_each_parent:
+            id_list = [];
+            chrom_list = [];
+            location_list = [];
+            mom_list = [];
+            dad_list = [];
             for dnv in self.num_each_parent[chr]:
-                df['ID'].append(self.id);
-                df['Chrom'].append(chr);
-                df['Location'].append(dnv);
-                df['Mom Count'].append(dnv[0]);
-                df['Dad Count'].append(dnv[1]);
+                id_list.append(self.id);
+                chrom_list.append(chr);
+                location_list.append(dnv);
+                mom_list.append(dnv[0]);
+                dad_list.append(dnv[1]);
 
+        df['ID'] = id_list;
+        df['Chrom'] = chrom_list;
+        df['Location'] = location_list;
+        df['Mom Count'] = mom_list;
+        df['Dad Count'] = dad_list;
         print(df);
 
 
