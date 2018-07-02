@@ -126,5 +126,5 @@ class PhasedData:
             return chr_parent;
 
     def assign_to_parent(self):
-        for chr in self.dnvs:
+        for chr in self.to_phase:
             self.phased_to_parent[chr] = self.assign_to_parent_by_chr(chr);
