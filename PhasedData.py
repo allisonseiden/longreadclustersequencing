@@ -7,24 +7,24 @@ class PhasedData:
         self.id = patientID;
         self.mom = patientID + '-01';
         self.dad = patientID + '-02';
-        self.bed = pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + self.id + '.hg38.dnv.bed',
-                                    sep='\t', names = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']);
+        self.bed = pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/'
+                                    + self.id + '.hg38.dnv.bed', sep='\t',
+                                    names = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']);
         self.vcf_dfs = {};
         self.dnvs = {};
         self.bounds = {};
         self.to_phase = {};
         self.phased_to_parent = {};
 
-    def create_vcf_dictionary(self):
+    def create_vcf_dictionary(self, filename):
         for i in range(1,23):
             num = str(i);
-            self.vcf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '/' + self.id + '_chr' + num + '_phased.vcf',
-                                            sep='\t', names = ['CHROM', 'POS', 'ID', 'REF', 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT', '1-00801', '1-00801-01', '1-00801-02'],
-                                            comment = '#');
-        # for keys in self.vcf_dfs:
-        #     print(keys);
-
-        #print('------------End of vcf dictionary keys');
+            self.vcf_dfs["chr{0}".format(i)] = pd.read_table(filename, sep='\t',
+                                                names = ['CHROM', 'POS', 'ID', 'REF',
+                                                'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
+                                                '1-00801', '1-00801-01', '1-00801-02'],
+                                                comment = '#');
+        print('---VCF dictionary created for ' + self.id);
 
     def create_dnvs_dictionary(self):
         num_dnvs = self.bed.shape[0];
@@ -40,8 +40,7 @@ class PhasedData:
             for index in indices:
                 self.dnvs[chrom].append(self.bed['End'][index]);
 
-        #print(self.dnvs);
-        #print('--------------End of dnv dictionary');
+        print('---DNV dictionary created for ' + self.id);
 
     def search_discon(self, chromosome):
         chr_bounds = {};
@@ -66,6 +65,8 @@ class PhasedData:
     def fill_bounds_dictionary(self):
         for chr in self.dnvs:
             self.bounds[chr] = self.search_discon(chr);
+
+        print('---Bounds dictionary created for ' + self.id);
 
     def find_variants_for_phasing_chr(self, chromosome):
         #for chr in self.bounds:
@@ -97,6 +98,8 @@ class PhasedData:
     def find_variants_for_phasing(self):
         for chr in self.dnvs:
             self.to_phase[chr] = self.find_variants_for_phasing_chr(chr);
+
+        print('---Variants to phase dictionary created for ' + self.id);
 
     def assign_to_parent_by_chr(self, chromosome):
         chr_parent = {}
@@ -130,3 +133,5 @@ class PhasedData:
     def assign_to_parent(self):
         for chr in self.to_phase:
             self.phased_to_parent[chr] = self.assign_to_parent_by_chr(chr);
+
+        print('---DNVs phased to parent for ' + self.id);
