@@ -9,7 +9,7 @@ patient_100801_indels.assign_to_parent();
 
 
 patient_100801_noindels = PhasedData("1-00801");
-patient_100801_noindels.create_vcf_dictionary();
+patient_100801_noindels.create_vcf_no_indels();
 patient_100801_noindels.create_dnvs_dictionary();
 patient_100801_noindels.fill_bounds_dictionary();
 patient_100801_noindels.find_variants_for_phasing();
