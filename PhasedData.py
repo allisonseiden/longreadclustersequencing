@@ -102,6 +102,7 @@ class PhasedData:
         chr_parent = {}
         curr_vcf = self.vcf_dfs[chromosome];
         for dnv in self.to_phase[chromosome]:
+            print(dnv);
             chr_parent[dnv] = [];
             dnv_index = curr_vcf.index[curr_vcf['POS'] == dnv].item();
             de_novo_hap = curr_vcf[self.id][dnv_index];
