@@ -101,6 +101,7 @@ class PhasedData:
     def assign_to_parent_by_chr(self, chromosome):
         chr_parent = {}
         curr_vcf = self.vcf_dfs[chromosome];
+        print(self.to_phase[chromosome]);
         for dnv in self.to_phase[chromosome]:
             print(dnv);
             chr_parent[dnv] = [];
