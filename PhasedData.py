@@ -16,13 +16,13 @@ class PhasedData:
         self.to_phase = {};
         self.phased_to_parent = {};
 
-    def create_vcf_dictionary(self, filename):
+    def create_vcf_dictionary(self):
         for i in range(1,23):
             num = str(i);
-            self.vcf_dfs["chr{0}".format(i)] = pd.read_table(filename, sep='\t',
-                                                names = ['CHROM', 'POS', 'ID', 'REF',
+            self.vcf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '/' + self.id + '_chr' + num + '_phased.vcf',
+                                                sep='\t', names = ['CHROM', 'POS', 'ID', 'REF',
                                                 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
-                                                '1-00801', '1-00801-01', '1-00801-02'],
+                                                self.id, self.mom, self.dad],
                                                 comment = '#');
         print('---VCF dictionary created for ' + self.id);
 
