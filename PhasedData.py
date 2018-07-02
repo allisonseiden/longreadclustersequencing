@@ -72,7 +72,6 @@ class PhasedData:
         chr_phase = {};
         curr_vcf = self.vcf_dfs[chromosome];
         for dnv in self.bounds[chromosome]:
-            print(dnv);
                 # de novo is dnv
                 # list of bounds for de novo is all_bounds[chr][dnv]
             curr_bounds = self.bounds[chromosome][dnv];
@@ -96,8 +95,9 @@ class PhasedData:
         return chr_phase;
 
     def find_variants_for_phasing(self):
-        for chr in self.bounds:
+        for chr in self.dnv:
             self.to_phase[chr] = self.find_variants_for_phasing_chr(chr);
+            print(self.to_phase[chr]);
 
     def assign_to_parent_by_chr(self, chromosome):
         chr_parent = {}
