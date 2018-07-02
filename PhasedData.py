@@ -121,7 +121,7 @@ class PhasedData:
             for var in self.to_phase[chromosome][dnv]:
                 index = curr_vcf.index[curr_vcf['POS'] == var].item();
                 if len(curr_vcf['REF'][index]) > 1 or len(curr_vcf['ALT'][index]) > 1:
-                    print("Skipped variant at position " + str(curr_vcf['POS'][index]));
+                    # print("Skipped variant at position " + str(curr_vcf['POS'][index]));
                     continue;
                 child = curr_vcf[self.id][index];
                 mom = curr_vcf[self.mom][index];
@@ -173,12 +173,8 @@ class PhasedData:
         id_list = [];
         chrom_list = [];
         location_list = [];
-        mom_count = [];
-        dad_count = [];
-        from_mom = [];
-        from_dad = [];
-        troubleshoot = [];
-        unphased = [];
+        mom_list = [];
+        dad_list = [];
         for chr in self.phased_to_parent:
             for dnv in self.phased_to_parent[chr]:
                 id_list.append(self.id);
