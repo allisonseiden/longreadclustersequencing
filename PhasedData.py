@@ -15,7 +15,7 @@ class PhasedData:
         self.bounds = {};
         self.to_phase = {};
         self.phased_to_parent = {};
-        self.num_each_parent = {};
+        # self.num_each_parent = {};
 
     def create_vcf_dictionary(self):
         for i in range(1,23):
@@ -144,28 +144,28 @@ class PhasedData:
 
         print('---DNVs phased to parent for ' + self.id);
 
-    def count_mom_and_dad(self):
-        for chr in self.phased_to_parent:
-            num_parent_chr = {};
-            for dnv in self.phased_to_parent[chr]:
-                num_parent_chr[dnv] = [];
-                mom = 0;
-                dad = 0;
-                for parent in self.phased_to_parent[chr][dnv]:
-                    if parent == 'mom':
-                        mom += 1;
-                    elif parent == 'dad':
-                        dad += 1;
-                    else:
-                        continue;
-                #total = mom + dad;
-                #percent_mom = mom/total * 100;
-                #percent_dad = dad/total * 100;
-                num_parent_chr[dnv].append(mom);
-                num_parent_chr[dnv].append(dad);
-                #num_parent_chr[dnv].append(percent_mom);
-                #num_parent_chr[dnv].append(percent_dad);
-            self.num_each_parent[chr] = num_parent_chr;
+    # def count_mom_and_dad(self):
+    #     for chr in self.phased_to_parent:
+    #         num_parent_chr = {};
+    #         for dnv in self.phased_to_parent[chr]:
+    #             num_parent_chr[dnv] = [];
+    #             mom = 0;
+    #             dad = 0;
+    #             for parent in self.phased_to_parent[chr][dnv]:
+    #                 if parent == 'mom':
+    #                     mom += 1;
+    #                 elif parent == 'dad':
+    #                     dad += 1;
+    #                 else:
+    #                     continue;
+    #             #total = mom + dad;
+    #             #percent_mom = mom/total * 100;
+    #             #percent_dad = dad/total * 100;
+    #             num_parent_chr[dnv].append(mom);
+    #             num_parent_chr[dnv].append(dad);
+    #             #num_parent_chr[dnv].append(percent_mom);
+    #             #num_parent_chr[dnv].append(percent_dad);
+    #         self.num_each_parent[chr] = num_parent_chr;
 
     def convert_to_dataframe(self):
         df = pd.DataFrame({'ID' : [], 'Chrom' : [], 'Location' : [],
@@ -197,6 +197,7 @@ class PhasedData:
         df['Location'] = location_list;
         df['Mom Count'] = mom_list;
         df['Dad Count'] = dad_list;
+        df = df[['ID', 'Chrom', 'Location', 'Mom Count', 'Dad Count']];
         print(df);
 
 
