@@ -149,9 +149,9 @@ class PhasedData:
             num_parent_chr = {};
             for dnv in self.phased_to_parent[chr]:
                 num_parent_chr[dnv] = [];
+                mom = 0;
+                dad = 0;
                 for parent in self.phased_to_parent[chr][dnv]:
-                    mom = 0;
-                    dad = 0;
                     if parent == 'mom':
                         mom += 1;
                     elif parent == 'dad':
