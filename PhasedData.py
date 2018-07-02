@@ -169,12 +169,18 @@ class PhasedData:
 
     def convert_to_dataframe(self):
         df = pd.DataFrame({'ID' : [], 'Chrom' : [], 'Location' : [],
-                            'Mom Count' : [], 'Dad Count' : []});
+                            'Mom Count' : [], 'Dad Count' : [],
+                            'From Mom' : [], 'From Dad' : [], 'Troubleshoot' : [],
+                            'Unphased' : []});
         id_list = [];
         chrom_list = [];
         location_list = [];
-        mom_list = [];
-        dad_list = [];
+        mom_count = [];
+        dad_count = [];
+        from_mom = [];
+        from_dad = [];
+        trouble = [];
+        unphased = [];
         for chr in self.phased_to_parent:
             for dnv in self.phased_to_parent[chr]:
                 id_list.append(self.id);
@@ -189,20 +195,50 @@ class PhasedData:
                         dad += 1;
                     else:
                         continue;
-                mom_list.append(mom);
-                dad_list.append(dad);
+                mom_count.append(mom);
+                dad_count.append(dad);
 
         df['ID'] = id_list;
         df['Chrom'] = chrom_list;
         df['Location'] = location_list;
-        df['Mom Count'] = mom_list;
-        df['Dad Count'] = dad_list;
-        df = df[['ID', 'Chrom', 'Location', 'Mom Count', 'Dad Count']];
+        df['Mom Count'] = mom_count;
+        df['Dad Count'] = dad_count;
 
-        unphased = df[df['Mom Count'] == 0 and df['Dad Count'] == 0]
-        print(unphased);
+        length = df.shape[0];
 
-        #print(df);
+        for i in range(0, length):
+            ma = df['Mom Count'][i];
+            pa = df['Dad Count'][i];
+            if ma == 0 and pa == 0:
+                unphased.append(1);
+                from_mom.append(0);
+                from_dad.append(0);
+                trouble.append(0);
+            elif ma/(ma + pa) > .9:
+                unphased.append(0);
+                from_mom.append(1);
+                from_dad.append(0);
+                trouble.append(0);
+            elif pa/(ma + pa) > .9:
+                unphased.append(0);
+                from_mom.append(0);
+                from_dad.append(1);
+                trouble.append(0);
+            else:
+                unphased.append(0);
+                from_mom.append(0);
+                from_dad.append(0);
+                trouble.append(1);
+
+        df['From Mom'] = from_mom;
+        df['From Dad'] = from_dad;
+        df['Troubleshoot'] = trouble;
+        df['Unphased'] = unphased;
+
+        df = df[['ID', 'Chrom', 'Location', 'Mom Count', 'Dad Count', 'From Mom',
+                 'From Dad', 'Troubleshoot', 'Unphased']];
+
+        print(df);
 
 
 
