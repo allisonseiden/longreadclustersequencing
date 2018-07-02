@@ -88,10 +88,7 @@ class PhasedData:
             curr_bounds = self.bounds[chromosome][dnv];
             chr_phase[dnv] = [];
             u_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].item();
-                #print(u_index_list);
-                #u_index = u_index_list[0];
             l_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[1]].item();
-                #l_index = l_index_list[0];
             position = u_index;
             while position <= l_index:
                 child = curr_vcf[self.id][position];
@@ -143,29 +140,6 @@ class PhasedData:
             self.phased_to_parent[chr] = self.assign_to_parent_by_chr(chr);
 
         print('---DNVs phased to parent for ' + self.id);
-
-    # def count_mom_and_dad(self):
-    #     for chr in self.phased_to_parent:
-    #         num_parent_chr = {};
-    #         for dnv in self.phased_to_parent[chr]:
-    #             num_parent_chr[dnv] = [];
-    #             mom = 0;
-    #             dad = 0;
-    #             for parent in self.phased_to_parent[chr][dnv]:
-    #                 if parent == 'mom':
-    #                     mom += 1;
-    #                 elif parent == 'dad':
-    #                     dad += 1;
-    #                 else:
-    #                     continue;
-    #             #total = mom + dad;
-    #             #percent_mom = mom/total * 100;
-    #             #percent_dad = dad/total * 100;
-    #             num_parent_chr[dnv].append(mom);
-    #             num_parent_chr[dnv].append(dad);
-    #             #num_parent_chr[dnv].append(percent_mom);
-    #             #num_parent_chr[dnv].append(percent_dad);
-    #         self.num_each_parent[chr] = num_parent_chr;
 
     def convert_to_dataframe(self):
         df = pd.DataFrame({'ID' : [], 'Chrom' : [], 'Location' : [],
@@ -237,6 +211,9 @@ class PhasedData:
 
         df = df[['ID', 'Chrom', 'Location', 'Mom Count', 'Dad Count', 'From Mom',
                  'From Dad', 'Troubleshoot', 'Unphased']];
+
+        df.groupby(['ID', 'From Mom', 'From Dad', 'Troubleshoot', 'Unphased']).sum();
+
 
         print(df);
 
