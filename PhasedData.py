@@ -173,8 +173,12 @@ class PhasedData:
         id_list = [];
         chrom_list = [];
         location_list = [];
-        mom_list = [];
-        dad_list = [];
+        mom_count = [];
+        dad_count = [];
+        from_mom = [];
+        from_dad = [];
+        troubleshoot = [];
+        unphased = [];
         for chr in self.phased_to_parent:
             for dnv in self.phased_to_parent[chr]:
                 id_list.append(self.id);
@@ -198,7 +202,11 @@ class PhasedData:
         df['Mom Count'] = mom_list;
         df['Dad Count'] = dad_list;
         df = df[['ID', 'Chrom', 'Location', 'Mom Count', 'Dad Count']];
-        print(df);
+
+        unphased = df[df['Mom Count'] == 0 and df['Dad Count'] == 0]
+        print(unphased);
+
+        #print(df);
 
 
 
