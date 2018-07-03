@@ -19,7 +19,8 @@ def run_phase_to_parent(ID):
     patient.find_variants_for_phasing();
     patient.assign_to_parent();
     patient.convert_to_dataframe();
-    complete_df.append(patient.parent_df);
+    # complete_df.append(patient.parent_df);
+    print(patient.parent_df);
 
 if __name__ == '__main__':
     pool = mp.Pool(processes=5);
@@ -29,7 +30,7 @@ if __name__ == '__main__':
     #     # complete_df.append(patient.parent_df);
     #     print(patient.parent_df);
 
-    print(complete_df);
+    #print(complete_df);
 
 
 
