@@ -138,11 +138,9 @@ class PhasedData:
                 chr_parent[dnv].append('mom');
             else:
                 chr_parent[dnv].append('dad');
-        return chr_parent;
 
     def assign_to_parent_by_chr(self, chromosome):
         chr_parent = {};
-        to_parent = {};
         curr_vcf = self.vcf_dfs[chromosome];
         for dnv in self.to_phase[chromosome]:
             chr_parent[dnv] = [];
@@ -153,7 +151,7 @@ class PhasedData:
                 if len(curr_vcf['REF'][index]) > 1 or len(curr_vcf['ALT'][index]) > 1:
                 #     # print("Skipped variant at position " + str(curr_vcf['POS'][index]));
                      continue;
-                to_parent = self.assign_to_parent_logic(index, curr_vcf, de_novo_hap, chr_parent, dnv);
+                self.assign_to_parent_logic(index, curr_vcf, de_novo_hap, chr_parent, dnv);
                 # child = curr_vcf[self.id][index];
                 # mom = curr_vcf[self.mom][index];
                 # dad = curr_vcf[self.dad][index];
@@ -167,7 +165,7 @@ class PhasedData:
                 #         chr_parent[dnv].append("dad");
                 #     else:
                 #         chr_parent[dnv].append("mom");
-        return to_parent;
+        return chr_parent;
 
     def assign_to_parent(self):
         for chr in self.to_phase:
