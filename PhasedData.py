@@ -154,7 +154,6 @@ class PhasedData:
         for dnv in self.dnvs[chromosome]:
             curr_bounds = self.bounds[chromosome][dnv];
             chr_phase[dnv] = [];
-            chr_phase[dnv].append(0);
             u_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].item();
             l_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[1]].item();
             position = u_index;
@@ -169,7 +168,7 @@ class PhasedData:
                     chr_phase[dnv] = chr_phase[dnv][-5:]
                 position += 1;
             if len(chr_phase[dnv]) > 10:
-                chr_phase = chr_phase[dnv][:10];
+                chr_phase[dnv] = chr_phase[dnv][:10];
             else:
                 continue;
         return chr_phase;
