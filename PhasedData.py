@@ -245,6 +245,15 @@ class PhasedData:
         self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
 
 
+    def print_dnvs_to_troubleshoot(self):
+        length = self.parent_df.shape[0];
+
+        for i in range(0, length):
+            if self.parent_df['Troubleshoot'][i] == 1:
+                chrom = self.parent_df['Chrom'][i];
+                dnv = self.parent_df['Location'][i];
+                print(chrom);
+                print(self.phased_to_parent[chrom][dnv]);
 
 
 
