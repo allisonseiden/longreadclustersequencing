@@ -246,7 +246,6 @@ class PhasedData:
 
 
     def print_dnvs_to_troubleshoot(self):
-        print('troubleshooting');
         length = self.parent_df.shape[0];
 
         for i in range(0, length):
@@ -254,7 +253,15 @@ class PhasedData:
                 chrom = self.parent_df['Chrom'][i];
                 dnv = self.parent_df['Location'][i];
                 print(chrom);
-                print(self.phased_to_parent[chrom][dnv]);
+                print(dnv);
+                length = self.to_phase[chrom][dnv];
+                for i in range(0, length):
+                    if self.to_phase[chrom][dnv][i] < dnv:
+                        print('L: ' + str(self.to_phase[chrom][dnv][i]) + self.phased_to_parent[chrom][dnv][i]);
+                    if self.to_phase[chrom][dnv][i] > dnv:
+                        print('R: ' + str(self.to_phase[chrom][dnv][i]) + self.phased_to_parent[chrom][dnv][i]);
+                # print(self.phased_to_parent[chrom][dnv]);
+                # print(self.to_phase[chrom][dnv]);
 
 
 
