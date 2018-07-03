@@ -106,7 +106,7 @@ class PhasedData:
                 mom = curr_vcf[self.mom][position];
                 dad = curr_vcf[self.dad][position];
                 if child[:3] == "0|1" or child[:3] == "1|0":
-                    if not (mom[:3] == dad[:3]):
+                    if mom[:3] != dad[:3]:
                         chr_phase[dnv].append(curr_vcf['POS'][position]);
                     # if mom[:3] == "0/0" and (dad[:3] == "1/1" or dad[:3] == "0/1"):
                     #     chr_phase[dnv].append(curr_vcf['POS'][position]);
