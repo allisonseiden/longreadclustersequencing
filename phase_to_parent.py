@@ -8,7 +8,7 @@ patientIDs = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04460",
                  "1-04537", "1-05443", "1-05673", "1-05846"];
 
 phased_data_objects = [];
-file = open('proband_phased_data.txt', 'w');
+# file = open('proband_phased_data.txt', 'w');
 
 # for ID in patientIDs:
 def run_phase_to_parent(ID):
@@ -20,15 +20,17 @@ def run_phase_to_parent(ID):
     patient.assign_to_parent();
     patient.convert_to_dataframe();
     # complete_df.append(patient.parent_df);
-    file.write(patient.parent_df);
+    # file.write(patient.parent_df);
+    phased_data_objects.append(patient);
 
 if __name__ == '__main__':
     pool = mp.Pool(processes=5);
     pool.map(run_phase_to_parent, patientIDs);
 
-    file.close();
-
-    # for patient in phased_data_objects:
+    # file.close();
+    bigdata = pd.concat(phased_data_objects, ignore_index=True);
+    print(bigdata);
+    #for patient in phased_data_objects:
     #     # complete_df.append(patient.parent_df);
     #     print(patient.parent_df);
 
