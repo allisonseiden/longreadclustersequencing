@@ -122,8 +122,6 @@ class PhasedData:
         print('---Variants to phase dictionary created for ' + self.id);
 
     def assign_to_parent_logic(self, index, vcf, dnv_hap, chr_parent, dnv):
-        if len(vcf['REF'][index]) > 1 or len(vcf['ALT'][index]) > 1:
-            continue;
         child = vcf[self.id][index];
         mom = vcf[self.mom][index];
         dad = vcf[self.dad][index];
@@ -151,10 +149,10 @@ class PhasedData:
             de_novo_hap = curr_vcf[self.id][dnv_index];
             for var in self.to_phase[chromosome][dnv]:
                 index = curr_vcf.index[curr_vcf['POS'] == var].item();
-                to_parent = self.assign_to_parent_logic(index, curr_vcf, de_novo_hap, chr_parent, dnv);
-                # if len(curr_vcf['REF'][index]) > 1 or len(curr_vcf['ALT'][index]) > 1:
+                if len(curr_vcf['REF'][index]) > 1 or len(curr_vcf['ALT'][index]) > 1:
                 #     # print("Skipped variant at position " + str(curr_vcf['POS'][index]));
-                #     continue;
+                     continue;
+                to_parent = self.assign_to_parent_logic(index, curr_vcf, de_novo_hap, chr_parent, dnv);
                 # child = curr_vcf[self.id][index];
                 # mom = curr_vcf[self.mom][index];
                 # dad = curr_vcf[self.dad][index];
