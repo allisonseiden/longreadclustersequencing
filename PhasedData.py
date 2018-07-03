@@ -169,6 +169,8 @@ class PhasedData:
                 position += 1;
             if len(chr_phase[dnv]) > 10:
                 chr_phase = chr_phase[dnv][:10];
+            else:
+                continue;
         return chr_phase;
 
     """
