@@ -4,10 +4,10 @@ import numpy as np;
 import multiprocessing as mp;
 
 # removed "1-04389" from list because of errors
-# patientIDs = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04460",
-#                  "1-04537", "1-05443", "1-05673", "1-05846"];
+patientIDs = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04460",
+                 "1-04537", "1-05443", "1-05673", "1-05846"];
 
-patientIDs = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04460"];
+# patientIDs = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04460"];
 
 phased_df_list = [];
 phased_data_objects = [];
@@ -54,5 +54,9 @@ for patient_object in phased_data_objects:
     patient_object.convert_to_dataframe();
     phased_df_list.append(patient_object.parent_df);
 
-bigdata = pd.concat(phased_df_list, ignore_index=True);
-print(bigdata);
+complete_df = pd.concat(phased_df_list, ignore_index=True);
+
+complete_df = complete_df.groupby('ID').sum();
+complete_df = complete_df.loc[:,['From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
+
+complete_df.to_csv();
