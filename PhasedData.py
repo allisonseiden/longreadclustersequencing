@@ -81,6 +81,17 @@ class PhasedData:
 
         print('---Bounds dictionary created for ' + self.id);
 
+    # def phasing_logic(self, lower, upper, vcf, chr_phase, dnv):
+    #     position = u_index;
+    #     while position <= l_index:
+    #         child = vcf[self.id][position];
+    #         mom = vcf[self.mom][position];
+    #         dad = vcf[self.dad][position];
+    #         if child[:3] == '0|1':
+    #             if mom[:3] == '0/0' and (dad[:3] == '1/1' or dad[:3] == '0/1'):
+    #                 chr_phase[dnv].append(vcf['POS'][position]);
+    #             if
+
     def find_variants_for_phasing_chr(self, chromosome):
         chr_phase = {};
         curr_vcf = self.vcf_dfs[chromosome];
@@ -95,10 +106,12 @@ class PhasedData:
                 mom = curr_vcf[self.mom][position];
                 dad = curr_vcf[self.dad][position];
                 if child[:3] == "0|1" or child[:3] == "1|0":
-                    if mom[:3] == "0/0" and (dad[:3] == "1/1" or dad[:3] == "0/1"):
+                    if not (mom[:3] == '0/1' and dad[:3] == '0/1'):
                         chr_phase[dnv].append(curr_vcf['POS'][position]);
-                    if dad[:3] == "0/0" and (mom[:3] == "1/1" or mom[:3] == "0/1"):
-                        chr_phase[dnv].append(curr_vcf['POS'][position]);
+                    # if mom[:3] == "0/0" and (dad[:3] == "1/1" or dad[:3] == "0/1"):
+                    #     chr_phase[dnv].append(curr_vcf['POS'][position]);
+                    # if dad[:3] == "0/0" and (mom[:3] == "1/1" or mom[:3] == "0/1"):
+                    #     chr_phase[dnv].append(curr_vcf['POS'][position]);
                 position += 1;
         return chr_phase;
 
