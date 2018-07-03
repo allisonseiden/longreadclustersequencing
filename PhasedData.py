@@ -153,7 +153,7 @@ class PhasedData:
         curr_vcf = self.vcf_dfs[chromosome];
         for dnv in self.bounds[chromosome]:
             curr_bounds = self.bounds[chromosome][dnv];
-            #chr_phase[dnv] = [];
+            chr_phase[dnv] = [];
             u_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].item();
             l_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[1]].item();
             position = u_index;
@@ -161,12 +161,12 @@ class PhasedData:
                 child = curr_vcf[self.id][position];
                 mom = curr_vcf[self.mom][position];
                 dad = curr_vcf[self.dad][position];
-                if curr_vcf['POS'][position] < dnv:
-                    if len(chr_phase[dnv]) > n:
-                        chr_phase[dnv] = chr_phase[dnv][-n:]
                 if child[:3] == "0|1" or child[:3] == "1|0":
                     if mom[:3] != dad[:3]:
                         chr_phase[dnv].append(curr_vcf['POS'][position]);
+                if curr_vcf['POS'][position] < dnv:
+                    if len(chr_phase[dnv]) > n:
+                        chr_phase[dnv] = chr_phase[dnv][-n:]
                 position += 1;
             if len(chr_phase[dnv]) > 2*n:
                 chr_phase = chr_phase[dnv][:(2*n)];
