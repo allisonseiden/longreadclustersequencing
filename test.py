@@ -8,4 +8,5 @@ patient.fill_bounds_dictionary();
 patient.find_variants_for_phasing();
 patient.assign_to_parent();
 patient.convert_to_dataframe();
-print(patient.parent_df);
+patient.print_dnvs_to_troubleshoot();
+# print(to_troubleshoot);
