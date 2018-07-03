@@ -320,8 +320,8 @@ class PhasedData:
                                             'Dad Count', 'From Mom', 'From Dad',
                                             'Troubleshoot', 'Unphased']];
 
-        # self.parent_df = self.parent_df.groupby('ID').sum();
-        # self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
+        self.parent_df = self.parent_df.groupby('ID').sum();
+        self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
 
 
     # def print_dnvs_to_troubleshoot(self):
