@@ -246,6 +246,7 @@ class PhasedData:
 
 
     def print_dnvs_to_troubleshoot(self):
+        print('troubleshooting');
         length = self.parent_df.shape[0];
 
         for i in range(0, length):
