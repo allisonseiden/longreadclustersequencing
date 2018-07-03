@@ -8,7 +8,7 @@ patientIDs = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04460",
                  "1-04537", "1-05443", "1-05673", "1-05846"];
 
 phased_data_objects = [];
-complete_df = pd.DataFrame();
+# complete_df = pd.DataFrame();
 
 # for ID in patientIDs:
 def run_phase_to_parent(ID):
@@ -26,9 +26,10 @@ if __name__ == '__main__':
     pool.map(run_phase_to_parent, patientIDs);
 
     for patient in phased_data_objects:
-        complete_df.append(patient.parent_df);
+        # complete_df.append(patient.parent_df);
+        print(patient.parent_df);
 
-    print(complete_df);
+    # print(complete_df);
 
 
 
