@@ -27,9 +27,10 @@ if __name__ == '__main__':
     pool = mp.Pool(processes=5);
     pool.map(run_phase_to_parent, patientIDs);
 
+    print(phased_df);
     # file.close();
-    bigdata = pd.concat(phased_df, ignore_index=True);
-    print(bigdata);
+    #bigdata = pd.concat(phased_df, ignore_index=True);
+    #print(bigdata);
     #for patient in phased_data_objects:
     #     # complete_df.append(patient.parent_df);
     #     print(patient.parent_df);
