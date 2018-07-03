@@ -1,6 +1,37 @@
 import pandas as pd;
 import numpy as np;
 
+"""
+    ----------------------------------------------------------------------------
+    A class to create an object for the phased data for each proband and his/her
+    parents
+
+    Each object has variables:
+    id - the sample ID for the proband
+    mom - the sample ID for the mother
+    dad - the sample ID for the father
+    bed - a dataframe with info from BED file concerning de novos
+    vcf_dfs - a dictionary with key: chromosome number,
+                value: dataframe with info from phased vcf file for
+                corresponding chromosome
+    dnvs - a dictionary with key: chromosome number, value: list of de novos for
+            corresponding chromosome
+    bounds - a dictionary with key: chromosome number, value: a dictionary with
+                key: de novo position, value: list with discontinuity bounds
+    to_phase - a dictionary with key: chromosome number, value: a dictionary
+                with key: de novo position, value: list of positions of
+                informative variants
+    phased_to_parent - a dictionary with key: chromosome number, value: a
+                dictionary with key: de novo position, value: list of
+                'mom'/'dad' assignments for each informative variant
+    parent_df - a dataframe with columns for ID number (ID), chromosome number
+                (Chrom), variant position (Location), the number of informative
+                reads phased to mom (Mom Count), the number of informative reads
+                to dad (Dad Count), and columns to mark whether the de novo came
+                from mom (From Mom), from dad (From Dad), or if it needs a
+                second look (Troubleshoot) or is unphased (Unphased)
+    ----------------------------------------------------------------------------
+"""
 
 class PhasedData:
     def __init__(self, patientID):
@@ -20,6 +51,11 @@ class PhasedData:
                             'From Mom' : [], 'From Dad' : [], 'Troubleshoot' : [],
                             'Unphased' : []});
 
+    """
+        ------------------------------------------------------------------------
+        Method to fill vcf_dfs with dataframes created from phased vcfs
+        ------------------------------------------------------------------------
+    """
     def create_vcf_dictionary(self):
         for i in range(1,23):
             num = str(i);
@@ -30,6 +66,13 @@ class PhasedData:
                                                 comment = '#');
         print('---VCF dictionary created for ' + self.id);
 
+    """
+        ------------------------------------------------------------------------
+        Method to fill vcf_dfs with dataframes created from phased vcfs without
+        --indels
+        ------------------------------------------------------------------------
+    """
+
     def create_vcf_no_indels(self):
         for i in range(1,23):
             num = str(i);
@@ -38,6 +81,12 @@ class PhasedData:
                                                 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
                                                 self.id, self.mom, self.dad],
                                                 comment = '#');
+
+    """
+        ------------------------------------------------------------------------
+        Method to fill dnvs dictionary from BED file
+        ------------------------------------------------------------------------
+    """
 
     def create_dnvs_dictionary(self):
         num_dnvs = self.bed.shape[0];
@@ -54,6 +103,12 @@ class PhasedData:
                 self.dnvs[chrom].append(self.bed['End'][index]);
 
         print('---DNV dictionary created for ' + self.id);
+
+    """
+        ------------------------------------------------------------------------
+        Helper method to search for discontinuities within phased vcf
+        ------------------------------------------------------------------------
+    """
 
     def search_discon(self, chromosome):
         chr_bounds = {};
@@ -75,24 +130,25 @@ class PhasedData:
             chr_bounds[dnv].append(curr_vcf['POS'][l_discon]);
         return chr_bounds;
 
+    """
+        ------------------------------------------------------------------------
+        Method to fill bounds dictionary using search_discon helper method
+        ------------------------------------------------------------------------
+    """
+
     def fill_bounds_dictionary(self):
         for chr in self.dnvs:
             self.bounds[chr] = self.search_discon(chr);
 
         print('---Bounds dictionary created for ' + self.id);
 
-    # def phasing_logic(self, lower, upper, vcf, chr_phase, dnv):
-    #     position = u_index;
-    #     while position <= l_index:
-    #         child = vcf[self.id][position];
-    #         mom = vcf[self.mom][position];
-    #         dad = vcf[self.dad][position];
-    #         if child[:3] == '0|1':
-    #             if mom[:3] == '0/0' and (dad[:3] == '1/1' or dad[:3] == '0/1'):
-    #                 chr_phase[dnv].append(vcf['POS'][position]);
-    #             if
+    """
+        ------------------------------------------------------------------------
+        Helper method to find informative variants between bounds for each dnv
+        ------------------------------------------------------------------------
+    """
 
-    def find_variants_for_phasing_chr(self, chromosome):
+    def find_variants_for_phasing_chr(self, chromosome, n):
         chr_phase = {};
         curr_vcf = self.vcf_dfs[chromosome];
         for dnv in self.bounds[chromosome]:
@@ -105,21 +161,36 @@ class PhasedData:
                 child = curr_vcf[self.id][position];
                 mom = curr_vcf[self.mom][position];
                 dad = curr_vcf[self.dad][position];
+                if curr_vcf['POS'][position] < dnv:
+                    if len(chr_phase[dnv]) > n:
+                        chr_phase[dnv] = chr_phase[dnv][-n:]
                 if child[:3] == "0|1" or child[:3] == "1|0":
                     if mom[:3] != dad[:3]:
                         chr_phase[dnv].append(curr_vcf['POS'][position]);
-                    # if mom[:3] == "0/0" and (dad[:3] == "1/1" or dad[:3] == "0/1"):
-                    #     chr_phase[dnv].append(curr_vcf['POS'][position]);
-                    # if dad[:3] == "0/0" and (mom[:3] == "1/1" or mom[:3] == "0/1"):
-                    #     chr_phase[dnv].append(curr_vcf['POS'][position]);
                 position += 1;
+            if len(chr_phase[dnv]) > 2*n:
+                chr_phase = chr_phase[dnv][:(2*n)];
         return chr_phase;
+
+    """
+        ------------------------------------------------------------------------
+        Method to fill to_phase dictionary using find_variants_for_phasing_chr
+        helper method
+        ------------------------------------------------------------------------
+    """
 
     def find_variants_for_phasing(self):
         for chr in self.dnvs:
             self.to_phase[chr] = self.find_variants_for_phasing_chr(chr);
 
         print('---Variants to phase dictionary created for ' + self.id);
+
+    """
+        ------------------------------------------------------------------------
+        Helper method to conduct the logic for assigning de novos to parent,
+        used to keep code clean
+        ------------------------------------------------------------------------
+    """
 
     def assign_to_parent_logic(self, index, vcf, dnv_hap, chr_parent, dnv):
         child = vcf[self.id][index];
@@ -139,6 +210,13 @@ class PhasedData:
             else:
                 chr_parent[dnv].append('dad');
 
+    """
+        ------------------------------------------------------------------------
+        Helper method to assign each informative variant to either mom or dad
+        using assign_to_parent_logic helper method
+        ------------------------------------------------------------------------
+    """
+
     def assign_to_parent_by_chr(self, chromosome):
         chr_parent = {};
         curr_vcf = self.vcf_dfs[chromosome];
@@ -149,29 +227,29 @@ class PhasedData:
             for var in self.to_phase[chromosome][dnv]:
                 index = curr_vcf.index[curr_vcf['POS'] == var].item();
                 if len(curr_vcf['REF'][index]) > 1 or len(curr_vcf['ALT'][index]) > 1:
-                #     # print("Skipped variant at position " + str(curr_vcf['POS'][index]));
                      continue;
                 self.assign_to_parent_logic(index, curr_vcf, de_novo_hap, chr_parent, dnv);
-                # child = curr_vcf[self.id][index];
-                # mom = curr_vcf[self.mom][index];
-                # dad = curr_vcf[self.dad][index];
-                # if child[:3] == de_novo_hap[:3]:
-                #     if mom[1:3] == "/1":
-                #         chr_parent[dnv].append("mom");
-                #     else:
-                #         chr_parent[dnv].append("dad");
-                # if child[:3] != de_novo_hap[:3]:
-                #     if mom[1:3] == "/1":
-                #         chr_parent[dnv].append("dad");
-                #     else:
-                #         chr_parent[dnv].append("mom");
         return chr_parent;
+
+    """
+        ------------------------------------------------------------------------
+        Method to fill phased_to_parent dictionary using assign_to_parent_by_chr
+        helper method
+        ------------------------------------------------------------------------
+    """
 
     def assign_to_parent(self):
         for chr in self.to_phase:
             self.phased_to_parent[chr] = self.assign_to_parent_by_chr(chr);
 
         print('---DNVs phased to parent for ' + self.id);
+
+
+    """
+        ------------------------------------------------------------------------
+        Method to organize data into final dataframe parent_df
+        ------------------------------------------------------------------------
+    """
 
     def convert_to_dataframe(self):
         id_list = [];
@@ -245,29 +323,18 @@ class PhasedData:
         # self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
 
 
-    def print_dnvs_to_troubleshoot(self):
-        length = self.parent_df.shape[0];
-
-        for i in range(0, length):
-            if self.parent_df['Troubleshoot'][i] == 1:
-                chrom = self.parent_df['Chrom'][i];
-                dnv = self.parent_df['Location'][i];
-                print(chrom);
-                print(dnv);
-                length = self.to_phase[chrom][dnv];
-                for i in range(0, length):
-                    if self.to_phase[chrom][dnv][i] < dnv:
-                        print('L: ' + str(self.to_phase[chrom][dnv][i]) + self.phased_to_parent[chrom][dnv][i]);
-                    if self.to_phase[chrom][dnv][i] > dnv:
-                        print('R: ' + str(self.to_phase[chrom][dnv][i]) + self.phased_to_parent[chrom][dnv][i]);
-                # print(self.phased_to_parent[chrom][dnv]);
-                # print(self.to_phase[chrom][dnv]);
-
-
-
-    # def print_mom_and_dad_count(self):
-    #     print('ID\tChrom\tDNV\tMom\tDad')
-    #     for chr in self.num_each_parent:
-    #         for dnv in self.num_each_parent[chr]:
-    #             line = self.id + '\t' + str(chr) + '\t' + str(dnv) + '\t' + str(dnv[0]) + '\t' + str(dnv[1]);
-    #             print(line);
+    # def print_dnvs_to_troubleshoot(self):
+    #     length = self.parent_df.shape[0];
+    #
+    #     for i in range(0, length):
+    #         if self.parent_df['Troubleshoot'][i] == 1:
+    #             chrom = self.parent_df['Chrom'][i];
+    #             dnv = self.parent_df['Location'][i];
+    #             print(chrom);
+    #             print(dnv);
+    #             length = self.to_phase[chrom][dnv];
+    #             for i in range(0, length):
+    #                 if self.to_phase[chrom][dnv][i] < dnv:
+    #                     print('L: ' + str(self.to_phase[chrom][dnv][i]) + self.phased_to_parent[chrom][dnv][i]);
+    #                 if self.to_phase[chrom][dnv][i] > dnv:
+    #                     print('R: ' + str(self.to_phase[chrom][dnv][i]) + self.phased_to_parent[chrom][dnv][i]);
