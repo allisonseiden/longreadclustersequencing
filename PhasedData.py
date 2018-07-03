@@ -152,9 +152,8 @@ class PhasedData:
         chr_phase = {};
         curr_vcf = self.vcf_dfs[chromosome];
         for dnv in self.bounds[chromosome]:
-            print(dnv);
             curr_bounds = self.bounds[chromosome][dnv];
-            #chr_phase[dnv] = [];
+            chr_phase[dnv] = [];
             u_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].item();
             l_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[1]].item();
             position = u_index;
