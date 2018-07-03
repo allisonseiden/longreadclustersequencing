@@ -164,13 +164,11 @@ class PhasedData:
                 if child[:3] == "0|1" or child[:3] == "1|0":
                     if mom[:3] != dad[:3]:
                         chr_phase[dnv].append(curr_vcf['POS'][position]);
-                # if curr_vcf['POS'][position] < dnv:
-                    # if len(chr_phase[dnv]) > n:
-                    #     chr_phase[dnv] = chr_phase[dnv][-n:]
+                if (curr_vcf['POS'][position] < dnv) and (len(chr_phase[dnv]) > 5):
+                    chr_phase[dnv] = chr_phase[dnv][-n:]
                 position += 1;
-            # if len(chr_phase[dnv]) > 2*n:
-            #     chr_phase = chr_phase[dnv][:(2*n)];
-            print(len(chr_phase[dnv]));
+            if len(chr_phase[dnv]) > 10:
+                chr_phase = chr_phase[dnv][:10];
         return chr_phase;
 
     """
