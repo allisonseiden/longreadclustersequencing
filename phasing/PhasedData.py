@@ -111,7 +111,6 @@ class PhasedData:
                 else:
                     self.dnvs[chrom].append(self.bed['End'][index]);
 
-        print(self.unphased);
         print('---DNV dictionary created for ' + self.id);
 
     """
@@ -277,10 +276,6 @@ class PhasedData:
                 id_list.append(self.id);
                 chrom_list.append(chr);
                 location_list.append(dnv);
-                # if len(self.to_phase[chr][dnv]) == 0:
-                #     unphased.append(1);
-                # else:
-                #     unphased.append(0);
                 mom = 0;
                 dad = 0;
                 for parent in self.phased_to_parent[chr][dnv]:
@@ -298,19 +293,12 @@ class PhasedData:
         self.parent_df['Location'] = location_list;
         self.parent_df['Mom Count'] = mom_count;
         self.parent_df['Dad Count'] = dad_count;
-        # self.parent_df['Unphased'] = unphased;
-
-        print(mom_count);
-        print(dad_count);
-        print(unphased);
 
         length = self.parent_df.shape[0];
 
         for i in range(0, length):
             ma = self.parent_df['Mom Count'][i];
             pa = self.parent_df['Dad Count'][i];
-            # if self.parent_df['Unphased'][i] == 1:
-            #     continue;
             if ma == 0 and pa == 0:
                 trouble.append(1);
                 from_mom.append(0);
@@ -337,14 +325,14 @@ class PhasedData:
                                             'Dad Count', 'From Mom', 'From Dad',
                                             'Troubleshoot']];
 
-        # for i in range(0, length):
-        #     if self.parent_df['Troubleshoot'][i] == 1:
-        #         chr = self.parent_df['Chrom'][i];
-        #         loc = self.parent_df['Location'][i];
-        #         print(chr);
-        #         print(loc);
-        #         print(self.phased_to_parent[chr][loc]);
-        #         print('\n');
+        for i in range(0, length):
+            if self.parent_df['Troubleshoot'][i] == 1:
+                chr = self.parent_df['Chrom'][i];
+                loc = self.parent_df['Location'][i];
+                print(chr);
+                print(loc);
+                print(self.phased_to_parent[chr][loc]);
+                print('\n');
 
 
         self.parent_df = self.parent_df.groupby('ID').sum();
