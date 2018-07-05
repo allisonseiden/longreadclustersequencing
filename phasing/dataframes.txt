@@ -1,6 +1,6 @@
 Before shortening length of informative variant list:
 
-Total DNVs	From Mom  From Dad  Troubleshoot  Unphased       % Phased
+        Total DNVs	From Mom  From Dad  Troubleshoot  Unphased       % Phased
 ID
 1-00801  			  85      	12        42            22         9           63.5
 1-01019   			78     		10        36            22        10           59.0
@@ -8,6 +8,22 @@ ID
 1-04190        	58				 7        30            15         6           63.8
 1-04389
 1-04460       	108			  19        58            20        11           71.3
-1-04537        	63				14        33             8         9           73.4
+1-04537        	64				14        33             8         9           73.4
 1-05443        	53				15        25             6         7           75.5
 1-05673        	85				14        37            24        10           60.0
+
+
+After shortening length of informative variant list with n=2:
+
+        Total DNVs	From Mom  From Dad  Troubleshoot  Unphased       % Phased
+ID
+1-00801  			  85      	14        49            15         7           74.1
+1-01019   			78     		16        42            11         9           74.4
+1-03897   			82     		17        46            13         6           76.8
+1-04190        	58				 8        38             8         4           79.3
+1-04389
+1-04460       	108			  18        66            17         7           77.8
+1-04537        	64				13        38             7         6           79.7
+1-05443        	53				13        27            10         3           75.5
+1-05673        	85				17        47            11        10           75.3
+1-05846         60        17        16            24         3             55
