@@ -43,6 +43,7 @@ class PhasedData:
                                     names = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']);
         self.vcf_dfs = {};
         self.dnvs = {};
+        self.unphased = [];
         self.bounds = {};
         self.to_phase = {};
         self.phased_to_parent = {};
@@ -100,8 +101,12 @@ class PhasedData:
             indices = self.bed.index[self.bed['Chrom'] == chrom].tolist();
             self.dnvs[chrom] = [];
             for index in indices:
+                if self.vcf_dfs[chrom][self.id][index][:3] == '0/1':
+                    self.unphased.append(self.bed['End'][index]);
+                    continue;
                 self.dnvs[chrom].append(self.bed['End'][index]);
 
+        print(self.unphased);
         print('---DNV dictionary created for ' + self.id);
 
     """
@@ -267,10 +272,10 @@ class PhasedData:
                 id_list.append(self.id);
                 chrom_list.append(chr);
                 location_list.append(dnv);
-                if len(self.to_phase[chr][dnv]) == 0:
-                    unphased.append(1);
-                else:
-                    unphased.append(0);
+                # if len(self.to_phase[chr][dnv]) == 0:
+                #     unphased.append(1);
+                # else:
+                #     unphased.append(0);
                 mom = 0;
                 dad = 0;
                 for parent in self.phased_to_parent[chr][dnv]:
@@ -288,7 +293,7 @@ class PhasedData:
         self.parent_df['Location'] = location_list;
         self.parent_df['Mom Count'] = mom_count;
         self.parent_df['Dad Count'] = dad_count;
-        self.parent_df['Unphased'] = unphased;
+        # self.parent_df['Unphased'] = unphased;
 
         print(mom_count);
         print(dad_count);
@@ -299,9 +304,9 @@ class PhasedData:
         for i in range(0, length):
             ma = self.parent_df['Mom Count'][i];
             pa = self.parent_df['Dad Count'][i];
-            if self.parent_df['Unphased'][i] == 1:
-                continue;
-            elif ma == 0 and pa == 0:
+            # if self.parent_df['Unphased'][i] == 1:
+            #     continue;
+            if ma == 0 and pa == 0:
                 trouble.append(1);
                 from_mom.append(0);
                 from_dad.append(0);
@@ -325,7 +330,7 @@ class PhasedData:
 
         self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'Mom Count',
                                             'Dad Count', 'From Mom', 'From Dad',
-                                            'Troubleshoot', 'Unphased']];
+                                            'Troubleshoot']];
 
         # for i in range(0, length):
         #     if self.parent_df['Troubleshoot'][i] == 1:
@@ -338,6 +343,7 @@ class PhasedData:
 
 
         self.parent_df = self.parent_df.groupby('ID').sum();
+        self.parent_df['Unphased'] = len(self.unphased);
         self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
 
 
