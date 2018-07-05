@@ -108,7 +108,7 @@ class PhasedData:
             for index in indices:
                 if self.bed['End'][index] in all_unphased:
                     self.unphased.append(self.bed['End'][index]);
-                if self.bed['End'][index] not in self.unphased:
+                if self.bed['End'][index] not in all_unphased:
                     self.dnvs[chrom].append(self.bed['End'][index]);
 
         print(self.unphased);
