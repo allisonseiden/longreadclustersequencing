@@ -291,6 +291,8 @@ class PhasedData:
 
         length = self.parent_df.shape[0];
 
+        print(len(unphased));
+
         for i in range(0, length):
             ma = self.parent_df['Mom Count'][i];
             pa = self.parent_df['Dad Count'][i];
