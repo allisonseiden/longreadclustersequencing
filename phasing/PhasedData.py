@@ -292,28 +292,28 @@ class PhasedData:
 
         print(mom_count);
         print(dad_count);
+        print(unphased);
 
         length = self.parent_df.shape[0];
 
         for i in range(0, length):
             ma = self.parent_df['Mom Count'][i];
-            print(ma);
             pa = self.parent_df['Dad Count'][i];
-            print(pa);
             if self.parent_df['Unphased'][i] == 1:
                 continue;
+            elif ma == 0 and pa == 0:
+                trouble.append(1);
+                from_mom.append(0);
+                from_dad.append(0);
             elif ma/(ma + pa) > .9:
-                unphased.append(0);
                 from_mom.append(1);
                 from_dad.append(0);
                 trouble.append(0);
             elif pa/(ma + pa) > .9:
-                unphased.append(0);
                 from_mom.append(0);
                 from_dad.append(1);
                 trouble.append(0);
             else:
-                unphased.append(0);
                 from_mom.append(0);
                 from_dad.append(0);
                 trouble.append(1);
