@@ -288,15 +288,16 @@ class PhasedData:
         self.parent_df['Location'] = location_list;
         self.parent_df['Mom Count'] = mom_count;
         self.parent_df['Dad Count'] = dad_count;
+        self.parent_df['Unphased'] = unphased;
 
-        length = self.parent_df.shape[0];
+        # length = self.parent_df.shape[0];
 
-        print(len(unphased));
-
-        for i in range(0, length):
+        for i in range(0, 85):
             ma = self.parent_df['Mom Count'][i];
             pa = self.parent_df['Dad Count'][i];
-            if ma/(ma + pa) > .9:
+            if self.parent_df['Unphased'][i] == 1:
+                continue;
+            elif ma/(ma + pa) > .9:
                 unphased.append(0);
                 from_mom.append(1);
                 from_dad.append(0);
@@ -315,7 +316,7 @@ class PhasedData:
         self.parent_df['From Mom'] = from_mom;
         self.parent_df['From Dad'] = from_dad;
         self.parent_df['Troubleshoot'] = trouble;
-        self.parent_df['Unphased'] = unphased;
+
 
         self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'Mom Count',
                                             'Dad Count', 'From Mom', 'From Dad',
