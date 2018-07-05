@@ -269,6 +269,8 @@ class PhasedData:
                 location_list.append(dnv);
                 if len(self.to_phase[chr][dnv]) == 0:
                     unphased.append(1);
+                else:
+                    unphased.append(0);
                 mom = 0;
                 dad = 0;
                 for parent in self.phased_to_parent[chr][dnv]:
