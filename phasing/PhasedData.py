@@ -290,13 +290,16 @@ class PhasedData:
         self.parent_df['Dad Count'] = dad_count;
         self.parent_df['Unphased'] = unphased;
 
-        # length = self.parent_df.shape[0];
+        print(mom_count);
+        print(dad_count);
 
-        for i in range(0, 85):
+        length = self.parent_df.shape[0];
+
+        for i in range(0, length):
             ma = self.parent_df['Mom Count'][i];
             print(ma);
-            print(pa);
             pa = self.parent_df['Dad Count'][i];
+            print(pa);
             if self.parent_df['Unphased'][i] == 1:
                 continue;
             elif ma/(ma + pa) > .9:
