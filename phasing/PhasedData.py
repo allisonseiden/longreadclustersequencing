@@ -100,13 +100,15 @@ class PhasedData:
         for chrom in chrom_list:
             indices = self.bed.index[self.bed['Chrom'] == chrom].tolist();
             self.dnvs[chrom] = [];
+            length = self.vcf_dfs[chrom].shape[0];
+            for i in range(0, length):
+                if self.vcf_dfs[chrom][self.id][i][:3] == "0/1":
+                    self.unphased.append(self.vcf_dfs[chrom]['POS'][i]);
             for index in indices:
-                if self.vcf_dfs[chrom][self.id][index][:3] == '0/1':
-                    self.unphased.append(self.bed['End'][index]);
-                    continue;
-                self.dnvs[chrom].append(self.bed['End'][index]);
+                if self.bed['End'][index] not in self.unphased:
+                    self.dnvs[chrom].append(self.bed['End'][index]);
 
-        print(self.unphased);
+        print(self.unphased);    
         print('---DNV dictionary created for ' + self.id);
 
     """
