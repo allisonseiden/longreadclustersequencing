@@ -319,7 +319,12 @@ class PhasedData:
         self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'Mom Count',
                                             'Dad Count', 'From Mom', 'From Dad',
                                             'Troubleshoot', 'Unphased']];
-                                            
+
+        for i in range(0, length):
+            if self.parent_df['Troubleshoot'][i] == 1:
+                print(self.parent_df[i]);
+
+
         # self.parent_df = self.parent_df.groupby('ID').sum();
         # self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
 
