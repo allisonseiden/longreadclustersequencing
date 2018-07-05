@@ -322,7 +322,9 @@ class PhasedData:
 
         for i in range(0, length):
             if self.parent_df['Troubleshoot'][i] == 1:
-                print(self.parent_df[i]);
+                print(self.parent_df['Chrom'][i]);
+                print(self.parent_df['Location'][i]);
+                print('\n');
 
 
         # self.parent_df = self.parent_df.groupby('ID').sum();
