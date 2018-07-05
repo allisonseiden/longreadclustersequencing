@@ -267,6 +267,8 @@ class PhasedData:
                 id_list.append(self.id);
                 chrom_list.append(chr);
                 location_list.append(dnv);
+                if len(self.to_phase[chr][dnv]) == 0:
+                    unphased.append(1);
                 mom = 0;
                 dad = 0;
                 for parent in self.phased_to_parent[chr][dnv]:
@@ -290,12 +292,7 @@ class PhasedData:
         for i in range(0, length):
             ma = self.parent_df['Mom Count'][i];
             pa = self.parent_df['Dad Count'][i];
-            if ma == 0 and pa == 0:
-                unphased.append(1);
-                from_mom.append(0);
-                from_dad.append(0);
-                trouble.append(0);
-            elif ma/(ma + pa) > .9:
+            if ma/(ma + pa) > .9:
                 unphased.append(0);
                 from_mom.append(1);
                 from_dad.append(0);
@@ -320,18 +317,18 @@ class PhasedData:
                                             'Dad Count', 'From Mom', 'From Dad',
                                             'Troubleshoot', 'Unphased']];
 
-        for i in range(0, length):
-            if self.parent_df['Troubleshoot'][i] == 1:
-                chr = self.parent_df['Chrom'][i];
-                loc = self.parent_df['Location'][i];
-                print(chr);
-                print(loc);
-                print(self.phased_to_parent[chr][loc]);
-                print('\n');
+        # for i in range(0, length):
+        #     if self.parent_df['Troubleshoot'][i] == 1:
+        #         chr = self.parent_df['Chrom'][i];
+        #         loc = self.parent_df['Location'][i];
+        #         print(chr);
+        #         print(loc);
+        #         print(self.phased_to_parent[chr][loc]);
+        #         print('\n');
 
 
-        # self.parent_df = self.parent_df.groupby('ID').sum();
-        # self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
+        self.parent_df = self.parent_df.groupby('ID').sum();
+        self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
 
 
     # def print_dnvs_to_troubleshoot(self):
