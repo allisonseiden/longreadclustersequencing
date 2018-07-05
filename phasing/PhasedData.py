@@ -101,11 +101,13 @@ class PhasedData:
             indices = self.bed.index[self.bed['Chrom'] == chrom].tolist();
             self.dnvs[chrom] = [];
             length = self.vcf_dfs[chrom].shape[0];
+            all_unphased = [];
             for i in range(0, length):
                 if self.vcf_dfs[chrom][self.id][i][:3] == "0/1":
-                    print(self.vcf_dfs[chrom][self.id][i][:3]);
-                    #self.unphased.append(self.vcf_dfs[chrom]['POS'][i]);
+                    all_unphased.append(self.vcf_dfs[chrom]['POS'][i]);
             for index in indices:
+                if self.bed['End'][index] in all_unphased:
+                    self.unphased.append(self.bed['End'][index]);
                 if self.bed['End'][index] not in self.unphased:
                     self.dnvs[chrom].append(self.bed['End'][index]);
 
