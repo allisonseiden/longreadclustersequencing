@@ -1,0 +1,13 @@
+Before shortening length of informative variant list:
+
+Total DNVs	From Mom  From Dad  Troubleshoot  Unphased       % Phased
+ID
+1-00801  			  85      	12        42            22         9           63.5
+1-01019   			78     		10        36            22        10           59.0
+1-03897   			82     		12        36            26         8           58.5
+1-04190        	58				 7        30            15         6           63.8
+1-04389
+1-04460       	108			  19        58            20        11           71.3
+1-04537        	63				14        33             8         9           73.4
+1-05443        	53				15        25             6         7           75.5
+1-05673        	85				14        37            24        10           60.0
