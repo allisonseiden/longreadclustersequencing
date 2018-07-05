@@ -102,9 +102,9 @@ class PhasedData:
             self.dnvs[chrom] = [];
             length = self.vcf_dfs[chrom].shape[0];
             for i in range(0, length):
-                print(self.vcf_dfs[chrom][self.id][i][:3]);
                 if self.vcf_dfs[chrom][self.id][i][:3] == "0/1":
-                    self.unphased.append(self.vcf_dfs[chrom]['POS'][i]);
+                    print(self.vcf_dfs[chrom][self.id][i][:3]);
+                    #self.unphased.append(self.vcf_dfs[chrom]['POS'][i]);
             for index in indices:
                 if self.bed['End'][index] not in self.unphased:
                     self.dnvs[chrom].append(self.bed['End'][index]);
