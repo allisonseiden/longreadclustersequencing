@@ -322,8 +322,11 @@ class PhasedData:
 
         for i in range(0, length):
             if self.parent_df['Troubleshoot'][i] == 1:
-                print(self.parent_df['Chrom'][i]);
-                print(self.parent_df['Location'][i]);
+                chr = self.parent_df['Chrom'][i];
+                loc = self.parent_df['Location'][i];
+                print(chr);
+                print(loc);
+                print(self.phased_to_parent[chr][loc]);
                 print('\n');
 
 
