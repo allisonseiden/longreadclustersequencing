@@ -4,7 +4,7 @@ patient_1 = PhasedData('1-00801');
 patient_1.create_vcf_dictionary();
 patient_1.create_dnvs_dictionary();
 patient_1.fill_bounds_dictionary();
-patient_1.find_variants_for_phasing();
+patient_1.find_variants_for_phasing(2);
 patient_1.assign_to_parent();
 patient_1.convert_to_dataframe();
 print(patient_1.parent_df);
