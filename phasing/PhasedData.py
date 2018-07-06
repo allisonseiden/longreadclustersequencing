@@ -14,8 +14,13 @@ import numpy as np;
     vcf_dfs - a dictionary with key: chromosome number,
                 value: dataframe with info from phased vcf file for
                 corresponding chromosome
+    gtf_dfs - a dictionary with key: a chromosome number,
+                value: dataframe with info from gtf file
+    unphased - dataframe with chromosome number and location of unphased dnvs
+    troubleshoot - dataframe with chromosome number and location of troublesome
+                    dnvs
     dnvs - a dictionary with key: chromosome number, value: list of de novos for
-            corresponding chromosome
+            corresponding chromosome (only ones that whatshap phased)
     bounds - a dictionary with key: chromosome number, value: a dictionary with
                 key: de novo position, value: list with discontinuity bounds
     to_phase - a dictionary with key: chromosome number, value: a dictionary
@@ -54,7 +59,9 @@ class PhasedData:
 
     """
         ------------------------------------------------------------------------
-        Method to fill vcf_dfs with dataframes created from phased vcfs
+        Method to fill vcf_dfs with dataframes created from phased vcfs,
+        gtf_dfs with dataframes created from gtf files for indel vcfs, and
+        bed file created from first pass of no indels vcfs
         ------------------------------------------------------------------------
     """
     def create_vcf_dictionary(self):
@@ -74,7 +81,8 @@ class PhasedData:
     """
         ------------------------------------------------------------------------
         Method to fill vcf_dfs with dataframes created from phased vcfs without
-        --indels
+        --indels, gtf_dfs with dataframes created from gtf files for no indel
+        vcfs, and bed file created from original de novo list
         ------------------------------------------------------------------------
     """
 
@@ -95,7 +103,8 @@ class PhasedData:
 
     """
         ------------------------------------------------------------------------
-        Method to fill dnvs dictionary from BED file
+        Method to fill dnvs dictionary from BED file, ignores de novos that
+        were not phased by whatshap and places them into a dataframe
         ------------------------------------------------------------------------
     """
 
@@ -133,7 +142,8 @@ class PhasedData:
 
     """
         ------------------------------------------------------------------------
-        Helper method to search for discontinuities within phased vcf
+        Helper method to search for discontinuities within phased vcf, makes
+        use of gtf files to know where upper and lower bounds are
         ------------------------------------------------------------------------
     """
 
@@ -355,10 +365,6 @@ class PhasedData:
             if self.parent_df['Troubleshoot'][i] == 1:
                 trouble_chrom.append(self.parent_df['Chrom'][i]);
                 trouble_loc.append(self.parent_df['Location'][i]);
-                # print(chr);
-                # print(loc);
-                # print(self.phased_to_parent[chr][loc]);
-                # print('\n');
 
         self.trouble['Chrom'] = trouble_chrom;
         self.trouble['Location'] = trouble_loc;
@@ -366,6 +372,13 @@ class PhasedData:
         self.parent_df = self.parent_df.groupby('ID').sum();
         self.parent_df['Unphased'] = self.unphased.shape[0];
         self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
+
+    """
+        ------------------------------------------------------------------------
+        Writes troubleshoot and unphased de novo locations to bed file to pass
+        to indels vcfs 
+        ------------------------------------------------------------------------
+    """
 
 
     def write_to_bed(self):
