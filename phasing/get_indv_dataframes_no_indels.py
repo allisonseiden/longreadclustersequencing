@@ -7,6 +7,7 @@ patient_1.fill_bounds_dictionary();
 patient_1.find_variants_for_phasing(2);
 patient_1.assign_to_parent();
 patient_1.convert_to_dataframe();
+print(patient_1.bounds['chr2'])
 print(patient_1.unphased);
 
 # patient_2 = PhasedData('1-01019');
