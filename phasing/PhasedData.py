@@ -327,11 +327,11 @@ class PhasedData:
                 trouble.append(1);
                 from_mom.append(0);
                 from_dad.append(0);
-            elif ma/(ma + pa) > .9:
+            elif ma/(ma + pa) >= .9:
                 from_mom.append(1);
                 from_dad.append(0);
                 trouble.append(0);
-            elif pa/(ma + pa) > .9:
+            elif pa/(ma + pa) >= .9:
                 from_mom.append(0);
                 from_dad.append(1);
                 trouble.append(0);
