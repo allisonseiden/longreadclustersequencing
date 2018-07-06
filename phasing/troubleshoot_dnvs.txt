@@ -1,9 +1,9 @@
 1-00801 Troubleshoot
-chr16: 82975821 --- ['dad', 'dad', 'dad', 'mom']
+CHR16: 82975821 --- ['DAD', 'DAD', 'DAD', 'MOM']
 chr17: 78603256 --- ['dad', 'dad', 'mom']
-chr17: 7245740 --- ['dad', 'dad', 'mom', 'mom']
+CHR17: 7245740 --- ['DAD', 'DAD', 'MOM', 'MOM']
 chr2: 121903540 --- ['mom', 'dad', 'dad']
-chr2: 124011236 --- ['mom', 'dad', 'mom']
+CHR2: 124011236 --- ['MOM', 'DAD', 'MOM']
 chr20: 48884995 --- ['dad', 'dad', 'mom']
 chr8: 28743537 --- ['mom', 'dad']
 chr8: 105687021 --- ['mom', 'dad', 'dad']
@@ -11,10 +11,33 @@ chr10: 106810026 --- ['dad', 'dad', 'mom', 'dad']
 chr3: 106745863 --- ['mom', 'dad', 'dad']
 chr2: 129874778 --- []
 chr14: 75192883 --- []
-chr2: 74457998 --- []
-chr16: 65303395 --- ['mom', 'dad]
-chr15: 31444339 --- []
+CHR2: 74457998 --- []
+CHR16: 65303395 --- ['MOM', 'DAD]
+CHR15: 31444339 --- []
 
+1-00801 No Indels Troubleshoot
+CHR16: 65303395 --- ['MOM', 'DAD']
+CHR16: 82975821 --- ['DAD', 'DAD', 'DAD', 'MOM']
+chr11: 87938944 --- []
+chr3: 26929249 --- []
+CHR17: 7245740 --- ['DAD', 'DAD', 'MOM', 'MOM']
+chr5: 462792 --- []
+CHR15: 31444339 --- []
+CHR2: 124011236 --- ['MOM', 'DAD']
+CHR2: 74457998 --- []
+chr2: 203573661 --- ['dad', 'dad', 'mom', 'mom']
+
+---------------------- 6 overlap between no indels and indels vcfs
+
+CHR16: 82975821 --- ['DAD', 'DAD', 'DAD', 'MOM']
+CHR17: 7245740 --- ['DAD', 'DAD', 'MOM', 'MOM']
+CHR2: 74457998 --- []
+CHR2: 124011236 --- ['MOM', 'DAD', 'MOM']
+CHR16: 65303395 --- ['MOM', 'DAD]
+CHR15: 31444339 --- []
+
+
+=================================================
 
 
 1-01019 Troubleshoot
