@@ -51,6 +51,8 @@ class PhasedData:
                             'Mom Count' : [], 'Dad Count' : [],
                             'From Mom' : [], 'From Dad' : [], 'Troubleshoot' : [],
                             'Unphased' : []});
+        self.gtf_df = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/1-00801_no_indels/1-00801_chr2_phased.gtf',
+                                    sep='\t', names = ['Chrom', 'Allison', 'Start', 'End', 'Felix', 'Plus', 'Dot', 'Madeline']);
 
     """
         ------------------------------------------------------------------------
@@ -122,13 +124,16 @@ class PhasedData:
     def search_discon(self, chromosome):
         chr_bounds = {};
         curr_vcf = self.vcf_dfs[chromosome];
+        start_list = self.gtf_df['Start'].tolist();
+        end_list = self.gtf_df['End'].tolist();
         for dnv in self.dnvs[chromosome]:
             chr_bounds[dnv] = [];
             dnv_index = curr_vcf.index[curr_vcf['POS'] == dnv].item();
             hap = curr_vcf[self.id][dnv_index];
             u_discon = dnv_index;
             distance = abs(dnv - (curr_vcf['POS'][u_discon]));
-            while (hap[:3] != "0/1" or (hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1)) and distance <= 10000:
+            # while (hap[:3] != "0/1" or (hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1)) and distance <= 10000:
+            while (hap not in start_list) or (hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1):
                 u_discon -= 1;
                 hap = curr_vcf[self.id][u_discon];
                 distance = abs(dnv - (curr_vcf['POS'][u_discon]))
@@ -136,7 +141,8 @@ class PhasedData:
             hap = curr_vcf[self.id][dnv_index];
             l_discon = dnv_index;
             distance = abs(dnv - (curr_vcf['POS'][l_discon]));
-            while (hap[:3] != "0/1" or (hap[:3] == "0/1" and len(curr_vcf['REF'][l_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][l_discon]) > 1)) and distance <= 10000:
+            # while (hap[:3] != "0/1" or (hap[:3] == "0/1" and len(curr_vcf['REF'][l_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][l_discon]) > 1)) and distance <= 10000:
+            while (hap not in end_list) or (hap[:3] == "0/1" and len(curr_vcf['REF'][l_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][l_discon]) > 1):
                 l_discon += 1;
                 hap = curr_vcf[self.id][l_discon];
                 distance = abs(dnv - (curr_vcf['POS'][l_discon]));
