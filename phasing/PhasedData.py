@@ -133,7 +133,7 @@ class PhasedData:
             u_discon = dnv_index;
             distance = abs(dnv - (curr_vcf['POS'][u_discon]));
             # while (hap[:3] != "0/1" or (hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1)) and distance <= 10000:
-            while (hap not in start_list) or (hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1):
+            while (curr_vcf['POS'][u_discon] not in start_list) or (hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1):
                 u_discon -= 1;
                 hap = curr_vcf[self.id][u_discon];
                 distance = abs(dnv - (curr_vcf['POS'][u_discon]))
@@ -142,7 +142,7 @@ class PhasedData:
             l_discon = dnv_index;
             distance = abs(dnv - (curr_vcf['POS'][l_discon]));
             # while (hap[:3] != "0/1" or (hap[:3] == "0/1" and len(curr_vcf['REF'][l_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][l_discon]) > 1)) and distance <= 10000:
-            while (hap not in end_list) or (hap[:3] == "0/1" and len(curr_vcf['REF'][l_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][l_discon]) > 1):
+            while (curr_vcf['POS'][l_discon] not in end_list) or (hap[:3] == "0/1" and len(curr_vcf['REF'][l_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][l_discon]) > 1):
                 l_discon += 1;
                 hap = curr_vcf[self.id][l_discon];
                 distance = abs(dnv - (curr_vcf['POS'][l_discon]));
@@ -156,8 +156,9 @@ class PhasedData:
     """
 
     def fill_bounds_dictionary(self):
-        for chr in self.dnvs:
-            self.bounds[chr] = self.search_discon(chr);
+        # for chr in self.dnvs:
+        #     self.bounds[chr] = self.search_discon(chr);
+        self.bounds['chr2'] = self.search_discon('chr2');
 
         print('---Bounds dictionary created for ' + self.id);
 
