@@ -262,8 +262,9 @@ class PhasedData:
     """
 
     def assign_to_parent(self):
-        for chr in self.to_phase:
-            self.phased_to_parent[chr] = self.assign_to_parent_by_chr(chr);
+        # for chr in self.to_phase:
+        #     self.phased_to_parent[chr] = self.assign_to_parent_by_chr(chr);
+        self.phased_to_parent['chr2'] = self.assign_to_parent_by_chr('chr2');
 
         print('---DNVs phased to parent for ' + self.id);
 
