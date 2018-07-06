@@ -10,6 +10,7 @@ patient_1.convert_to_dataframe();
 print(patient_1.parent_df);
 print(patient_1.trouble);
 print(patient_1.unphased);
+print(patient_1.to_phase);
 print(patient_1.phased_to_parent);
 
 # patient_2 = PhasedData('1-01019');
