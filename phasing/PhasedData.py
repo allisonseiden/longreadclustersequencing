@@ -38,12 +38,11 @@ class PhasedData:
         self.id = patientID;
         self.mom = patientID + '-01';
         self.dad = patientID + '-02';
-        self.bed = pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/'
-                                    + self.id + '.hg38.dnv.bed', sep='\t',
-                                    names = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']);
+        self.bed = pd.DataFrame();
         self.vcf_dfs = {};
         self.dnvs = {};
-        self.unphased = [];
+        self.unphased = pd.DataFrame({'Chrom' : [], 'Location' : []});
+        self.trouble = pd.DataFrame({'Chrom' : [], 'Location' : []});
         self.bounds = {};
         self.to_phase = {};
         self.phased_to_parent = {};
@@ -51,8 +50,7 @@ class PhasedData:
                             'Mom Count' : [], 'Dad Count' : [],
                             'From Mom' : [], 'From Dad' : [], 'Troubleshoot' : [],
                             'Unphased' : []});
-        self.gtf_df = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/1-00801_no_indels/1-00801_chr2_phased.gtf',
-                                    sep='\t', names = ['Chrom', 'Allison', 'Start', 'End', 'Felix', 'Plus', 'Dot', 'Madeline']);
+        self.gtf_dfs = {};
 
     """
         ------------------------------------------------------------------------
@@ -67,7 +65,11 @@ class PhasedData:
                                                 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
                                                 self.id, self.mom, self.dad],
                                                 comment = '#');
-        print('---VCF dictionary created for ' + self.id);
+            self.gtf_dfs["chr{0}".format(i)] =  pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '/' + self.id + '_chr' + num + 'phased.gtf',
+                                                sep='\t', names = ['Chrom', 'Allison', 'Start', 'End', 'Felix', 'Plus', 'Dot', 'Madeline']);
+            self.bed = pd.read_table("/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/" + self.id + "/" + self.id + "no_indels_dnvs.bed",
+                                        sep='\t', names = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']);
+        print('---VCF and GTF dictionaries created for ' + self.id);
 
     """
         ------------------------------------------------------------------------
@@ -84,6 +86,12 @@ class PhasedData:
                                                 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
                                                 self.id, self.mom, self.dad],
                                                 comment = '#');
+            self.gtf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '/_no_indels/' + self.id + '_chr' + num + 'phased.gtf',
+                                                sep='\t', names = ['Chrom', 'Allison', 'Start', 'End', 'Felix', 'Plus', 'Dot', 'Madeline']);
+            self.bed = pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/'
+                                        + self.id + '.hg38.dnv.bed', sep='\t',
+                                        names = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']);
+        print('---VCF and GTF dictionaries created for ' + self.id);
 
     """
         ------------------------------------------------------------------------
@@ -99,6 +107,9 @@ class PhasedData:
             if chr_num not in chrom_list:
                 chrom_list.append(chr_num);
 
+        unphased_chrom = [];
+        unphased_loc = [];
+
         for chrom in chrom_list:
             indices = self.bed.index[self.bed['Chrom'] == chrom].tolist();
             self.dnvs[chrom] = [];
@@ -109,9 +120,14 @@ class PhasedData:
                     all_unphased.append(self.vcf_dfs[chrom]['POS'][i]);
             for index in indices:
                 if self.bed['End'][index] in all_unphased:
-                    self.unphased.append(self.bed['End'][index]);
+                    unphased_chrom.append(chrom);
+                    unphased_loc.append(self.bed['End'][index]);
+                    # self.unphased.append(self.bed['End'][index]);
                 else:
                     self.dnvs[chrom].append(self.bed['End'][index]);
+
+        self.unphased['Chrom'] = unphased_chrom;
+        self.unphased['Location'] = unphased_loc;
 
         print('---DNV dictionary created for ' + self.id);
 
@@ -124,8 +140,8 @@ class PhasedData:
     def search_discon(self, chromosome):
         chr_bounds = {};
         curr_vcf = self.vcf_dfs[chromosome];
-        start_list = self.gtf_df['Start'].tolist();
-        end_list = self.gtf_df['End'].tolist();
+        start_list = self.gtf_dfs[chromosome]['Start'].tolist();
+        end_list = self.gtf_dfs[chromosome]['End'].tolist();
         for dnv in self.dnvs[chromosome]:
             chr_bounds[dnv] = [];
             dnv_index = curr_vcf.index[curr_vcf['POS'] == dnv].item();
@@ -156,9 +172,8 @@ class PhasedData:
     """
 
     def fill_bounds_dictionary(self):
-        # for chr in self.dnvs:
-        #     self.bounds[chr] = self.search_discon(chr);
-        self.bounds['chr2'] = self.search_discon('chr2');
+        for chr in self.dnvs:
+            self.bounds[chr] = self.search_discon(chr);
 
         print('---Bounds dictionary created for ' + self.id);
 
@@ -201,10 +216,8 @@ class PhasedData:
     """
 
     def find_variants_for_phasing(self, n):
-        # for chr in self.dnvs:
-        #     self.to_phase[chr] = self.find_variants_for_phasing_chr(chr, n);
-
-        self.to_phase['chr2'] = self.find_variants_for_phasing_chr('chr2', n)
+        for chr in self.dnvs:
+            self.to_phase[chr] = self.find_variants_for_phasing_chr(chr, n);
 
         print('---Variants to phase dictionary created for ' + self.id);
 
@@ -249,8 +262,6 @@ class PhasedData:
             de_novo_hap = curr_vcf[self.id][dnv_index];
             for var in self.to_phase[chromosome][dnv]:
                 index = curr_vcf.index[curr_vcf['POS'] == var].item();
-                # if len(curr_vcf['REF'][index]) > 1 or len(curr_vcf['ALT'][index]) > 1:
-                #      continue;
                 self.assign_to_parent_logic(index, curr_vcf, de_novo_hap, chr_parent, dnv);
         return chr_parent;
 
@@ -262,9 +273,8 @@ class PhasedData:
     """
 
     def assign_to_parent(self):
-        # for chr in self.to_phase:
-        #     self.phased_to_parent[chr] = self.assign_to_parent_by_chr(chr);
-        self.phased_to_parent['chr2'] = self.assign_to_parent_by_chr('chr2');
+        for chr in self.to_phase:
+            self.phased_to_parent[chr] = self.assign_to_parent_by_chr(chr);
 
         print('---DNVs phased to parent for ' + self.id);
 
@@ -339,33 +349,35 @@ class PhasedData:
                                             'Dad Count', 'From Mom', 'From Dad',
                                             'Troubleshoot']];
 
+        trouble_chrom = [];
+        trouble_loc = [];
         for i in range(0, length):
             if self.parent_df['Troubleshoot'][i] == 1:
-                chr = self.parent_df['Chrom'][i];
-                loc = self.parent_df['Location'][i];
-                print(chr);
-                print(loc);
-                print(self.phased_to_parent[chr][loc]);
-                print('\n');
+                trouble_chrom.append(self.parent_df['Chrom'][i]);
+                trouble_loc.append(self.parent_df['Location'][i]);
+                # print(chr);
+                # print(loc);
+                # print(self.phased_to_parent[chr][loc]);
+                # print('\n');
 
+        self.trouble['Chrom'] = trouble_chrom;
+        self.trouble['Location'] = trouble_loc;
 
         self.parent_df = self.parent_df.groupby('ID').sum();
-        self.parent_df['Unphased'] = len(self.unphased);
+        self.parent_df['Unphased'] = self.unphased.shape[0];
         self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Troubleshoot', 'Unphased']];
 
 
-    # def print_dnvs_to_troubleshoot(self):
-    #     length = self.parent_df.shape[0];
-    #
-    #     for i in range(0, length):
-    #         if self.parent_df['Troubleshoot'][i] == 1:
-    #             chrom = self.parent_df['Chrom'][i];
-    #             dnv = self.parent_df['Location'][i];
-    #             print(chrom);
-    #             print(dnv);
-    #             length = self.to_phase[chrom][dnv];
-    #             for i in range(0, length):
-    #                 if self.to_phase[chrom][dnv][i] < dnv:
-    #                     print('L: ' + str(self.to_phase[chrom][dnv][i]) + self.phased_to_parent[chrom][dnv][i]);
-    #                 if self.to_phase[chrom][dnv][i] > dnv:
-    #                     print('R: ' + str(self.to_phase[chrom][dnv][i]) + self.phased_to_parent[chrom][dnv][i]);
+    def write_to_bed(self):
+        filename = "/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/" + self.id + "/" + self.id + "no_indels_dnvs.bed";
+        bed_file = file.open(filename, "w");
+        bed_file.write('Chrom\tStart\tEnd\tRef\tVar\tID');
+        trouble_length = self.trouble.shape[0];
+        for i in range(0, trouble_length):
+            line = str(self.trouble['Chrom'][i]) + '\t.\t' + str(self.trouble['Location'][i]) + '\t.\t.\t' + self.id;
+            bed_file.write(line);
+        unphased_length = self.unphased.shape[0];
+        for i in range(0, unphased_length):
+            line = str(self.unphased['Chrom'][i]) + '\t.\t' + str(self.unphased['Location'][i]) + '\t.\t.\t' + self.id;
+            bed_file.write(line);
+        bed_file.close();
