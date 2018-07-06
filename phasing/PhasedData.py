@@ -370,7 +370,7 @@ class PhasedData:
 
     def write_to_bed(self):
         filename = "/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/" + self.id + "/" + self.id + "no_indels_dnvs.bed";
-        bed_file = file.open(filename, "w");
+        bed_file = open(filename, "w");
         bed_file.write('Chrom\tStart\tEnd\tRef\tVar\tID');
         trouble_length = self.trouble.shape[0];
         for i in range(0, trouble_length):
