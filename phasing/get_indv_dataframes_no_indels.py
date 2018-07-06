@@ -4,11 +4,12 @@ patient_1 = PhasedData('1-00801');
 patient_1.create_vcf_no_indels();
 patient_1.create_dnvs_dictionary();
 patient_1.fill_bounds_dictionary();
-patient_1.find_variants_for_phasing(2);
-patient_1.assign_to_parent();
-patient_1.convert_to_dataframe();
-print(patient_1.bounds['chr2'])
-print(patient_1.unphased);
+patient_1.find_variants_for_phasing_chr('chr2', 2);
+patient_1.assign_to_parent_by_chr('chr2');
+print(patient_1.phased_to_parent['chr2'])
+# patient_1.convert_to_dataframe();
+# print(patient_1.bounds['chr2'])
+# print(patient_1.unphased);
 
 # patient_2 = PhasedData('1-01019');
 # patient_2.create_vcf_dictionary();
