@@ -209,12 +209,12 @@ class PhasedData:
         kiddo = child[:3];
         ma = mom[:3];
         pa = dad[:3];
-        if (ma == '0/1' and pa == '1/1') or (ma == '0/0' and pa == '0/1'):
+        if (ma == '0/1' and pa == '1/1') or (ma == '0/0' and pa == '0/1') or (ma == '0/0' and pa == '1/1'):
             if kiddo == dnv_hap[:3]:
                 chr_parent[dnv].append('dad');
             else:
                 chr_parent[dnv].append('mom');
-        if (mom[1:3] == '/1' and pa == '0/0') or (ma == '1/1' and pa == '0/1'):
+        if (ma == '0/1' and pa == '0/0' or (ma == '1/1' and pa == '0/0') or (ma == '1/1' and pa == '0/1'):
             if kiddo == dnv_hap[:3]:
                 chr_parent[dnv].append('mom');
             else:
