@@ -201,8 +201,10 @@ class PhasedData:
     """
 
     def find_variants_for_phasing(self, n):
-        for chr in self.dnvs:
-            self.to_phase[chr] = self.find_variants_for_phasing_chr(chr, n);
+        # for chr in self.dnvs:
+        #     self.to_phase[chr] = self.find_variants_for_phasing_chr(chr, n);
+
+        self.to_phase['chr2'] = self.find_variants_for_phasing_chr('chr2', n)
 
         print('---Variants to phase dictionary created for ' + self.id);
 
