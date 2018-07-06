@@ -128,7 +128,7 @@ class PhasedData:
             hap = curr_vcf[self.id][dnv_index];
             u_discon = dnv_index;
             distance = abs(dnv - (curr_vcf['POS'][u_discon]));
-            while (hap[:3] != "0/1" or (hap[:3] == "0/1" and (len(curr_vcf['REF'][u_discon]) > 1 or len(curr_vcf['ALT'][u_discon]) > 1))) and distance <= 10000:
+            while (hap[:3] != "0/1" or (hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1)) and distance <= 10000:
                 u_discon -= 1;
                 hap = curr_vcf[self.id][u_discon];
                 distance = abs(dnv - (curr_vcf['POS'][u_discon]))
