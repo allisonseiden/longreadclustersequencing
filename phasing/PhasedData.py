@@ -67,7 +67,7 @@ class PhasedData:
                                                 comment = '#');
             self.gtf_dfs["chr{0}".format(i)] =  pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '/' + self.id + '_chr' + num + 'phased.gtf',
                                                 sep='\t', names = ['Chrom', 'Allison', 'Start', 'End', 'Felix', 'Plus', 'Dot', 'Madeline']);
-            self.bed = pd.read_table("/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/" + self.id + "/" + self.id + "no_indels_dnvs.bed",
+            self.bed = pd.read_table("/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/" + self.id + "/" + self.id + "_no_indels_dnvs.bed",
                                         sep='\t', names = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']);
         print('---VCF and GTF dictionaries created for ' + self.id);
 
