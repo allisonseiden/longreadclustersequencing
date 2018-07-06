@@ -214,7 +214,7 @@ class PhasedData:
                 chr_parent[dnv].append('dad');
             else:
                 chr_parent[dnv].append('mom');
-        if (ma == '0/1' and pa == '0/0' or (ma == '1/1' and pa == '0/0') or (ma == '1/1' and pa == '0/1'):
+        if (ma == '0/1' and pa == '0/0') or (ma == '1/1' and pa == '0/0') or (ma == '1/1' and pa == '0/1'):
             if kiddo == dnv_hap[:3]:
                 chr_parent[dnv].append('mom');
             else:
