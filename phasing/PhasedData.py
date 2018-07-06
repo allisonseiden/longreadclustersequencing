@@ -86,7 +86,7 @@ class PhasedData:
                                                 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
                                                 self.id, self.mom, self.dad],
                                                 comment = '#');
-            self.gtf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '/_no_indels/' + self.id + '_chr' + num + 'phased.gtf',
+            self.gtf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '_no_indels/' + self.id + '_chr' + num + 'phased.gtf',
                                                 sep='\t', names = ['Chrom', 'Allison', 'Start', 'End', 'Felix', 'Plus', 'Dot', 'Madeline']);
             self.bed = pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/'
                                         + self.id + '.hg38.dnv.bed', sep='\t',
