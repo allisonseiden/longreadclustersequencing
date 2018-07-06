@@ -128,7 +128,7 @@ class PhasedData:
             hap = curr_vcf[self.id][dnv_index];
             u_discon = dnv_index;
             distance = abs(dnv - (curr_vcf['POS'][u_discon]));
-            while hap[:3] != "0/1" and hap[:3] != "1/0" and distance <= 10000:
+            while (hap[:3] != "0/1" or (hap[:3] == "0/1" and (len(curr_vcf['REF'][u_discon]) > 1 or len(curr_vcf['ALT'][u_discon]) > 1))) and distance <= 10000:
                 u_discon -= 1;
                 hap = curr_vcf[self.id][u_discon];
                 distance = abs(dnv - (curr_vcf['POS'][u_discon]))
@@ -136,7 +136,7 @@ class PhasedData:
             hap = curr_vcf[self.id][dnv_index];
             l_discon = dnv_index;
             distance = abs(dnv - (curr_vcf['POS'][l_discon]));
-            while hap[:3] != "0/1" and hap[:3] != "1/0" and distance <= 10000:
+            while (hap[:3] != "0/1" or (hap[:3] == "0/1" and (len(curr_vcf['REF'][l_discon]) > 1 or len(curr_vcf['ALT'][l_discon]) > 1))) and distance <= 10000:
                 l_discon += 1;
                 hap = curr_vcf[self.id][l_discon];
                 distance = abs(dnv - (curr_vcf['POS'][l_discon]));
@@ -240,8 +240,8 @@ class PhasedData:
             de_novo_hap = curr_vcf[self.id][dnv_index];
             for var in self.to_phase[chromosome][dnv]:
                 index = curr_vcf.index[curr_vcf['POS'] == var].item();
-                if len(curr_vcf['REF'][index]) > 1 or len(curr_vcf['ALT'][index]) > 1:
-                     continue;
+                # if len(curr_vcf['REF'][index]) > 1 or len(curr_vcf['ALT'][index]) > 1:
+                #      continue;
                 self.assign_to_parent_logic(index, curr_vcf, de_novo_hap, chr_parent, dnv);
         return chr_parent;
 
