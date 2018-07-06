@@ -126,16 +126,20 @@ class PhasedData:
             chr_bounds[dnv] = [];
             dnv_index = curr_vcf.index[curr_vcf['POS'] == dnv].item();
             hap = curr_vcf[self.id][dnv_index];
-            u_discon= dnv_index;
-            while hap[:3] != "0/1" and hap[:3] != "1/0":
+            u_discon = dnv_index;
+            distance = abs(dnv - (curr_vcf['POS'][u_discon]));
+            while hap[:3] != "0/1" and hap[:3] != "1/0" and distance <= 10000:
                 u_discon -= 1;
                 hap = curr_vcf[self.id][u_discon];
+                distance = abs(dnv - (curr_vcf['POS'][u_discon]))
             chr_bounds[dnv].append(curr_vcf['POS'][u_discon]);
             hap = curr_vcf[self.id][dnv_index];
             l_discon = dnv_index;
-            while hap[:3] != "0/1" and hap[:3] != "1/0":
+            distance = abs(dnv - (curr_vcf['POS'][l_discon]));
+            while hap[:3] != "0/1" and hap[:3] != "1/0" and distance <= 10000:
                 l_discon += 1;
                 hap = curr_vcf[self.id][l_discon];
+                distance = abs(dnv - (curr_vcf['POS'][l_discon]));
             chr_bounds[dnv].append(curr_vcf['POS'][l_discon]);
         return chr_bounds;
 
@@ -214,7 +218,7 @@ class PhasedData:
                 chr_parent[dnv].append('dad');
             else:
                 chr_parent[dnv].append('mom');
-        if (ma == '0/1' and pa == '0/0') or (ma == '1/1' and pa == '0/0') or (ma == '1/1' and pa == '0/1'):
+        if ((ma == '0/1') and (pa == '0/0')) or ((ma == '1/1') and (pa == '0/0')) or ((ma == '1/1') and (pa == '0/1')):
             if kiddo == dnv_hap[:3]:
                 chr_parent[dnv].append('mom');
             else:
