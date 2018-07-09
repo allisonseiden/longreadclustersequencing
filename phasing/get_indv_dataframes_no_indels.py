@@ -10,15 +10,15 @@ from PhasedData import PhasedData
 # patient_1.write_to_bed();
 # print(patient_1.parent_df);
 
-# patient_2 = PhasedData('1-01019');
-# patient_2.create_vcf_no_indels();
-# patient_2.create_dnvs_dictionary();
-# patient_2.fill_bounds_dictionary();
-# patient_2.find_variants_for_phasing(5);
-# patient_2.assign_to_parent();
-# patient_2.convert_to_dataframe();
-# patient_2.write_to_bed();
-# print(patient_2.parent_df);
+patient_2 = PhasedData('1-01019');
+patient_2.create_vcf_no_indels();
+patient_2.create_dnvs_dictionary();
+patient_2.fill_bounds_dictionary();
+patient_2.find_variants_for_phasing();
+patient_2.assign_to_parent();
+patient_2.convert_to_dataframe();
+patient_2.write_to_bed();
+print(patient_2.parent_df);
 
 # patient_3 = PhasedData('1-03897');
 # patient_3.create_vcf_no_indels();
