@@ -33,7 +33,10 @@ patient_3.fill_bounds_dictionary();
 patient_3.find_variants_for_phasing(5);
 patient_3.assign_to_parent();
 patient_3.convert_to_dataframe();
-print(patient_3.trouble);
+print(patient_3.phased_to_parent['chr19']);
+print(patient_3.phased_to_parent['chr2']);
+print(patient_3.phased_to_parent['chr8']);
+print(patient_3.phased_to_parent['chr5']);
 print(patient_3.parent_df);
 
 # patient_4 = PhasedData('1-04190');
