@@ -11,19 +11,25 @@ from PhasedData import PhasedData
 # # print(patient_1.parent_df);
 
 
-# patient_2 = PhasedData('1-01019');
-# patient_2.create_vcf_dictionary();
-# patient_2.create_dnvs_dictionary();
-# patient_2.fill_bounds_dictionary();
-# patient_2.find_variants_for_phasing(5);
-# patient_2.assign_to_parent();
-# patient_2.convert_to_dataframe();
-# print(patient_2.phased_to_parent['chr12']);
-# print(patient_2.phased_to_parent['chr2']);
-# print(patient_2.phased_to_parent['chr5']);
-# print(patient_2.phased_to_parent['chr1']);
-# print(patient_2.phased_to_parent['chr3']);
-# print(patient_2.phased_to_parent['chr7']);
+patient_2 = PhasedData('1-01019');
+patient_2.create_vcf_dictionary();
+patient_2.create_dnvs_dictionary();
+patient_2.fill_bounds_dictionary();
+patient_2.find_variants_for_phasing(5);
+patient_2.assign_to_parent();
+patient_2.convert_to_dataframe();
+print(patient_2.phased_to_parent['chr12']);
+print(patient_2.to_phase['chr12']);
+print(patient_2.phased_to_parent['chr2']);
+print(patient_2.to_phase['chr2']);
+print(patient_2.phased_to_parent['chr5']);
+print(patient_2.to_phase['chr5']);
+print(patient_2.phased_to_parent['chr1']);
+print(patient_2.to_phase['chr1']);
+print(patient_2.phased_to_parent['chr3']);
+print(patient_2.to_phase['chr3']);
+print(patient_2.phased_to_parent['chr7']);
+print(patient_2.to_phase['chr7']);
 # print(patient_2.parent_df);
 
 # patient_3 = PhasedData('1-03897');
@@ -39,15 +45,15 @@ from PhasedData import PhasedData
 # print(patient_3.phased_to_parent['chr5']);
 # print(patient_3.parent_df);
 
-patient_4 = PhasedData('1-04190');
-patient_4.create_vcf_dictionary();
-patient_4.create_dnvs_dictionary();
-patient_4.fill_bounds_dictionary();
-patient_4.find_variants_for_phasing(5);
-patient_4.assign_to_parent();
-patient_4.convert_to_dataframe();
-print(patient_4.trouble);
-print(patient_4.parent_df);
+# patient_4 = PhasedData('1-04190');
+# patient_4.create_vcf_dictionary();
+# patient_4.create_dnvs_dictionary();
+# patient_4.fill_bounds_dictionary();
+# patient_4.find_variants_for_phasing(5);
+# patient_4.assign_to_parent();
+# patient_4.convert_to_dataframe();
+# print(patient_4.trouble);
+# print(patient_4.parent_df);
 
 # PROBLEM
 # patient_5 = PhasedData('1-04389');
