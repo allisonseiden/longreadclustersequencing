@@ -50,15 +50,15 @@ print(patient_4.parent_df);
 # patient_5.convert_to_dataframe();
 # print(patient_5.parent_df);
 
-patient_6 = PhasedData('1-04460');
-patient_6.create_vcf_no_indels();
-patient_6.create_dnvs_dictionary();
-patient_6.fill_bounds_dictionary();
-patient_6.find_variants_for_phasing(5);
-patient_6.assign_to_parent();
-patient_6.convert_to_dataframe();
-patient_6.write_to_bed();
-print(patient_6.parent_df);
+# patient_6 = PhasedData('1-04460');
+# patient_6.create_vcf_no_indels();
+# patient_6.create_dnvs_dictionary();
+# patient_6.fill_bounds_dictionary();
+# patient_6.find_variants_for_phasing(5);
+# patient_6.assign_to_parent();
+# patient_6.convert_to_dataframe();
+# patient_6.write_to_bed();
+# print(patient_6.parent_df);
 
 # patient_7 = PhasedData('1-04537');
 # patient_7.create_vcf_no_indels();
