@@ -134,7 +134,7 @@ class PhasedData:
                     unphased_chrom.append(chrom);
                     unphased_loc.append(self.bed['End'][index]);
                     unphased_ref.append(self.bed['Ref'][index]);
-                    unphased_alt.append(self.bed['Alt'][index]);
+                    unphased_alt.append(self.bed['Var'][index]);
                     # self.unphased.append(self.bed['End'][index]);
                 else:
                     self.dnvs[chrom].append(self.bed['End'][index]);
