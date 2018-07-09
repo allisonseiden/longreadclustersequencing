@@ -157,12 +157,12 @@ class PhasedData:
             dnv_index = curr_vcf.index[curr_vcf['POS'] == dnv].item();
             hap = curr_vcf[self.id][dnv_index];
             u_discon = dnv_index;
-            distance = abs(dnv - (curr_vcf['POS'][u_discon]));
+            # distance = abs(dnv - (curr_vcf['POS'][u_discon]));
             # while (hap[:3] != "0/1" or (hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1)) and distance <= 10000:
             while (curr_vcf['POS'][u_discon] not in start_list) or (hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1):
                 u_discon -= 1;
                 hap = curr_vcf[self.id][u_discon];
-                distance = abs(dnv - (curr_vcf['POS'][u_discon]))
+                # distance = abs(dnv - (curr_vcf['POS'][u_discon]))
             chr_bounds[dnv].append(curr_vcf['POS'][u_discon]);
             hap = curr_vcf[self.id][dnv_index];
             l_discon = dnv_index;
@@ -171,7 +171,7 @@ class PhasedData:
             while (curr_vcf['POS'][l_discon] not in end_list) or (hap[:3] == "0/1" and len(curr_vcf['REF'][l_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][l_discon]) > 1):
                 l_discon += 1;
                 hap = curr_vcf[self.id][l_discon];
-                distance = abs(dnv - (curr_vcf['POS'][l_discon]));
+                # distance = abs(dnv - (curr_vcf['POS'][l_discon]));
             chr_bounds[dnv].append(curr_vcf['POS'][l_discon]);
         return chr_bounds;
 
@@ -193,7 +193,7 @@ class PhasedData:
         ------------------------------------------------------------------------
     """
 
-    def find_variants_for_phasing_chr(self, chromosome, n):
+    def find_variants_for_phasing_chr(self, chromosome):
         chr_phase = {};
         curr_vcf = self.vcf_dfs[chromosome];
         for dnv in self.dnvs[chromosome]:
@@ -209,13 +209,13 @@ class PhasedData:
                 if child[:3] == "0|1" or child[:3] == "1|0":
                     if mom[:3] != dad[:3]:
                         chr_phase[dnv].append(curr_vcf['POS'][position]);
-                if (len(chr_phase[dnv]) != 0) and (curr_vcf['POS'][position] < dnv) and (len(chr_phase[dnv]) > n):
-                    chr_phase[dnv] = chr_phase[dnv][-n:]
+                # if (len(chr_phase[dnv]) != 0) and (curr_vcf['POS'][position] < dnv) and (len(chr_phase[dnv]) > n):
+                #     chr_phase[dnv] = chr_phase[dnv][-n:]
                 position += 1;
-            if len(chr_phase[dnv]) > 2*n:
-                chr_phase[dnv] = chr_phase[dnv][:(2*n)];
-            else:
-                continue;
+            # if len(chr_phase[dnv]) > 2*n:
+            #     chr_phase[dnv] = chr_phase[dnv][:(2*n)];
+            # else:
+            #     continue;
         return chr_phase;
 
     """
@@ -225,9 +225,9 @@ class PhasedData:
         ------------------------------------------------------------------------
     """
 
-    def find_variants_for_phasing(self, n):
+    def find_variants_for_phasing(self):
         for chr in self.dnvs:
-            self.to_phase[chr] = self.find_variants_for_phasing_chr(chr, n);
+            self.to_phase[chr] = self.find_variants_for_phasing_chr(chr);
 
         print('---Variants to phase dictionary created for ' + self.id);
 
@@ -376,7 +376,7 @@ class PhasedData:
     """
         ------------------------------------------------------------------------
         Writes troubleshoot and unphased de novo locations to bed file to pass
-        to indels vcfs 
+        to indels vcfs
         ------------------------------------------------------------------------
     """
 
