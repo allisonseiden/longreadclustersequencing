@@ -1,14 +1,14 @@
 from PhasedData import PhasedData
 
-# patient_1 = PhasedData('1-00801');
-# patient_1.create_vcf_no_indels();
-# patient_1.create_dnvs_dictionary();
-# patient_1.fill_bounds_dictionary();
-# patient_1.find_variants_for_phasing(5);
-# patient_1.assign_to_parent();
-# patient_1.convert_to_dataframe();
-# patient_1.write_to_bed();
-# print(patient_1.parent_df);
+patient_1 = PhasedData('1-00801');
+patient_1.create_vcf_no_indels();
+patient_1.create_dnvs_dictionary();
+patient_1.fill_bounds_dictionary();
+patient_1.find_variants_for_phasing(7);
+patient_1.assign_to_parent();
+patient_1.convert_to_dataframe();
+patient_1.write_to_bed();
+print(patient_1.parent_df);
 
 patient_2 = PhasedData('1-01019');
 patient_2.create_vcf_no_indels();
