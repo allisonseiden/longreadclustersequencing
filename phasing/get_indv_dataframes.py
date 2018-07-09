@@ -18,6 +18,7 @@ patient_2.fill_bounds_dictionary();
 patient_2.find_variants_for_phasing();
 patient_2.assign_to_parent();
 patient_2.convert_to_dataframe();
+print(patient_2.trouble);
 # print(patient_2.phased_to_parent['chr12']);
 # print(patient_2.to_phase['chr12']);
 # print(patient_2.phased_to_parent['chr2']);
