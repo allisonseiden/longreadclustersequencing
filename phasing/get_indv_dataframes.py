@@ -7,7 +7,7 @@ patient_1.fill_bounds_dictionary();
 patient_1.find_variants_for_phasing(7);
 patient_1.assign_to_parent();
 patient_1.convert_to_dataframe();
-print(patient_1.trouble);
+print(patient_1.unphased);
 print(patient_1.parent_df);
 
 
