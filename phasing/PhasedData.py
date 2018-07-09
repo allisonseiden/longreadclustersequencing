@@ -193,7 +193,7 @@ class PhasedData:
         ------------------------------------------------------------------------
     """
 
-    def find_variants_for_phasing_chr(self, chromosome):
+    def find_variants_for_phasing_chr(self, chromosome, n):
         chr_phase = {};
         curr_vcf = self.vcf_dfs[chromosome];
         for dnv in self.dnvs[chromosome]:
@@ -209,13 +209,13 @@ class PhasedData:
                 if child[:3] == "0|1" or child[:3] == "1|0":
                     if mom[:3] != dad[:3]:
                         chr_phase[dnv].append(curr_vcf['POS'][position]);
-                # if (len(chr_phase[dnv]) != 0) and (curr_vcf['POS'][position] < dnv) and (len(chr_phase[dnv]) > n):
-                #     chr_phase[dnv] = chr_phase[dnv][-n:]
+                if (len(chr_phase[dnv]) != 0) and (curr_vcf['POS'][position] < dnv) and (len(chr_phase[dnv]) > n):
+                    chr_phase[dnv] = chr_phase[dnv][-n:]
                 position += 1;
-            # if len(chr_phase[dnv]) > 2*n:
-            #     chr_phase[dnv] = chr_phase[dnv][:(2*n)];
-            # else:
-            #     continue;
+            if len(chr_phase[dnv]) > 2*n:
+                chr_phase[dnv] = chr_phase[dnv][:(2*n)];
+            else:
+                continue;
         return chr_phase;
 
     """
@@ -225,9 +225,9 @@ class PhasedData:
         ------------------------------------------------------------------------
     """
 
-    def find_variants_for_phasing(self):
+    def find_variants_for_phasing(self, n):
         for chr in self.dnvs:
-            self.to_phase[chr] = self.find_variants_for_phasing_chr(chr);
+            self.to_phase[chr] = self.find_variants_for_phasing_chr(chr, n);
 
         print('---Variants to phase dictionary created for ' + self.id);
 
