@@ -46,7 +46,7 @@ class PhasedData:
         self.bed = pd.DataFrame();
         self.vcf_dfs = {};
         self.dnvs = {};
-        self.unphased = pd.DataFrame({'Chrom' : [], 'Location' : []});
+        self.unphased = pd.DataFrame({'Chrom' : [], 'Location' : [], 'Ref' : [], 'Alt' : []});
         self.trouble = pd.DataFrame({'Chrom' : [], 'Location' : []});
         self.bounds = {};
         self.to_phase = {};
@@ -118,6 +118,8 @@ class PhasedData:
 
         unphased_chrom = [];
         unphased_loc = [];
+        unphased_ref = [];
+        unphased_alt = [];
 
         for chrom in chrom_list:
             indices = self.bed.index[self.bed['Chrom'] == chrom].tolist();
@@ -131,12 +133,16 @@ class PhasedData:
                 if self.bed['End'][index] in all_unphased:
                     unphased_chrom.append(chrom);
                     unphased_loc.append(self.bed['End'][index]);
+                    unphased_ref.append(self.bed['Ref'][index]);
+                    unphased_alt.append(self.bed['Alt'][index]);
                     # self.unphased.append(self.bed['End'][index]);
                 else:
                     self.dnvs[chrom].append(self.bed['End'][index]);
 
         self.unphased['Chrom'] = unphased_chrom;
         self.unphased['Location'] = unphased_loc;
+        self.unphased['Ref'] = unphased_ref;
+        self.unphased['Alt'] = unphased_alt;
 
         print('---DNV dictionary created for ' + self.id);
 
@@ -390,6 +396,6 @@ class PhasedData:
             bed_file.write(line);
         unphased_length = self.unphased.shape[0];
         for i in range(0, unphased_length):
-            line = str(self.unphased['Chrom'][i]) + '\t.\t' + str(self.unphased['Location'][i]) + '\t.\t.\t' + self.id + '\n';
+            line = str(self.unphased['Chrom'][i]) + '\t.\t' + str(self.unphased['Location'][i]) + '\t' + str(self.unphased['Ref'][i]) + '\t' + str(self.unphased['Alt'][i]) + '\t' + self.id + '\n';
             bed_file.write(line);
         bed_file.close();
