@@ -186,6 +186,7 @@ class PhasedData:
             self.bounds[chr] = self.search_discon(chr);
 
         print('---Bounds dictionary created for ' + self.id);
+        print(self.bounds);
 
     """
         ------------------------------------------------------------------------
