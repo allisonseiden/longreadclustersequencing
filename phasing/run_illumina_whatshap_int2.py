@@ -19,4 +19,4 @@ def illumina_whatshap(ID):
 
 if __name__ == '__main__':
   pool = mp.Pool(processes=5);
-  pool.map(whatshap, patientID); 
+  pool.map(illumina_whatshap, patientID); 
