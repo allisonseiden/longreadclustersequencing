@@ -232,7 +232,6 @@ class PhasedData:
             self.to_phase[chr] = self.find_variants_for_phasing_chr(chr, n);
 
         print('---Variants to phase dictionary created for ' + self.id);
-        print(self.to_phase);
 
     """
         ------------------------------------------------------------------------
@@ -309,7 +308,9 @@ class PhasedData:
         # trouble = [];
         unphased = [];
         for chr in self.phased_to_parent:
+            print(chr);
             for dnv in self.phased_to_parent[chr]:
+                print(dnv);
                 id_list.append(self.id);
                 chrom_list.append(chr);
                 location_list.append(dnv);
@@ -324,6 +325,8 @@ class PhasedData:
                         continue;
                 mom_count.append(mom);
                 dad_count.append(dad);
+                print(mom_count);
+                print(dad_count);
 
         self.parent_df['ID'] = id_list;
         self.parent_df['Chrom'] = chrom_list;
