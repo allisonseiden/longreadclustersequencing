@@ -186,7 +186,6 @@ class PhasedData:
             self.bounds[chr] = self.search_discon(chr);
 
         print('---Bounds dictionary created for ' + self.id);
-        print(self.bounds);
 
     """
         ------------------------------------------------------------------------
@@ -233,6 +232,7 @@ class PhasedData:
             self.to_phase[chr] = self.find_variants_for_phasing_chr(chr, n);
 
         print('---Variants to phase dictionary created for ' + self.id);
+        print(self.to_phase);
 
     """
         ------------------------------------------------------------------------
@@ -336,10 +336,11 @@ class PhasedData:
         for i in range(0, length):
             ma = self.parent_df['Mom Count'][i];
             pa = self.parent_df['Dad Count'][i];
-            # if ma == 0 and pa == 0:
-            #     # trouble.append(1);
-            #     from_mom.append(0);
-            #     from_dad.append(0);
+            if ma == 0 and pa == 0:
+                # trouble.append(1);
+                unphased.append(1)
+                from_mom.append(0);
+                from_dad.append(0);
             if ma/(ma + pa) >= .85:
                 from_mom.append(1);
                 from_dad.append(0);
