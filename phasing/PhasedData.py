@@ -338,11 +338,11 @@ class PhasedData:
             if ma/(ma + pa) >= .85:
                 from_mom.append(1);
                 from_dad.append(0);
-                trouble.append(0);
+                unphased.append(0);
             elif pa/(ma + pa) >= .85:
                 from_mom.append(0);
                 from_dad.append(1);
-                trouble.append(0);
+                unphased.append(0);
             else:
                 from_mom.append(0);
                 from_dad.append(0);
