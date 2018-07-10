@@ -1,0 +1,39 @@
+https://richtf01.u.hpc.mssm.edu/PacbioProject/IlluminaHg38Bams/1-01019-01.hg38.dedup.clean.recal.cram
+https://richtf01.u.hpc.mssm.edu/PacbioProject/IlluminaHg38Bams/1-01019-02.hg38.dedup.clean.recal.cram
+https://richtf01.u.hpc.mssm.edu/PacbioProject/IlluminaHg38Bams/1-01019.hg38.dedup.clean.recal.cram
+https://richtf01.u.hpc.mssm.edu/PacbioProject/PacbioHg38Bams/1-01019.PB.hg38.bam
+
+
+chr2:122657570
+chr2:122657560-122661240
+
+
+
+https://richtf01.u.hpc.mssm.edu/PacbioProject/PacbioHg38Bams/1-05846.PB.hg38.bam
+
+https://richtf01.u.hpc.mssm.edu/PacbioProject/PacbioHg38Bams/1-05846_edit_sorted.bam
+https://richtf01.u.hpc.mssm.edu/PacbioProject/IlluminaHg38Bams/1-05846.hg38.dedup.clean.recal.cram
+https://richtf01.u.hpc.mssm.edu/PacbioProject/IlluminaHg38Bams/1-05846-01.hg38.dedup.clean.recal.cram
+https://richtf01.u.hpc.mssm.edu/PacbioProject/IlluminaHg38Bams/1-05846-02.hg38.dedup.clean.recal.cram
+
+
+cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/WhatshapVCFs
+
+
+chr15:80193960
+grep -C10 "\s80193960\s" ../1-05846_no_indels/1-05846_chr15_phased.vcf |cut -f2,4-5,10-12 
+
+
+80192691
+80192801
+80192954
+
+chr15:80192954: mom
+chr15:80192801 dad
+
+chr15:80192701-80194060
+
+
+
+
+

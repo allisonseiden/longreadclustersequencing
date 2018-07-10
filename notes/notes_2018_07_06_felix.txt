@@ -1,0 +1,79 @@
+https://richtf01.u.hpc.mssm.edu/PacbioProject/WhatshapVCFs/1-00801_no_indels/1-00801_chr8_phased.gtf
+
+
+
+https://richtf01.u.hpc.mssm.edu/PacbioProject/PacbioHg38Bams/1-00801.PB.hg38.bam
+https://richtf01.u.hpc.mssm.edu/PacbioProject/PacbioHg38Bams/1-00801_edit_sorted.bam
+https://richtf01.u.hpc.mssm.edu/PacbioProject/IlluminaHg38Bams/1-00801.hg38.dedup.clean.recal.cram
+https://richtf01.u.hpc.mssm.edu/PacbioProject/IlluminaHg38Bams/1-00801-01.hg38.dedup.clean.recal.cram
+https://richtf01.u.hpc.mssm.edu/PacbioProject/IlluminaHg38Bams/1-00801-02.hg38.dedup.clean.recal.cram
+
+
+https://richtf01.u.hpc.mssm.edu/PacbioProject/WhatshapVCFs/1-00801_no_indels/1-00801_chr16_phased.gtf
+
+
+https://richtf01.u.hpc.mssm.edu/PacbioProject/WhatshapVCFs/1-00801_no_indels/1-00801_chr8_phased.gtf
+https://richtf01.u.hpc.mssm.edu/PacbioProject/WhatshapVCFs/1-00801_no_indels/1-00801_chr1_phased.vcf
+
+
+
+chr1:180412654
+grep -C10 "\s180412654\s" ../1-00801_no_indels/1-00801_chr1_phased.vcf |cut -f2,4-5,10-12 
+grep -C15 "\s180412654\s" ../1-00801/1-00801_chr1_phased.vcf |cut -f2,4-5,10-12
+
+
+chr12:75272545
+grep -C10 "\s75272545\s" ../1-00801_no_indels/1-00801_chr12_phased.vcf |cut -f2,4-5,10-12 
+Indel
+TGAGGTTAGCTCTCAGCTGA→T
+grep -C10 "\s75272545\s" ../1-00801/1-00801_chr12_phased.vcf |cut -f2,4-5,10-12 
+
+https://richtf01.u.hpc.mssm.edu/PacbioProject/WhatshapVCFs/1-00801/1-00801_chr12_phased.gtf
+
+
+chr13:97256709
+grep -m1 -C10 "\s97256709\s" ../1-00801_no_indels/1-00801_chr13_phased.vcf |cut -f2,4-5,10-12 
+SNV
+Closest het is 97256709-97266070 9361 bp away. Cross-check IGV that this is not phase-able
+IGV coordinates: chr13:97256650-97266100
+chr13:97266070
+
+
+chr14:75192883
+grep -m1 -C10 "\s75192883\s" ../1-00801_no_indels/1-00801_chr14_phased.vcf |cut -f2,4-5,10-12 
+grep -m1 -C21 "\s75192883\s" ../1-00801/1-00801_chr14_phased.vcf |cut -f2,4-5,10-12 
+
+used to phase chr14:75185135
+
+
+
+
+chr16:65303395
+grep -m1 -C10 "\s65303395\s" ../1-00801_no_indels/1-00801_chr16_phased.vcf |cut -f2,4-5,10-12 
+65296511: mom
+65306907: dad
+
+IGV
+chr16:65296611-65306997
+
+https://richtf01.u.hpc.mssm.edu/PacbioProject/WhatshapVCFs/1-00801_no_indels/1-00801_chr16phased.gtf
+
+
+chr2:74457998
+grep -C15 "\s74457998\s" ../1-00801/1-00801_chr2_phased.vcf |cut -f2,4-5,10-12
+
+chr2:74,457,979-74,458,019
+
+chr2:74454055-74458198
+chr2_74454055_74458198
+chr2_74457998
+
+
+
+
+chr13:97256709
+grep -C10 "\s97256709\s" ../1-00801/1-00801_chr13_phased.vcf |cut -f2,4-5,10-12
+grep -C10 "\s97256709\s" ../1-00801_no_indels/1-00801_chr13_phased.vcf |cut -f2,4-5,10-12
+
+# closest indel is at chr13:97251834
+chr13:97251634-97256809
