@@ -9,7 +9,7 @@ def illumina_whatshap(ID):
         vcf_filename += "DNV_calls/VCF/TrioVCF/" + ID + "/" + ID + "_chr";
         vcf_filename += str(i) + ".vcf.gz"
         bam_filename = "/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/";
-        bam_filename += "IlluminaHg38Bams/" + ID + ".hg38.dedip.clean.recal.cram";
+        bam_filename += "IlluminaHg38Bams/" + ID + ".hg38.dedup.clean.recal.cram";
         command = "whatshap phase --sample=" + ID + " --ignore-read-groups";
         command += " --reference /sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa";
         command += " --indels -o " + ID + "_illumina/" + ID + "_chr" + str(i) + "_phased.vcf ";
@@ -19,4 +19,4 @@ def illumina_whatshap(ID):
 
 if __name__ == '__main__':
   pool = mp.Pool(processes=5);
-  pool.map(illumina_whatshap, patientID); 
+  pool.map(illumina_whatshap, patientID);
