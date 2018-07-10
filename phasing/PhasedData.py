@@ -324,11 +324,6 @@ class PhasedData:
                 mom_count.append(mom);
                 dad_count.append(dad);
 
-        print(len(id_list));
-        print(len(chrom_list));
-        print(len(location_list));
-        print(len(mom_count));
-        print(len(dad_count));
 
         self.parent_df['ID'] = id_list;
         self.parent_df['Chrom'] = chrom_list;
@@ -343,7 +338,6 @@ class PhasedData:
             ma = self.parent_df['Mom Count'][i];
             pa = self.parent_df['Dad Count'][i];
             if ma == 0 and pa == 0:
-                # trouble.append(1);
                 unphased.append(1)
                 from_mom.append(0);
                 from_dad.append(0);
@@ -358,7 +352,6 @@ class PhasedData:
             else:
                 from_mom.append(0);
                 from_dad.append(0);
-                # trouble.append(1);
                 unphased.append(1);
 
         self.parent_df['From Mom'] = from_mom;
@@ -369,6 +362,7 @@ class PhasedData:
         self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'Mom Count',
                                             'Dad Count', 'From Mom', 'From Dad',
                                             'Unphased']];
+        self.parent_df.to_csv(sep='\t', float_format='%g', index=False);
 
         # trouble_chrom = [];
         # trouble_loc = [];
