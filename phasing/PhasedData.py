@@ -154,11 +154,13 @@ class PhasedData:
     """
 
     def search_discon(self, chromosome):
+        print(chromosome);
         chr_bounds = {};
         curr_vcf = self.vcf_dfs[chromosome];
         start_list = self.gtf_dfs[chromosome]['Start'].tolist();
         end_list = self.gtf_dfs[chromosome]['End'].tolist();
         for dnv in self.dnvs[chromosome]:
+            print(dnv);
             chr_bounds[dnv] = [];
             dnv_index = curr_vcf.index[curr_vcf['POS'] == dnv].item();
             hap = curr_vcf[self.id][dnv_index];
