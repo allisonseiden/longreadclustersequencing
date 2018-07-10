@@ -40,7 +40,7 @@ from PhasedData import PhasedData
 # patient_4.write_to_bed();
 # print(patient_4.parent_df);
 
-PROBLEM
+# PROBLEM
 patient_5 = PhasedData('1-04389');
 patient_5.create_vcf_dictionary();
 patient_5.create_dnvs_dictionary();
