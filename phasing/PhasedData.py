@@ -362,7 +362,7 @@ class PhasedData:
         self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'Mom Count',
                                             'Dad Count', 'From Mom', 'From Dad',
                                             'Unphased']];
-        self.parent_df.to_csv(sep='\t', float_format='%g', index=False);
+        self.parent_df.to_csv(path_or_buf=self.id + '_dataframe.txt', sep='\t', float_format='%g', index=False);
 
         # trouble_chrom = [];
         # trouble_loc = [];
@@ -374,9 +374,9 @@ class PhasedData:
         # self.trouble['Chrom'] = trouble_chrom;
         # self.trouble['Location'] = trouble_loc;
 
-        self.parent_df = self.parent_df.groupby('ID').sum();
-        # self.parent_df['Unphased'] = self.unphased.shape[0];
-        self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Unphased']];
+        # self.parent_df = self.parent_df.groupby('ID').sum();
+        # # self.parent_df['Unphased'] = self.unphased.shape[0];
+        # self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Unphased']];
 
     """
         ------------------------------------------------------------------------
