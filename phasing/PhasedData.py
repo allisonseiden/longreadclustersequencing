@@ -308,9 +308,7 @@ class PhasedData:
         # trouble = [];
         unphased = [];
         for chr in self.phased_to_parent:
-            print(chr);
             for dnv in self.phased_to_parent[chr]:
-                print(dnv);
                 id_list.append(self.id);
                 chrom_list.append(chr);
                 location_list.append(dnv);
@@ -325,14 +323,17 @@ class PhasedData:
                         continue;
                 mom_count.append(mom);
                 dad_count.append(dad);
-                print(mom_count);
-                print(dad_count);
 
         self.parent_df['ID'] = id_list;
+        print(self.parent_df.shape[0]);
         self.parent_df['Chrom'] = chrom_list;
+        print(self.parent_df.shape[1]);
         self.parent_df['Location'] = location_list;
+        print(self.parent_df.shape[2]);
         self.parent_df['Mom Count'] = mom_count;
+        print(self.parent_df.shape[3]);
         self.parent_df['Dad Count'] = dad_count;
+        print(self.parent_df.shape[4]);
 
         length = self.parent_df.shape[0];
 
@@ -344,7 +345,7 @@ class PhasedData:
                 unphased.append(1)
                 from_mom.append(0);
                 from_dad.append(0);
-            if ma/(ma + pa) >= .85:
+            elif ma/(ma + pa) >= .85:
                 from_mom.append(1);
                 from_dad.append(0);
                 unphased.append(0);
