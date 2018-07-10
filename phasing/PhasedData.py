@@ -324,16 +324,18 @@ class PhasedData:
                 mom_count.append(mom);
                 dad_count.append(dad);
 
+        print(len(id_list));
+        print(len(chrom_list));
+        print(len(location_list));
+        print(len(mom_count));
+        print(len(dad_count));
+
         self.parent_df['ID'] = id_list;
-        print(self.parent_df.shape[0]);
         self.parent_df['Chrom'] = chrom_list;
-        print(self.parent_df.shape[1]);
         self.parent_df['Location'] = location_list;
-        print(self.parent_df.shape[2]);
         self.parent_df['Mom Count'] = mom_count;
-        print(self.parent_df.shape[3]);
         self.parent_df['Dad Count'] = dad_count;
-        print(self.parent_df.shape[4]);
+
 
         length = self.parent_df.shape[0];
 
