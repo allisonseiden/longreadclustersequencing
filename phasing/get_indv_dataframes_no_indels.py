@@ -42,7 +42,7 @@ from PhasedData import PhasedData
 
 # PROBLEM
 patient_5 = PhasedData('1-04389');
-patient_5.create_vcf_dictionary();
+patient_5.create_vcf_no_indels();
 patient_5.create_dnvs_dictionary();
 patient_5.fill_bounds_dictionary();
 patient_5.find_variants_for_phasing(7);
