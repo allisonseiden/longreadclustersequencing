@@ -62,10 +62,11 @@ def find_difference(group):
                 distance_list.append(d_1);
             else:
                 distance_list.append(d_2);
-    d_series = pd.Series(data=distance_list);
-    group['Closest DNV Distance'] = d_series;
-    group['Closest DNV Distance'] = group['Closest DNV Distance'].astype(int);
-    return group;
+    print(distance_list);
+    # d_series = pd.Series(data=distance_list);
+    # group['Closest DNV Distance'] = d_series;
+    # group['Closest DNV Distance'] = group['Closest DNV Distance'].astype(int);
+    # return group;
 
 
 
