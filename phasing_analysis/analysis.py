@@ -23,4 +23,5 @@ parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 analysis_df = dnv_df.join(parent_df, how='left');
 
 ti = [];
-print(type((analysis_df['Ref'] == 'A') and (analysis_df['Alt'] == 'G')));
+test = (analysis_df['Ref'] == 'A');
+print(test)
