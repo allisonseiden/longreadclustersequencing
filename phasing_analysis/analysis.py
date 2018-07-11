@@ -10,7 +10,7 @@ df_list = [];
 
 for ID in patientIDs:
     bed_list.append(pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed',
-                                sep='\t', names = ['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']));
+                                sep='\t', names = ['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
     df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/' + ID + '_dataframe.txt',
                                 sep='\t'));
 
