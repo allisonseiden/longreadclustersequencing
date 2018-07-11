@@ -21,7 +21,6 @@ dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 analysis_df = dnv_df.join(parent_df, how='left');
-print(analysis_df);
 
 
 ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
@@ -42,4 +41,8 @@ analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
 
 analysis_df.reset_index(level='Location', inplace=True);
-print(analysis_df);
+grouped = analysis_df.groupby(['ID', 'Location']);
+grouped_loc = grouped['Location'];
+for name, group in grouped_loc:
+    print(name);
+    print(group);
