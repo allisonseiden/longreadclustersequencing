@@ -62,7 +62,7 @@ def find_difference(group):
                 distance_list.append(d_1);
             else:
                 distance_list.append(d_2);
-    distance_series = pd.Series(data=distance_list);
+    distance_series = pd.Series(data=distance_list, index=None);
     return distance_series;
 
 
