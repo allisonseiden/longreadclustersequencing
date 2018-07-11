@@ -19,9 +19,7 @@ parent_df = pd.concat(df_list, ignore_index=True);
 
 dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
-print(dnv_df);
-print(parent_df);
 
 
-# analysis_df = dnv_df.join(parent_df, on=['ID', 'Chrom', 'Location'], how='left');
-# print(analysis_df);
+analysis_df = dnv_df.join(parent_df, on=['ID', 'Chrom', 'Location'], how='left');
+print(analysis_df);
