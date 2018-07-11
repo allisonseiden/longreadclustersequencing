@@ -21,5 +21,5 @@ dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 
-analysis_df = dnv_df.join(parent_df, on=['ID', 'Chrom', 'Location'], how='left');
+analysis_df = dnv_df.join(parent_df, how='left');
 print(analysis_df);
