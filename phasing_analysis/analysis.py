@@ -22,16 +22,19 @@ parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 analysis_df = dnv_df.join(parent_df, how='left');
 
-ti = [];
+
 ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
              ((analysis_df['Ref'] == 'G') & (analysis_df['Alt'] == 'A')) |
              ((analysis_df['Ref'] == 'C') & (analysis_df['Alt'] == 'T')) |
              ((analysis_df['Ref'] == 'T') & (analysis_df['Alt'] == 'C')));
-# for elem in ti_series:
-#     if elem:
-#         ti.append(1);
-#     else:
-#         ti.append(0);
+tv_series = (((analysis_df['Ref'] == 'A') & ((analysis_df['Alt'] == 'T') | (analysis_df['Alt'] == 'C'))) |
+             ((analysis_df['Ref'] == 'G') & ((analysis_df['Alt'] == 'T') | (analysis_df['Alt'] == 'C'))) |
+             ((analysis_df['Ref'] == 'T') & ((analysis_df['Alt'] == 'A') | (analysis_df['Alt'] == 'G'))) |
+             ((analysis_df['Ref'] == 'C') & ((analysis_df['Alt'] == 'A') | (analysis_df['Alt'] == 'G'))));
+
 
 analysis_df['Ti'] = ti_series;
+analysis_df['Tv'] = tv_series;
+analysis_df.replace(to_replace=True, value=1);
+analysis_df.replace(to_replace=False, value=0);
 print(analysis_df);
