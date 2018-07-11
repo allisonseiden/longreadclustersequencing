@@ -32,9 +32,9 @@ tv_series = (((analysis_df['Ref'] == 'A') & ((analysis_df['Alt'] == 'T') | (anal
              ((analysis_df['Ref'] == 'T') & ((analysis_df['Alt'] == 'A') | (analysis_df['Alt'] == 'G'))) |
              ((analysis_df['Ref'] == 'C') & ((analysis_df['Alt'] == 'A') | (analysis_df['Alt'] == 'G'))));
 
-ti_series.astype(int);
+
 analysis_df['Ti'] = ti_series;
 analysis_df['Tv'] = tv_series;
 
-analysis_df['Tv'].astype(int);
+analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 print(analysis_df);
