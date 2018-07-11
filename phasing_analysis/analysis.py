@@ -15,13 +15,10 @@ for ID in patientIDs:
                                 sep='\t'));
 
 dnv_df = pd.concat(bed_list, ignore_index=True);
-dnv_df = dnv_df[['Chrom', 'Ref', 'Alt', 'ID']];
 parent_df = pd.concat(df_list, ignore_index=True);
 
-dnv_df.set_index(['ID', 'Chrom'], inplace=True);
-dnv_df.sort_index(inplace=True);
-parent_df.set_index(['ID', 'Chrom'], inplace=True);
-parent_df.sort_index(inplace=True);
+dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
+parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 analysis_df = dnv_df.join(parent_df, how='left');
 print(analysis_df);
