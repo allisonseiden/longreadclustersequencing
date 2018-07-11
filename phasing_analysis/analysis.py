@@ -35,6 +35,6 @@ tv_series = (((analysis_df['Ref'] == 'A') & ((analysis_df['Alt'] == 'T') | (anal
 
 analysis_df['Ti'] = ti_series;
 analysis_df['Tv'] = tv_series;
-
+analysis_df['Ti'] = analysis_df['Ti'].astype(int);
 analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 print(analysis_df);
