@@ -42,7 +42,7 @@ analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Un
 
 analysis_df.reset_index(level='Location', inplace=True);
 grouped = analysis_df.groupby(['ID', 'Location']);
-grouped_loc = grouped['Location'];
-for name, group in grouped_loc:
+# grouped_loc = grouped['Location'];
+for name, group in grouped:
     print(name);
     print(group);
