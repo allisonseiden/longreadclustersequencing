@@ -21,12 +21,12 @@ dnv_df = pd.concat(bed_list, ignore_index=True);
 parent_df = pd.concat(df_list, ignore_index=True);
 
 dnv_df.set_index(['ID', 'Chrom'], inplace=True);
-print(dnv_df);
+dnv_df.sort_index(inplace=True);
 parent_df.set_index(['ID', 'Chrom'], inplace=True);
 parent_df.sort_index(inplace=True);
-print(parent_df);
-#
-# analysis_df = dnv_df.join(parent_df, how='left');
+
+analysis_df = dnv_df.join(parent_df, on='Location', how='left');
+print(analysis_df);
 #
 #
 # ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
