@@ -44,9 +44,30 @@ analysis_df.reset_index(level='Location', inplace=True);
 
 def find_difference(group):
     loc_list = group.tolist();
-    print(loc_list);
+    length = len(loc_list);
+    distance_list = [];
+    for i in range(0, length):
+        if length == 1:
+            distance_list.append(0);
+        elif i == 0:
+            d = abs(loc_list[i+1] - loc_list[i]);
+            distance_list.append(d);
+        elif i == length - 1:
+            d = abs(loc_list[i] - loc_list[i-1]);
+            distance_list.append(d);
+        else:
+            d_1 = abs(loc_list[i] - loc_list[i-1]);
+            d_2 = abs(loc_list[i+1] = loc_list[i]);
+            if (d_1 <= d_2):
+                distance_list.append(d_1);
+            else:
+                distance_list.append(d_2);
+    d_series = pd.Series(distance_list);
+    return d_series;
+
 
 
 grouped = analysis_df.groupby(['ID', 'Chrom']);
 grouped_loc = grouped['Location'];
-grouped_loc.apply(find_difference);
+distance_series = grouped_loc.apply(find_difference);
+print(distance_series);
