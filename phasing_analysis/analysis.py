@@ -27,11 +27,11 @@ ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
              ((analysis_df['Ref'] == 'G') & (analysis_df['Alt'] == 'A')) |
              ((analysis_df['Ref'] == 'C') & (analysis_df['Alt'] == 'T')) |
              ((analysis_df['Ref'] == 'T') & (analysis_df['Alt'] == 'C')));
-for elem in ti_series:
-    if elem:
-        ti.append(1);
-    else:
-        ti.append(0);
+# for elem in ti_series:
+#     if elem:
+#         ti.append(1);
+#     else:
+#         ti.append(0);
 
-print(len(ti));
-print(ti);
+analysis_df['Ti'] = ti_series;
+print(analysis_df);
