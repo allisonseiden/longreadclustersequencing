@@ -9,15 +9,13 @@ df_list = [];
 
 
 for ID in patientIDs:
-    temp_bed = pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed',
-                                sep='\t', names = ['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']);
-    temp_bed = temp_bed[['Chrom', 'End', 'Ref', 'Alt', 'ID']];
-    bed_list.append(temp_bed);
-    del(temp_bed);
+    bed_list.append(pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed',
+                                sep='\t', names = ['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']));
     df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/' + ID + '_dataframe.txt',
                                 sep='\t'));
 
 dnv_df = pd.concat(bed_list, ignore_index=True);
+dnv_df = dnv_df[['Chrom', 'Ref', 'Alt', 'ID']];
 parent_df = pd.concat(df_list, ignore_index=True);
 
 dnv_df.set_index(['ID', 'Chrom'], inplace=True);
