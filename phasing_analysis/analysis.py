@@ -41,8 +41,8 @@ analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
 
 analysis_df.reset_index(level='Location', inplace=True);
-grouped = analysis_df.groupby(['ID', 'Location']);
-# grouped_loc = grouped['Location'];
-for name, group in grouped:
+grouped = analysis_df.groupby(['ID', 'Chrom']);
+grouped_loc = grouped['Location'];
+for name, group in grouped_loc:
     print(name);
     print(group);
