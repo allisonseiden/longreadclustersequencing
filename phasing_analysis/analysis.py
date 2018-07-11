@@ -69,4 +69,5 @@ def find_difference(group):
 
 grouped = analysis_df.groupby(['ID', 'Chrom']);
 # grouped_loc = grouped['Location'];
-print(grouped.apply(find_difference));
+analysis_df.join(grouped.apply(find_difference), how='left');
+print(analysis_df);
