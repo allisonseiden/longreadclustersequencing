@@ -22,25 +22,24 @@ parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 analysis_df = dnv_df.join(parent_df, how='left');
 print(analysis_df);
-#
-#
-# ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
-#              ((analysis_df['Ref'] == 'G') & (analysis_df['Alt'] == 'A')) |
-#              ((analysis_df['Ref'] == 'C') & (analysis_df['Alt'] == 'T')) |
-#              ((analysis_df['Ref'] == 'T') & (analysis_df['Alt'] == 'C')));
-# tv_series = (((analysis_df['Ref'] == 'A') & ((analysis_df['Alt'] == 'T') | (analysis_df['Alt'] == 'C'))) |
-#              ((analysis_df['Ref'] == 'G') & ((analysis_df['Alt'] == 'T') | (analysis_df['Alt'] == 'C'))) |
-#              ((analysis_df['Ref'] == 'T') & ((analysis_df['Alt'] == 'A') | (analysis_df['Alt'] == 'G'))) |
-#              ((analysis_df['Ref'] == 'C') & ((analysis_df['Alt'] == 'A') | (analysis_df['Alt'] == 'G'))));
-#
-#
-# analysis_df['Ti'] = ti_series;
-# analysis_df['Tv'] = tv_series;
-# analysis_df['Ti'] = analysis_df['Ti'].astype(int);
-# analysis_df['Tv'] = analysis_df['Tv'].astype(int);
-#
-# analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
-#
-# grouped = analysis_df.groupby(['ID', 'Chrom']);
-# test = grouped.get_group(['1-00801', 'chr1']);
-#
+
+
+ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
+             ((analysis_df['Ref'] == 'G') & (analysis_df['Alt'] == 'A')) |
+             ((analysis_df['Ref'] == 'C') & (analysis_df['Alt'] == 'T')) |
+             ((analysis_df['Ref'] == 'T') & (analysis_df['Alt'] == 'C')));
+tv_series = (((analysis_df['Ref'] == 'A') & ((analysis_df['Alt'] == 'T') | (analysis_df['Alt'] == 'C'))) |
+             ((analysis_df['Ref'] == 'G') & ((analysis_df['Alt'] == 'T') | (analysis_df['Alt'] == 'C'))) |
+             ((analysis_df['Ref'] == 'T') & ((analysis_df['Alt'] == 'A') | (analysis_df['Alt'] == 'G'))) |
+             ((analysis_df['Ref'] == 'C') & ((analysis_df['Alt'] == 'A') | (analysis_df['Alt'] == 'G'))));
+
+
+analysis_df['Ti'] = ti_series;
+analysis_df['Tv'] = tv_series;
+analysis_df['Ti'] = analysis_df['Ti'].astype(int);
+analysis_df['Tv'] = analysis_df['Tv'].astype(int);
+
+analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
+
+analysis_df.set_index(['ID', 'Chrom'], inplace=True);
+print(analysis_df);
