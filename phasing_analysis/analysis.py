@@ -17,8 +17,8 @@ for ID in patientIDs:
 dnv_df = pd.concat(bed_list, ignore_index=True);
 parent_df = pd.concat(df_list, ignore_index=True);
 
-dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
-parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
+dnv_df.set_index(['ID', 'Chrom'], inplace=True);
+parent_df.set_index(['ID', 'Chrom'], inplace=True);
 
 analysis_df = dnv_df.join(parent_df, how='left');
 
