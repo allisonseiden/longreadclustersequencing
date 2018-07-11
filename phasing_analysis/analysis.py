@@ -9,20 +9,24 @@ df_list = [];
 
 
 for ID in patientIDs:
-    bed_list.append(pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed',
-                                sep='\t', names = ['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']));
-    df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/' + ID + '_dataframe.txt',
-                                sep='\t'));
+    temp = pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed',
+                                sep='\t', names = ['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']);
+    temp = temp[['Chrom', 'End', 'Ref', 'Alt', 'ID']];
+    bed_list.append(temp);
+    del(temp);
+    # df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/' + ID + '_dataframe.txt',
+    #                             sep='\t'));
 
 dnv_df = pd.concat(bed_list, ignore_index=True);
-parent_df = pd.concat(df_list, ignore_index=True);
+print(dnv_df);
+# parent_df = pd.concat(df_list, ignore_index=True);
 
 dnv_df.set_index(['ID', 'Chrom'], inplace=True);
-parent_df.set_index(['ID', 'Chrom'], inplace=True);
-
-analysis_df = dnv_df.join(parent_df, how='left');
-
-print(analysis_df);
+print(dnv_df);
+# parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
+#
+# analysis_df = dnv_df.join(parent_df, how='left');
+#
 #
 # ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
 #              ((analysis_df['Ref'] == 'G') & (analysis_df['Alt'] == 'A')) |
@@ -39,8 +43,8 @@ print(analysis_df);
 # analysis_df['Ti'] = analysis_df['Ti'].astype(int);
 # analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 #
-analysis_df = analysis_df[['Location', 'Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
+# analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
 #
 # grouped = analysis_df.groupby(['ID', 'Chrom']);
-# for name, group in grouped:
-#     print(group['Ref']);
+# test = grouped.get_group(['1-00801', 'chr1']);
+#
