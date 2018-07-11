@@ -38,7 +38,7 @@ analysis_df['Tv'] = tv_series;
 analysis_df['Ti'] = analysis_df['Ti'].astype(int);
 analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 
-analysis_df = analysis_df['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased'];
+analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
 print(analysis_df);
 # grouped = analysis_df.groupby(['ID', 'Chrom']);
 # for name, group in grouped:
