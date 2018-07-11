@@ -64,15 +64,13 @@ def find_difference(group):
                 distance_list.append(d_2);
     d_series = pd.Series(data=distance_list);
     group['Closest DNV Distance'] = d_series.values;
-    print(group['Closest DNV Distance']);
-    # group['Closest DNV Distance'] = group['Closest DNV Distance'].astype(int);
-    # return group;
+    return group;
 
 
 
 grouped = analysis_df.groupby(['ID', 'Chrom']);
 # grouped_loc = grouped['Location'];
-grouped.apply(find_difference);
+analysis_df = grouped.apply(find_difference);
 # analysis_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 # analysis_df.join(d_df, how='left');
 print(analysis_df);
