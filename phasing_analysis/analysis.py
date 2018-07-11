@@ -64,10 +64,10 @@ def find_difference(group):
                 distance_list.append(d_2);
     d_series = pd.Series(data=distance_list);
     group['Closest DNV Distance'] = d_series.values;
-    # return group;
+    return group;
 
 
 
 grouped = analysis_df.groupby(['ID', 'Chrom']);
-grouped.apply(find_difference);
+analysis_df = grouped.apply(find_difference);
 print(analysis_df);
