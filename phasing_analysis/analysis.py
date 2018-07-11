@@ -57,7 +57,7 @@ def find_difference(group):
             distance_list.append(d);
         else:
             d_1 = abs(loc_list[i] - loc_list[i-1]);
-            d_2 = abs(loc_list[i+1] = loc_list[i]);
+            d_2 = abs(loc_list[i+1] - loc_list[i]);
             if (d_1 <= d_2):
                 distance_list.append(d_1);
             else:
