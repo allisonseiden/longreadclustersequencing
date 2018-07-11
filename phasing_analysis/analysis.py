@@ -41,7 +41,4 @@ analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
 
 grouped = analysis_df.groupby(['ID', 'Chrom']);
-grouped.filter(lambda x: ((x) - (x+1)) < 10000);
-for name, group in grouped:
-    print(name);
-    print(group);
+print(grouped['Ref']);
