@@ -39,7 +39,7 @@ print(analysis_df);
 # analysis_df['Ti'] = analysis_df['Ti'].astype(int);
 # analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 #
-# analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
+analysis_df = analysis_df[['Location', 'Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
 #
 # grouped = analysis_df.groupby(['ID', 'Chrom']);
 # for name, group in grouped:
