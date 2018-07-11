@@ -37,5 +37,5 @@ analysis_df['Ti'] = ti_series;
 analysis_df['Tv'] = tv_series;
 analysis_df['Ti'] = analysis_df['Ti'].astype(int);
 analysis_df['Tv'] = analysis_df['Tv'].astype(int);
-analysis_df.groupby('ID');
-print(analysis_df);
+grouped = analysis_df.groupby('ID', 'Chrom');
+print(grouped['Location']);
