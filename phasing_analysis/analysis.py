@@ -23,5 +23,11 @@ parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 analysis_df = dnv_df.join(parent_df, how='left');
 
 ti = [];
-test = ((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G'));
-print(test)
+ti_series = ((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G'));
+for elem in ti_series:
+    if elem:
+        ti.append(1);
+    else:
+        ti.append(0);
+
+print(ti);
