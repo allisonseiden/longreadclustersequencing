@@ -45,8 +45,6 @@ analysis_df.reset_index(level='Location', inplace=True);
 def find_difference(group):
     loc_list = group['Location'].tolist();
     length = len(loc_list);
-    distance_df = pd.DataFrame({'Location' : [],
-                                'Distance to Closest DNV' : []});
     distance_list = [];
     for i in range(0, length):
         if length == 1:
@@ -64,18 +62,16 @@ def find_difference(group):
                 distance_list.append(d_1);
             else:
                 distance_list.append(d_2);
-    distance_df['Location'] = loc_list;
-    distance_df['Distance to Closest DNV'] = distance_list;
-    return distance_df;
+    group['Closest DNV Distance'] = distance_list;
 
 
 
 grouped = analysis_df.groupby(['ID', 'Chrom']);
 # grouped_loc = grouped['Location'];
 d_df = grouped.apply(find_difference);
-d_df.set_index(['Location'], inplace=True);
-analysis_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
-analysis_df.join(d_df, how='left');
-print(analysis_df);
+#
+# analysis_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
+# analysis_df.join(d_df, how='left');
+print(d_df);
 # analysis_df.join(d_df, how='left');
 # print(analysis_df);
