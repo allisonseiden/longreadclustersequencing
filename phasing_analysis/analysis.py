@@ -10,6 +10,4 @@ dnv_df = pd.DataFrame();
 for ID in patientIDs:
     bed_dictionary[ID] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed',
                                 sep='\t', names = ['Chrom', 'Start', 'Loc', 'Ref', 'Alt', 'ID']);
-    dnv_df.append(bed_dictionary[ID]);
-
-print(dnv_df);
+    print(bed_dictionary[ID]);
