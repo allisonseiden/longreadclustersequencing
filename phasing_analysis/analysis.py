@@ -38,4 +38,6 @@ analysis_df['Tv'] = tv_series;
 analysis_df['Ti'] = analysis_df['Ti'].astype(int);
 analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 grouped = analysis_df.groupby(['ID', 'Chrom']);
-print(grouped);
+for name, group in grouped:
+    print(name);
+    print(group);
