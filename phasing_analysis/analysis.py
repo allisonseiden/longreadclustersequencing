@@ -30,4 +30,4 @@ for elem in ti_series:
     else:
         ti.append(0);
 
-print(ti);
+print(len(ti));
