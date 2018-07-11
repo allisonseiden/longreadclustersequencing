@@ -69,5 +69,4 @@ def find_difference(group):
 
 grouped = analysis_df.groupby(['ID', 'Chrom']);
 # grouped_loc = grouped['Location'];
-analysis_df['Distance to Closest DNV'] = grouped.apply(find_difference);
-print(analysis_df);
+print(grouped.apply(find_difference));
