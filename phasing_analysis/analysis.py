@@ -41,5 +41,5 @@ analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 
 analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
 
-analysis_df.set_index(['ID', 'Chrom'], inplace=True);
+analysis_df.reset_index(level='Location', inplace=True);
 print(analysis_df);
