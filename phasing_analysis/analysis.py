@@ -41,4 +41,5 @@ analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
 
 grouped = analysis_df.groupby(['ID', 'Chrom']);
-print(grouped['Ref']);
+for name, group in grouped:
+    print(group['Ref']);
