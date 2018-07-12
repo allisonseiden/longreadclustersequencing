@@ -12,7 +12,7 @@ def run_phase_to_parent(ID):
     patient.create_vcf_dictionary();
     patient.create_dnvs_dictionary();
     patient.fill_bounds_dictionary();
-    patient.find_variants_for_phasing();
+    patient.find_variants_for_phasing(7);
     patient.assign_to_parent();
     patient.convert_to_dataframe();
 
