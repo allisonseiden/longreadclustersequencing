@@ -70,33 +70,33 @@ from PhasedData import PhasedData
 # patient_7.write_to_bed();
 # print(patient_7.parent_df);
 
-patient_8 = PhasedData('1-05443');
-patient_8.create_vcf_no_indels();
-patient_8.create_dnvs_dictionary();
-patient_8.fill_bounds_dictionary();
-patient_8.find_variants_for_phasing(7);
-patient_8.assign_to_parent();
-patient_8.convert_to_dataframe();
+# patient_8 = PhasedData('1-05443');
+# patient_8.create_vcf_no_indels();
+# patient_8.create_dnvs_dictionary();
+# patient_8.fill_bounds_dictionary();
+# patient_8.find_variants_for_phasing(7);
+# patient_8.assign_to_parent();
+# patient_8.convert_to_dataframe();
 # patient_8.write_to_bed();
 # print(patient_8.parent_df);
 #
 #
-patient_9 = PhasedData('1-05673');
-patient_9.create_vcf_no_indels();
-patient_9.create_dnvs_dictionary();
-patient_9.fill_bounds_dictionary();
-patient_9.find_variants_for_phasing(7);
-patient_9.assign_to_parent();
-patient_9.convert_to_dataframe();
+# patient_9 = PhasedData('1-05673');
+# patient_9.create_vcf_no_indels();
+# patient_9.create_dnvs_dictionary();
+# patient_9.fill_bounds_dictionary();
+# patient_9.find_variants_for_phasing(7);
+# patient_9.assign_to_parent();
+# patient_9.convert_to_dataframe();
 # patient_9.write_to_bed();
 # print(patient_9.parent_df);
 
-# patient_10 = PhasedData('1-05846');
-# patient_10.create_vcf_no_indels();
-# patient_10.create_dnvs_dictionary();
-# patient_10.fill_bounds_dictionary();
-# patient_10.find_variants_for_phasing(7);
-# patient_10.assign_to_parent();
-# patient_10.convert_to_dataframe();
+patient_10 = PhasedData('1-05846');
+patient_10.create_vcf_no_indels();
+patient_10.create_dnvs_dictionary();
+patient_10.fill_bounds_dictionary();
+patient_10.find_variants_for_phasing(7);
+patient_10.assign_to_parent();
+patient_10.convert_to_dataframe();
 # # patient_10.write_to_bed();
 # print(patient_10.parent_df);
