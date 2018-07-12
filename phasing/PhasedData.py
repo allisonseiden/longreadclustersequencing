@@ -64,19 +64,17 @@ class PhasedData:
         bed file created from first pass of no indels vcfs
         ------------------------------------------------------------------------
     """
-    # def create_vcf_dictionary(self):
-    #     for i in range(1,23):
-    #         num = str(i);
-    #         self.vcf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '/' + self.id + '_chr' + num + '_phased.vcf',
-    #                                             sep='\t', names = ['CHROM', 'POS', 'ID', 'REF',
-    #                                             'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
-    #                                             self.id, self.mom, self.dad],
-    #                                             comment = '#');
-    #         self.gtf_dfs["chr{0}".format(i)] =  pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '/' + self.id + '_chr' + num + 'phased.gtf',
-    #                                             sep='\t', names = ['Chrom', 'Allison', 'Start', 'End', 'Felix', 'Plus', 'Dot', 'Madeline']);
-    #         self.bed = pd.read_table("/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/" + self.id + "/" + self.id + "_no_indels_dnvs.bed",
-    #                                     sep='\t', names = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']);
-    #     print('---VCF and GTF dictionaries created for ' + self.id);
+    def create_vcf_dictionary(self):
+        for i in range(1,23):
+            num = str(i);
+            self.vcf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '/' + self.id + '_chr' + num + '_phased.vcf',
+                                                sep='\t', names = ['CHROM', 'POS', 'ID', 'REF',
+                                                'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
+                                                self.id, self.mom, self.dad],
+                                                comment = '#');
+            self.gtf_dfs["chr{0}".format(i)] =  pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '/' + self.id + '_chr' + num + 'phased.gtf',
+                                                sep='\t', names = ['Chrom', 'Allison', 'Start', 'End', 'Felix', 'Plus', 'Dot', 'Madeline']);
+        print('---VCF and GTF dictionaries created for ' + self.id);
 
     """
         ------------------------------------------------------------------------
