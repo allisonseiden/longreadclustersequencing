@@ -38,8 +38,7 @@ for ID in patientIDs:
 dnv_bed_df = pd.concat(dnv_bed_list, ignore_index=True);
 CpG_i_length = dnv_bed_df.shape[0];
 all_ones = np.ones(CpG_i_length, dtype=int);
-CpG_island = pd.Series(all_ones);
-dnv_bed_df['CpG_Island'] = CpG_island;
+dnv_bed_df['CpG_Island'] = all_ones;
 dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_Island']];
 dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
