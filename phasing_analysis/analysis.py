@@ -45,8 +45,8 @@ dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 temp_one_df = dnv_df.join(pb_parent_df, how='left');
 temp_two_df = temp_one_df.join(il_parent_df, how='left');
-print(temp_two_df);
-# analysis_df = temp_two_df.join(dnv_bed_df, how='left');
+analysis_df = temp_two_df.join(dnv_bed_df, how='left');
+print(analysis_df);
 #
 #
 #
