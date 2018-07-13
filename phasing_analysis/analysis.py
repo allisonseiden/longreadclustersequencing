@@ -102,6 +102,7 @@ dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 analysis_df = temp_two_df.join(dnv_bed_df, how='left');
 for elem in analysis_df['CpG_Island']:
     if elem == np.nan:
+        print('!!!!!!!!!!!!!!');
         elem = 0;
     else:
         elem = 1;
