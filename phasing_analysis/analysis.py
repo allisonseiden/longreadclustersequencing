@@ -43,9 +43,8 @@ dnv_bed_df['CpG_island'] = CpG_island;
 dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_island']];
 dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
-analysis_df = dnv_df.join(dnv_bed_df, how='left');
-print(analysis_df);
-# temp_one_df = dnv_df.join(pb_parent_df, how='left');
+temp_one_df = dnv_df.join(pb_parent_df, how='left');
+print(temp_one_df);
 # temp_two_df = temp_one_df.join(il_parent_df, how='left');
 # analysis_df = temp_two_df.join(dnv_bed_df, how='left');
 #
