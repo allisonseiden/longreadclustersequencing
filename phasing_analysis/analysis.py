@@ -42,10 +42,11 @@ all_ones = [1] * CpG_i_length;
 CpG_island = pd.Series(all_ones);
 dnv_bed_df['CpG_island'] = CpG_island;
 
+print(dnv_bed_df);
 
-temp_df = dnv_df.join(pb_parent_df, how='left');
-analysis_df = temp_df.join(il_parent_df, how='left');
-analysis_df = analysis_df.join(dnv_bed_df, how='left');
+# temp_df = dnv_df.join(pb_parent_df, how='left');
+# analysis_df = temp_df.join(il_parent_df, how='left');
+# analysis_df = analysis_df.join(dnv_bed_df, how='left');
 
 
 # ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
