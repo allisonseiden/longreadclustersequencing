@@ -37,7 +37,8 @@ for ID in patientIDs:
 
 dnv_bed_df = pd.concat(dnv_bed_list, ignore_index=True);
 CpG_i_length = dnv_bed_df.shape[0];
-all_ones = [int(1.0)] * CpG_i_length;
+int_one = int(1.0);
+all_ones = [int_one] * CpG_i_length;
 CpG_island = pd.Series(all_ones);
 dnv_bed_df['CpG_Island'] = CpG_island;
 dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_Island']];
@@ -47,7 +48,8 @@ temp_one_df = dnv_df.join(pb_parent_df, how='left');
 temp_two_df = temp_one_df.join(il_parent_df, how='left');
 analysis_df = temp_two_df.join(dnv_bed_df, how='left');
 
-analysis_df.fillna(value=int(0.0), inplace=True);
+int_zero = int(0);
+analysis_df.fillna(value=int_zero, inplace=True);
 
 
 ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
