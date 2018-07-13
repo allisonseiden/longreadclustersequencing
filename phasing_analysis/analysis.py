@@ -39,8 +39,8 @@ dnv_bed_df = pd.concat(dnv_bed_list, ignore_index=True);
 CpG_i_length = dnv_bed_df.shape[0];
 all_ones = [1] * CpG_i_length;
 CpG_island = pd.Series(all_ones);
-dnv_bed_df['CpG_island'] = CpG_island;
-dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_island']];
+dnv_bed_df['CpG_Island'] = CpG_island;
+dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_Island']];
 dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 temp_one_df = dnv_df.join(pb_parent_df, how='left');
@@ -65,7 +65,7 @@ analysis_df['Tv'] = tv_series;
 analysis_df['Ti'] = analysis_df['Ti'].astype(int);
 analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 
-analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'PB_Mom', 'PB_Dad', 'PB_Unphased', 'IL_Mom', 'IL_Dad', 'IL_Unphased']];
+analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'PB_Mom', 'PB_Dad', 'PB_Unphased', 'IL_Mom', 'IL_Dad', 'IL_Unphased', 'CpG_Island']];
 
 analysis_df.reset_index(level='Location', inplace=True);
 
