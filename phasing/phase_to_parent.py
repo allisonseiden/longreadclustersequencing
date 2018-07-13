@@ -5,7 +5,8 @@ import multiprocessing as mp;
 
 
 
-patientIDs = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"];
+# patientIDs = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"];
+patientIDs = ['1-04460', '1-04537', '1-05443', '1-05673', '1-05846'];
 
 def run_phase_to_parent(ID):
     patient = PhasedData(ID);
