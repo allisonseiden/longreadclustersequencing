@@ -42,60 +42,60 @@ CpG_island = pd.Series(all_ones);
 dnv_bed_df['CpG_island'] = CpG_island;
 dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_island']];
 dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
-
-
-temp_one_df = dnv_df.join(pb_parent_df, how='left');
-temp_two_df = temp_one_df.join(il_parent_df, how='left');
-analysis_df = temp_two_df.join(dnv_bed_df, how='left');
-
-
-
-ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
-             ((analysis_df['Ref'] == 'G') & (analysis_df['Alt'] == 'A')) |
-             ((analysis_df['Ref'] == 'C') & (analysis_df['Alt'] == 'T')) |
-             ((analysis_df['Ref'] == 'T') & (analysis_df['Alt'] == 'C')));
-tv_series = (((analysis_df['Ref'] == 'A') & ((analysis_df['Alt'] == 'T') | (analysis_df['Alt'] == 'C'))) |
-             ((analysis_df['Ref'] == 'G') & ((analysis_df['Alt'] == 'T') | (analysis_df['Alt'] == 'C'))) |
-             ((analysis_df['Ref'] == 'T') & ((analysis_df['Alt'] == 'A') | (analysis_df['Alt'] == 'G'))) |
-             ((analysis_df['Ref'] == 'C') & ((analysis_df['Alt'] == 'A') | (analysis_df['Alt'] == 'G'))));
-
-
-analysis_df['Ti'] = ti_series;
-analysis_df['Tv'] = tv_series;
-analysis_df['Ti'] = analysis_df['Ti'].astype(int);
-analysis_df['Tv'] = analysis_df['Tv'].astype(int);
-
-analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'PB_Mom', 'PB_Dad', 'PB_Unphased', 'IL_Mom', 'IL_Dad', 'IL_Unphased']];
-
-analysis_df.reset_index(level='Location', inplace=True);
-
-def find_difference(group):
-    loc_list = group['Location'].tolist();
-    length = len(loc_list);
-    distance_list = [];
-    for i in range(0, length):
-        if length == 1:
-            distance_list.append(0);
-        elif i == 0:
-            d = abs(loc_list[i+1] - loc_list[i]);
-            distance_list.append(d);
-        elif i == length - 1:
-            d = abs(loc_list[i] - loc_list[i-1]);
-            distance_list.append(d);
-        else:
-            d_1 = abs(loc_list[i] - loc_list[i-1]);
-            d_2 = abs(loc_list[i+1] - loc_list[i]);
-            if (d_1 <= d_2):
-                distance_list.append(d_1);
-            else:
-                distance_list.append(d_2);
-    d_series = pd.Series(data=distance_list);
-    group['Closest DNV Distance'] = d_series.values;
-    return group;
-
-grouped = analysis_df.groupby(['ID', 'Chrom']);
-analysis_df = grouped.apply(find_difference);
-
-
-
-print(analysis_df);
+print(dnv_bed_df);
+#
+# temp_one_df = dnv_df.join(pb_parent_df, how='left');
+# temp_two_df = temp_one_df.join(il_parent_df, how='left');
+# analysis_df = temp_two_df.join(dnv_bed_df, how='left');
+#
+#
+#
+# ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
+#              ((analysis_df['Ref'] == 'G') & (analysis_df['Alt'] == 'A')) |
+#              ((analysis_df['Ref'] == 'C') & (analysis_df['Alt'] == 'T')) |
+#              ((analysis_df['Ref'] == 'T') & (analysis_df['Alt'] == 'C')));
+# tv_series = (((analysis_df['Ref'] == 'A') & ((analysis_df['Alt'] == 'T') | (analysis_df['Alt'] == 'C'))) |
+#              ((analysis_df['Ref'] == 'G') & ((analysis_df['Alt'] == 'T') | (analysis_df['Alt'] == 'C'))) |
+#              ((analysis_df['Ref'] == 'T') & ((analysis_df['Alt'] == 'A') | (analysis_df['Alt'] == 'G'))) |
+#              ((analysis_df['Ref'] == 'C') & ((analysis_df['Alt'] == 'A') | (analysis_df['Alt'] == 'G'))));
+#
+#
+# analysis_df['Ti'] = ti_series;
+# analysis_df['Tv'] = tv_series;
+# analysis_df['Ti'] = analysis_df['Ti'].astype(int);
+# analysis_df['Tv'] = analysis_df['Tv'].astype(int);
+#
+# analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'PB_Mom', 'PB_Dad', 'PB_Unphased', 'IL_Mom', 'IL_Dad', 'IL_Unphased']];
+#
+# analysis_df.reset_index(level='Location', inplace=True);
+#
+# def find_difference(group):
+#     loc_list = group['Location'].tolist();
+#     length = len(loc_list);
+#     distance_list = [];
+#     for i in range(0, length):
+#         if length == 1:
+#             distance_list.append(0);
+#         elif i == 0:
+#             d = abs(loc_list[i+1] - loc_list[i]);
+#             distance_list.append(d);
+#         elif i == length - 1:
+#             d = abs(loc_list[i] - loc_list[i-1]);
+#             distance_list.append(d);
+#         else:
+#             d_1 = abs(loc_list[i] - loc_list[i-1]);
+#             d_2 = abs(loc_list[i+1] - loc_list[i]);
+#             if (d_1 <= d_2):
+#                 distance_list.append(d_1);
+#             else:
+#                 distance_list.append(d_2);
+#     d_series = pd.Series(data=distance_list);
+#     group['Closest DNV Distance'] = d_series.values;
+#     return group;
+#
+# grouped = analysis_df.groupby(['ID', 'Chrom']);
+# analysis_df = grouped.apply(find_difference);
+#
+#
+#
+# print(analysis_df);
