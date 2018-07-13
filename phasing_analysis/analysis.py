@@ -12,9 +12,9 @@ il_df_list = [];
 for ID in patientIDs:
     bed_list.append(pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed',
                                 sep='\t', names = ['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
-    pb_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/pacbio_dataframes' + ID + '_dataframe.txt',
+    pb_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/pacbio_dataframes/' + ID + '_dataframe.txt',
                                 sep='\t', names = ['ID', 'Chrom', 'Location', 'PB_Mom', 'PB_Dad', 'PB_Unphased']));
-    il_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/illumina_dataframes' + ID + '_dataframe.txt',
+    il_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/illumina_dataframes/' + ID + '_dataframe.txt',
                                 sep='\t', names = ['ID', 'Chrom', 'Location', 'IL_Mom', 'IL_Dad', 'IL_Unphased']));
 
 dnv_df = pd.concat(bed_list, ignore_index=True);
