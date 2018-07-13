@@ -13,13 +13,15 @@ for ID in patientIDs:
     bed_list.append(pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed',
                                 sep='\t', names = ['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
     pb_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/pacbio_dataframes/' + ID + '_dataframe.txt',
-                                sep='\t', names = ['ID', 'Chrom', 'Location', 'PB_Mom', 'PB_Dad', 'PB_Unphased']));
+                                sep='\t'));
     il_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/illumina_dataframes/' + ID + '_dataframe.txt',
-                                sep='\t', names = ['ID', 'Chrom', 'Location', 'IL_Mom', 'IL_Dad', 'IL_Unphased']));
+                                sep='\t'));
 
 dnv_df = pd.concat(bed_list, ignore_index=True);
 pb_parent_df = pd.concat(pb_df_list, ignore_index=True);
+pb_parent_df.rename(index=str, columns={'From Mom' : 'PB_Mom', 'From Dad': 'PB_Dad', 'Unphased' : 'PB_Unphased'});
 il_parent_df = pd.concat(il_df_list, ignore_index=True);
+il_parent_df.rename(index=str, columns={'From Mom' : 'IL_Mom', 'From Dad' : 'IL_Dad', 'Unphased' : 'IL_Unphased'});
 
 dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 pb_parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
