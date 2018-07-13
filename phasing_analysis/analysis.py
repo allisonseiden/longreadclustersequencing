@@ -81,6 +81,6 @@ def find_difference(group):
 grouped = analysis_df.groupby(['ID', 'Chrom']);
 analysis_df = grouped.apply(find_difference);
 
-a = pybedtools.BedTool('pacbio_dataframes/1-00801_dataframe.txt');
+a = pybedtools.BedTool('~/www/PacbioProject/DNV_calls/BED/1-00801.hg38.dnv.bed');
 a.intersect('CpG_islands.bed').saveas('test.bed');
 # print(analysis_df);
