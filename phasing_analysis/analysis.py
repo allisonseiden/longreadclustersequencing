@@ -1,5 +1,6 @@
 import pandas as pd
 import numpy as np
+import pybedtools
 
 # last patient ID not in list because fixing bam
 patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389', '1-04460',
@@ -79,4 +80,7 @@ def find_difference(group):
 
 grouped = analysis_df.groupby(['ID', 'Chrom']);
 analysis_df = grouped.apply(find_difference);
-print(analysis_df);
+
+a = pybedtools.BedTools('pacbio_dataframes/1-00801_dataframe.txt');
+a.intersect('CpG_islands.bed').saveas('test.bed');
+# print(analysis_df);
