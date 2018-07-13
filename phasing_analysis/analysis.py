@@ -40,6 +40,7 @@ CpG_i_length = dnv_bed_df.shape[0];
 all_ones = [1] * CpG_i_length;
 CpG_island = pd.Series(all_ones);
 dnv_bed_df['CpG_island'] = CpG_island;
+dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_island']];
 dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 
