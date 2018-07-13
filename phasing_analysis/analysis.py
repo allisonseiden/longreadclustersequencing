@@ -94,13 +94,14 @@ dnv_bed_df = pd.concat(dnv_bed_list, ignore_index=True);
 CpG_i_length = dnv_bed_df.shape[0];
 all_ones = [1] * CpG_i_length;
 CpG_island = pd.Series(all_ones, dtype=int);
+print(CpG_island);
 dnv_bed_df['CpG_Island'] = CpG_island;
 dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_Island']];
 dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 analysis_df = temp_two_df.join(dnv_bed_df, how='left');
-analysis_df.fillna(value=0, inplace=True);
+# analysis_df.fillna(value=0, inplace=True);
 
 
 
-print(analysis_df);
+# print(analysis_df);
