@@ -5,22 +5,28 @@ import numpy as np
 patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389', '1-04460',
                 '1-04537', '1-05443', '1-05673', '1-05846'];
 bed_list = [];
-df_list = [];
+pb_df_list = [];
+il_df_list = [];
 
 
 for ID in patientIDs:
     bed_list.append(pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed',
                                 sep='\t', names = ['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
-    df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/' + ID + '_dataframe.txt',
-                                sep='\t'));
+    pb_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/pacbio_dataframes' + ID + '_dataframe.txt',
+                                sep='\t', names = ['ID', 'Chrom', 'Location', 'PB_Mom', 'PB_Dad', 'PB_Unphased']));
+    il_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/illumina_dataframes' + ID + '_dataframe.txt',
+                                sep='\t', names = ['ID', 'Chrom', 'Location', 'IL_Mom', 'IL_Dad', 'IL_Unphased']));
 
 dnv_df = pd.concat(bed_list, ignore_index=True);
-parent_df = pd.concat(df_list, ignore_index=True);
+pb_parent_df = pd.concat(pb_df_list, ignore_index=True);
+il_parent_df = pd.concat(il_df_list, ignore_index=True);
 
 dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
-parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
+pb_parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
+il_parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
-analysis_df = dnv_df.join(parent_df, how='left');
+temp_df = dnv_df.join(pb_parent_df, how='left');
+analysis_df = temp_df.join(il_parent_df, how='left');
 
 
 ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
@@ -38,7 +44,7 @@ analysis_df['Tv'] = tv_series;
 analysis_df['Ti'] = analysis_df['Ti'].astype(int);
 analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 
-analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'From Mom', 'From Dad', 'Unphased']];
+analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'PB_Mom', 'PB_Dad', 'PB_Unphased', 'IL_Mom', 'IL_Dad', 'IL_Unphased']];
 
 analysis_df.reset_index(level='Location', inplace=True);
 
