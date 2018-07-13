@@ -47,8 +47,8 @@ temp_two_df = temp_one_df.join(il_parent_df, how='left');
 analysis_df = temp_two_df.join(dnv_bed_df, how='left');
 
 
-analysis_df['CpG_Island'].fillna(value=0, inplace=True);
-analysis_df['CpG_Island'].astype(int);
+analysis_df.fillna(value=0, inplace=True);
+analysis_df['CpG_Island'].astype('int64');
 
 
 ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
