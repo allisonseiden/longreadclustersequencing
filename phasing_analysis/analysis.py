@@ -28,24 +28,10 @@ dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 pb_parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 il_parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
-dnv_bed_list = [];
-for ID in patientIDs:
-    dnv_bed = pybedtools.BedTool('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed');
-    dnv_bed.intersect('CpG_islands.bed').saveas('CpG_islands/CpG_islands_' + ID + '.bed');
-    dnv_bed_list.append(pd.read_table('CpG_islands/CpG_islands_' + ID + '.bed', sep='\t',
-                        names=['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
-
-dnv_bed_df = pd.concat(dnv_bed_list, ignore_index=True);
-CpG_i_length = dnv_bed_df.shape[0];
-all_ones = np.ones(CpG_i_length, dtype=int);
-dnv_bed_df['CpG_Island'] = all_ones;
-dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_Island']];
-dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 temp_one_df = dnv_df.join(pb_parent_df, how='left');
-temp_two_df = temp_one_df.join(il_parent_df, how='left');
-analysis_df = temp_two_df.join(dnv_bed_df, how='left');
-analysis_df.fillna(value=0, inplace=True);
+analysis_df = temp_one_df.join(il_parent_df, how='left');
+
 
 
 
@@ -64,7 +50,7 @@ analysis_df['Tv'] = tv_series;
 analysis_df['Ti'] = analysis_df['Ti'].astype(int);
 analysis_df['Tv'] = analysis_df['Tv'].astype(int);
 
-analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'PB_Mom', 'PB_Dad', 'PB_Unphased', 'IL_Mom', 'IL_Dad', 'IL_Unphased', 'CpG_Island']];
+analysis_df = analysis_df[['Ref', 'Alt', 'Ti', 'Tv', 'PB_Mom', 'PB_Dad', 'PB_Unphased', 'IL_Mom', 'IL_Dad', 'IL_Unphased']];
 
 analysis_df.reset_index(level='Location', inplace=True);
 
@@ -97,4 +83,21 @@ analysis_df = grouped.apply(find_difference);
 
 analysis_df.set_index(['Location'], append=True, inplace=True);
 
-print(analysis_df);
+dnv_bed_list = [];
+for ID in patientIDs:
+    dnv_bed = pybedtools.BedTool('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed');
+    dnv_bed.intersect('CpG_islands.bed').saveas('CpG_islands/CpG_islands_' + ID + '.bed');
+    dnv_bed_list.append(pd.read_table('CpG_islands/CpG_islands_' + ID + '.bed', sep='\t',
+                        names=['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
+
+dnv_bed_df = pd.concat(dnv_bed_list, ignore_index=True);
+CpG_i_length = dnv_bed_df.shape[0];
+all_ones = np.ones(CpG_i_length, dtype=int);
+dnv_bed_df['CpG_Island'] = all_ones;
+dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_Island']];
+dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
+
+temp_two_df = analysis_df.join(dnv_bed_df, how='left');
+temp_two_df.fillna(value=0, inplace=True);
+
+print(temp_two_df);
