@@ -27,12 +27,10 @@ dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 pb_parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 il_parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
-print(dnv_df);
-print(pb_parent_df);
-print(il_parent_df);
+temp_df = dnv_df.join(pb_parent_df, how='left');
+analysis_df = temp_df.join(il_parent_df, how='left');
 
-# temp_df = dnv_df.join(pb_parent_df, how='left');
-# analysis_df = temp_df.join(il_parent_df, how='left');
+print(analysis_df);
 
 #
 # ti_series = (((analysis_df['Ref'] == 'A') & (analysis_df['Alt'] == 'G')) |
