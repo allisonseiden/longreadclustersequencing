@@ -82,7 +82,7 @@ analysis_df = grouped.apply(find_difference);
 dnv_bed_list = [];
 for ID in patientIDs:
     dnv_bed = pybedtools.BedTool('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed');
-    dnv_bed.intersect('CpG_islands/CpG_islands.bed').saveas('CpG_islands/CpG_islands_' + ID + '.bed');
+    dnv_bed.intersect('CpG_islands.bed').saveas('CpG_islands/CpG_islands_' + ID + '.bed');
     dnv_bed_list.append(pd.read_table('CpG_islands/CpG_islands_' + ID + '.bed', sep='\t',
                         names=['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
 
