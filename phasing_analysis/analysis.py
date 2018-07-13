@@ -100,6 +100,7 @@ dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_Island']];
 dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 analysis_df = temp_two_df.join(dnv_bed_df, how='left');
+print(analysis_df);
 # analysis_df.fillna(value=0, inplace=True);
 
 
