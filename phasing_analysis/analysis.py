@@ -76,13 +76,15 @@ def find_difference(group):
     group['Closest DNV Distance'] = d_series.values;
     return group;
 
-
-
 grouped = analysis_df.groupby(['ID', 'Chrom']);
 analysis_df = grouped.apply(find_difference);
 
+dnv_bed_list = [];
 for ID in patientIDs:
     dnv_bed = pybedtools.BedTool('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed');
-    dnv_bed.intersect('CpG_islands.bed').saveas('CpG_islands_' + ID + '.bed');
+    dnv_bed.intersect('CpG_islands/CpG_islands.bed').saveas('CpG_islands/CpG_islands_' + ID + '.bed');
+    dnv_bed_list.append(pd.read_table('CpG_islands/CpG_islands_' + ID + '.bed', sep='\t',
+                        names=['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
 
-# print(analysis_df);
+dnv_bed_df = pd.concat(dnv_bed_list);
+print(dnv_bed_df);
