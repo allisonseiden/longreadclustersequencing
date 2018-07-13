@@ -88,5 +88,9 @@ for ID in patientIDs:
 
 dnv_bed_df = pd.concat(dnv_bed_list, ignore_index=True);
 dnv_bed_df.set_index(['ID', 'Chrom', 'Location']);
-analysis_df = analysis_df.join(dnv_bed_df, how=left);
+CpG_i_length = dnv_bed_df.shape[0];
+all_ones = [1] * CpG_i_length;
+CpG_island = pd.Series(all_ones);
+dnv_bed_df['CpG_island'] = CpG_island;
+analysis_df = analysis_df.join(dnv_bed_df, how='left');
 print(analysis_df);
