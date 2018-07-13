@@ -19,9 +19,9 @@ for ID in patientIDs:
 
 dnv_df = pd.concat(bed_list, ignore_index=True);
 pb_parent_df = pd.concat(pb_df_list, ignore_index=True);
-pb_parent_df.rename(columns={'From Mom' : 'PB_Mom', 'From Dad': 'PB_Dad', 'Unphased' : 'PB_Unphased'});
+pb_parent_df.rename(columns={"From Mom": "PB_Mom", "From Dad": "PB_Dad", "Unphased": "PB_Unphased"});
 il_parent_df = pd.concat(il_df_list, ignore_index=True);
-il_parent_df.rename(columns={'From Mom' : 'IL_Mom', 'From Dad' : 'IL_Dad', 'Unphased' : 'IL_Unphased'});
+il_parent_df.rename(columns={"From Mom": "IL_Mom", "From Dad": "IL_Dad", "Unphased": "IL_Unphased"});
 
 dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 pb_parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
