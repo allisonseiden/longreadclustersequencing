@@ -108,6 +108,7 @@ for elem in cpg_df['End']:
 dnv_series = pd.Series(dnv_list);
 cpg_df['Location'] = dnv_series;
 cpg_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
+cpg_df = cpg_df[['Tri_Nucleotide']];
 print(cpg_df);
 
 
