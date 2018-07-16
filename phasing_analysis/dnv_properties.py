@@ -11,6 +11,6 @@ C_A_pb_phased = ((analysis_df['Ref'] == 'C') & (analysis_df['Alt'] == 'A') &
 C_A_il_phased = ((analysis_df['Ref'] == 'C') & (analysis_df['Alt'] == 'A') &
               ((analysis_df['IL_Mom'] == 1) | (analysis_df['IL_Dad'] == 1)));
 
-C_A_phased_unphased = pd.concat([C_A_pb_phased, C_A_il_phased]);
+C_A_phased_unphased = pd.concat([C_A_pb_phased, C_A_il_phased], axis=1);
 
 print(C_A_phased_unphased);
