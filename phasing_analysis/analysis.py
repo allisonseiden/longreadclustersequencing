@@ -132,6 +132,7 @@ for ID in patientIDs:
 dnv_bed_df = pd.concat(dnv_bed_list, ignore_index=True);
 dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 dnv_bed_df['CpG_Island'] = [1] * dnv_bed_df.shape[0];
+dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_Island']];
 print(dnv_bed_df);
 # dnv_bed_df['CpG_Island'].fillna(value=0, inplace=True);
 # dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_Island']];
