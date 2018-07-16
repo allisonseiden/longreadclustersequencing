@@ -6,4 +6,6 @@ analysis_df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasi
 phased_unphased_pacbio = analysis_df.groupby(['ID', 'Chrom', 'Location',
                                                         'PB_Mom', 'PB_Dad',
                                                         'PB_Unphased']);
-print(phased_unphased_pacbio);                
+for name, group in phased_unphased_pacbio:
+    print(name);
+    print(group);               
