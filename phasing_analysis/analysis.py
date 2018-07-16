@@ -97,7 +97,11 @@ for ID in patientIDs:
                                         sep=':|-|\t', names=['Chrom', 'Start', 'End', 'Tri_Nucleotide'], engine='python'));
 
 cpg_df = pd.concat(cpg_bed_list, ignore_index=True);
-print(cpg_df);
+dnv_list = [];
+for elem in cpg_df['End']:
+    dnv_list.append(elem-1);
+print(dnv_list);
+# print(cpg_df);
 
 
 
