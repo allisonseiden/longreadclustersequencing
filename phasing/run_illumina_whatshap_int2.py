@@ -1,6 +1,9 @@
 import subprocess as sp
 import multiprocessing as mp
 
+""" Script 2/2 to run Whatshap with indels flag using Illumina data for second
+    5 patient IDs, uses multiprocessing """
+
 patientID = ["1-04460", "1-04537", "1-05443", "1-05673", "1-05846"];
 
 def illumina_whatshap(ID):

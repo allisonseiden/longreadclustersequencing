@@ -16,9 +16,6 @@ import numpy as np;
                 corresponding chromosome
     gtf_dfs - a dictionary with key: a chromosome number,
                 value: dataframe with info from gtf file
-    unphased - dataframe with chromosome number and location of unphased dnvs
-    troubleshoot - dataframe with chromosome number and location of troublesome
-                    dnvs
     dnvs - a dictionary with key: chromosome number, value: list of de novos for
             corresponding chromosome (only ones that whatshap phased)
     bounds - a dictionary with key: chromosome number, value: a dictionary with
@@ -46,16 +43,15 @@ class PhasedData:
         self.bed = pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + self.id + '.hg38.dnv.bed',
                                     sep='\t', names = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']);
         self.vcf_dfs = {};
+        self.gtf_dfs = {};
         self.dnvs = {};
-        self.unphased = pd.DataFrame({'Chrom' : [], 'Location' : [], 'Ref' : [], 'Alt' : []});
-        #self.trouble = pd.DataFrame({'Chrom' : [], 'Location' : []});
         self.bounds = {};
         self.to_phase = {};
         self.phased_to_parent = {};
         self.parent_df = pd.DataFrame({'ID' : [], 'Chrom' : [], 'Location' : [],
                             'Mom Count' : [], 'Dad Count' : [],
                             'From Mom' : [], 'From Dad' : [], 'Unphased' : []});
-        self.gtf_dfs = {};
+
 
     """
         ------------------------------------------------------------------------
@@ -80,7 +76,7 @@ class PhasedData:
         ------------------------------------------------------------------------
         Method to fill vcf_dfs with dataframes created from phased vcfs without
         --indels, gtf_dfs with dataframes created from gtf files for no indel
-        vcfs, and bed file created from original de novo list
+        vcfs
         ------------------------------------------------------------------------
     """
 
@@ -98,46 +94,27 @@ class PhasedData:
 
     """
         ------------------------------------------------------------------------
-        Method to fill dnvs dictionary from BED file, ignores de novos that
-        were not phased by whatshap and places them into a dataframe
+        Method to fill dnvs dictionary from BED file
         ------------------------------------------------------------------------
     """
 
     def create_dnvs_dictionary(self):
         num_dnvs = self.bed.shape[0];
         chrom_list = [];
+        # Ensure that only chromosomes with de novos present in BED file are
+        # included and not repeated
         for row in range(0, num_dnvs):
             chr_num = self.bed.loc[row, 'Chrom'];
             if chr_num not in chrom_list:
                 chrom_list.append(chr_num);
 
-        unphased_chrom = [];
-        unphased_loc = [];
-        unphased_ref = [];
-        unphased_alt = [];
-
+        # Add de novo positions to list, de novo list value of dictionary
+        # corresponding to key value of chromosome where de novo is located
         for chrom in chrom_list:
             indices = self.bed.index[self.bed['Chrom'] == chrom].tolist();
             self.dnvs[chrom] = [];
-            # length = self.vcf_dfs[chrom].shape[0];
-            # all_unphased = [];
-            # for i in range(0, length):
-            #     if self.vcf_dfs[chrom][self.id][i][:3] == "0/1":
-            #         all_unphased.append(self.vcf_dfs[chrom]['POS'][i]);
             for index in indices:
-                # if self.bed['End'][index] in all_unphased:
-                #     unphased_chrom.append(chrom);
-                #     unphased_loc.append(self.bed['End'][index]);
-                #     unphased_ref.append(self.bed['Ref'][index]);
-                #     unphased_alt.append(self.bed['Var'][index]);
-                #     # self.unphased.append(self.bed['End'][index]);
-                # else:
                 self.dnvs[chrom].append(self.bed['End'][index]);
-
-        # self.unphased['Chrom'] = unphased_chrom;
-        # self.unphased['Location'] = unphased_loc;
-        # self.unphased['Ref'] = unphased_ref;
-        # self.unphased['Alt'] = unphased_alt;
 
         print('---DNV dictionary created for ' + self.id);
 
@@ -150,16 +127,27 @@ class PhasedData:
 
     def search_discon(self, chromosome):
         chr_bounds = {};
+        # Collect correct phased VCF file for the current chromosome
         curr_vcf = self.vcf_dfs[chromosome];
+        # Collect start and end positions of haplotype blocks from GTF file for
+        # current chromosome
         start_list = self.gtf_dfs[chromosome]['Start'].tolist();
         end_list = self.gtf_dfs[chromosome]['End'].tolist();
+        # Loop through de novo positions within list of de novos corresponding
+        # to current chromosome
         for dnv in self.dnvs[chromosome]:
             chr_bounds[dnv] = [];
+            # Get index of de novo position within VCF file, will need to look
+            # at lines above and below to find discontinuities
             dnv_index = curr_vcf.index[curr_vcf['POS'] == dnv].item();
+            # Initially set haplotype to de novo haplotype
             hap = curr_vcf[self.id][dnv_index];
+            # If the de novo is unphased, skip over it
             if hap[:3] == "0/1":
                 continue;
             u_discon = dnv_index;
+            # Loop through lines around de novo in the VCF file until a variant
+            # outside the haplotype block is found, ignore unphased indels
             while (curr_vcf['POS'][u_discon] not in start_list) or (hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1):
                 u_discon -= 1;
                 hap = curr_vcf[self.id][u_discon];
@@ -197,11 +185,16 @@ class PhasedData:
         for dnv in self.dnvs[chromosome]:
             curr_bounds = self.bounds[chromosome][dnv];
             chr_phase[dnv] = [];
+            # If the bounds list is empty, i.e. the de novo is unphased or there
+            # were no variants within the haplotype block, skip
             if len(curr_bounds) == 0:
                 continue;
             u_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[0]].item();
             l_index = curr_vcf.index[curr_vcf['POS'] == curr_bounds[1]].item();
             position = u_index;
+            # Loop through variants between upper and lower bounds and determine
+            # which are informative (de novo is phased, and mom and dad
+            # do not have the same haplotype)
             while position <= l_index:
                 child = curr_vcf[self.id][position];
                 mom = curr_vcf[self.mom][position];
@@ -209,6 +202,8 @@ class PhasedData:
                 if child[:3] == "0|1" or child[:3] == "1|0":
                     if mom[:3] != dad[:3]:
                         chr_phase[dnv].append(curr_vcf['POS'][position]);
+                # Ensure that only the closest n variants are used above and
+                # below the de novo
                 if (len(chr_phase[dnv]) != 0) and (curr_vcf['POS'][position] < dnv) and (len(chr_phase[dnv]) > n):
                     chr_phase[dnv] = chr_phase[dnv][-n:]
                 position += 1;
@@ -239,13 +234,19 @@ class PhasedData:
     """
 
     def assign_to_parent_logic(self, index, vcf, dnv_hap, chr_parent, dnv):
+        # Collect haplotype information for child, mother, and father from VCF
         child = vcf[self.id][index];
         mom = vcf[self.mom][index];
         dad = vcf[self.dad][index];
         kiddo = child[:3];
         ma = mom[:3];
         pa = dad[:3];
+        # Determine which parent the '1' or '0' came from based on whether mom
+        # and dad are homozygous or heterozygous for a certain variant and then
+        # assign the chromosomes to a parent for each informative variant
         if (ma == '0/1' and pa == '1/1') or (ma == '0/0' and pa == '0/1') or (ma == '0/0' and pa == '1/1'):
+            # Compare the informative variants to the de novo (whether both
+            # are 0|1 or 1|0 or they are opposite) and assign accordingly
             if kiddo == dnv_hap[:3]:
                 chr_parent[dnv].append('dad');
             else:
@@ -303,9 +304,11 @@ class PhasedData:
         dad_count = [];
         from_mom = [];
         from_dad = [];
-        # trouble = [];
         unphased = [];
         for chr in self.phased_to_parent:
+            # For each de novo, go through phased_to_parent list and count
+            # how many informative variants were assigned to mom and how many
+            # were assigned to dad
             for dnv in self.phased_to_parent[chr]:
                 id_list.append(self.id);
                 chrom_list.append(chr);
@@ -333,20 +336,30 @@ class PhasedData:
         length = self.parent_df.shape[0];
 
         for i in range(0, length):
+            # Collect the number of informative variants assigned to mom and
+            # assigned to dad for each de novo
             ma = self.parent_df['Mom Count'][i];
             pa = self.parent_df['Dad Count'][i];
+            # If there are no informative variants for both mom and dad,
+            # consider the de novo unphased
             if ma == 0 and pa == 0:
                 unphased.append(1)
                 from_mom.append(0);
                 from_dad.append(0);
+            # If 85% or more of the informative variants phased the de novo to
+            # mom, consider the de novo to have come from mom
             elif ma/(ma + pa) >= .85:
                 from_mom.append(1);
                 from_dad.append(0);
                 unphased.append(0);
+            # If 85% or more of the informative variants phased the de novo to
+            # dad, consider the de novo to have come from dad
             elif pa/(ma + pa) >= .85:
                 from_mom.append(0);
                 from_dad.append(1);
                 unphased.append(0);
+            # If the informative variants present ambiguous information,
+            # consider the de novo unphased
             else:
                 from_mom.append(0);
                 from_dad.append(0);
@@ -360,38 +373,3 @@ class PhasedData:
         self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'From Mom',
                                             'From Dad', 'Unphased']];
         self.parent_df.to_csv(path_or_buf=self.id + '_dataframe.txt', sep='\t', float_format='%g', index=False);
-
-        # trouble_chrom = [];
-        # trouble_loc = [];
-        # for i in range(0, length):
-        #     if self.parent_df['Troubleshoot'][i] == 1:
-        #         trouble_chrom.append(self.parent_df['Chrom'][i]);
-        #         trouble_loc.append(self.parent_df['Location'][i]);
-        #
-        # self.trouble['Chrom'] = trouble_chrom;
-        # self.trouble['Location'] = trouble_loc;
-
-        # self.parent_df = self.parent_df.groupby('ID').sum();
-        # # self.parent_df['Unphased'] = self.unphased.shape[0];
-        # self.parent_df = self.parent_df.loc[:,['From Mom', 'From Dad', 'Unphased']];
-
-    """
-        ------------------------------------------------------------------------
-        Writes troubleshoot and unphased de novo locations to bed file to pass
-        to indels vcfs
-        ------------------------------------------------------------------------
-    """
-
-
-    # def write_to_bed(self):
-    #     filename = "/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/" + self.id + "/" + self.id + "_no_indels_dnvs.bed";
-    #     bed_file = open(filename, "w");
-    #     trouble_length = self.trouble.shape[0];
-    #     for i in range(0, trouble_length):
-    #         line = str(self.trouble['Chrom'][i]) + '\t.\t' + str(self.trouble['Location'][i]) + '\t.\t.\t' + self.id + '\n';
-    #         bed_file.write(line);
-    #     unphased_length = self.unphased.shape[0];
-    #     for i in range(0, unphased_length):
-    #         line = str(self.unphased['Chrom'][i]) + '\t.\t' + str(self.unphased['Location'][i]) + '\t' + str(self.unphased['Ref'][i]) + '\t' + str(self.unphased['Alt'][i]) + '\t' + self.id + '\n';
-    #         bed_file.write(line);
-    #     bed_file.close();

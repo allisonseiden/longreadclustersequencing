@@ -124,34 +124,3 @@ for dnv in phase:
                 phased_to_parent[dnv].append("dad");
             else:
                 phased_to_parent[dnv].append("mom");
-
-# vcf_df = d['chr22'];
-# phase = {};
-# for dnv in all_bounds['chr22']:
-#     curr_bounds = all_bounds['chr22'][dnv];
-#     variants = [];
-#     u_index = vcf_df.index[vcf_df['POS'] == curr_bounds[0]].item();
-#     l_index = vcf_df.index[vcf_df['POS'] == curr_bounds[1]].item();
-#     position = u_index;
-#     while position <= l_index:
-#         child = vcf_df['1-00801'][position];
-#         mom = vcf_df['1-00801-01'][position];
-#         dad = vcf_df['1-00801-02'][position];
-#         if child[:3] == "0|1" or child[:3] == "1|0":
-#             if mom[:3] == "0/0" and (dad[:3] == "1/1" or dad[:3] == "0/1"):
-#                 variants.append(vcf_df['POS'][position]);
-#             if dad[:3] == "0/0" and (mom[:3] == "1/1" or mom[:3] == "0/1"):
-#                 variants.append(vcf_df['POS'][position]);
-#         position += 1;
-#     phase[dnv] = variants;
-
-
-
-
-
-33450603
-33450642
-33451351
-33502383
-33545419
-33623705
