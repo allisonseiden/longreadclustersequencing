@@ -84,7 +84,7 @@ temp_two_df.set_index(['Location'], append=True, inplace=True);
 cpg_bed_list = [];
 for ID in patientIDs:
     cpg_bed_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/get_fasta_bed/' + ID + '_tri.hg38.dnv.bed',
-                                        sep=':|-|\t', names=['Chrom', 'Start', 'End', 'Tri_Nucleotide'], engine='python'));
+                                        sep=':|-|\t', names=['Chrom', 'Start', 'End', 'Tri_Nucleotide', 'ID'], engine='python'));
 
 cpg_df = pd.concat(cpg_bed_list, ignore_index=True);
 print(cpg_df);
