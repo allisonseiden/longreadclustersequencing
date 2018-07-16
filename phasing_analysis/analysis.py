@@ -102,6 +102,7 @@ for elem in cpg_df['End']:
     dnv_list.append(elem-1);
 dnv_series = pd.Series(dnv_list);
 cpg_df['Location'] = dnv_series;
+cpg_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 print(cpg_df);
 
 
