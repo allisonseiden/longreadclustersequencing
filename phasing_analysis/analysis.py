@@ -93,8 +93,13 @@ temp_two_df.set_index(['Location'], append=True, inplace=True);
 # Find CpG regions
 cpg_bed_list = [];
 for ID in patientIDs:
-    cpg_bed_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/get_fasta_bed/' + ID + '_tri.hg38.dnv.bed',
-                                        sep=':|-|\t', names=['Chrom', 'Start', 'End', 'Tri_Nucleotide'], engine='python'));
+    cpg_bed = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/get_fasta_bed/' + ID + '_tri.hg38.dnv.bed',
+                                        sep=':|-|\t', names=['Chrom', 'Start', 'End', 'Tri_Nucleotide'], engine='python');
+    cpg_id = [];
+    for elem in cpg_bed['Chrom']:
+        cpg_id.append(ID);
+    cpg_bed['ID'] = cpg_id;
+    cpg_bed_list.append(cpg_bed);
 
 cpg_df = pd.concat(cpg_bed_list, ignore_index=True);
 dnv_list = [];
