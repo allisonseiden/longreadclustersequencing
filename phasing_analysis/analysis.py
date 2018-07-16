@@ -2,14 +2,18 @@ import pandas as pd
 import numpy as np
 import pybedtools
 
-# last patient ID not in list because fixing bam
+""" Program to analyze phasing information given through Whatshap and parent
+    assignment code """
+
+
 patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389', '1-04460',
                 '1-04537', '1-05443', '1-05673', '1-05846'];
 bed_list = [];
 pb_df_list = [];
 il_df_list = [];
 
-
+# Create lists of pandas dataframes for BED files, Pacbio dataframes, and
+# Illumina dataframes for all patient IDs
 for ID in patientIDs:
     bed_list.append(pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed',
                                 sep='\t', names = ['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
@@ -18,6 +22,8 @@ for ID in patientIDs:
     il_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/illumina_dataframes/' + ID + '_dataframe.txt',
                                 sep='\t'));
 
+# Create combined dataframe for all BED files, Pacbio dataframes, and
+# Illumina dataframes
 dnv_df = pd.concat(bed_list, ignore_index=True);
 pb_parent_df = pd.concat(pb_df_list, ignore_index=True);
 pb_parent_df.rename(columns={"From Mom": "PB_Mom", "From Dad": "PB_Dad", "Unphased": "PB_Unphased"}, inplace=True);
@@ -28,11 +34,13 @@ dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 pb_parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 il_parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
-
+# Join together BED dataframe, Pacbio dataframe, and Illumina dataframe
 temp_one_df = dnv_df.join(pb_parent_df, how='left');
 temp_two_df = temp_one_df.join(il_parent_df, how='left');
 
 
+# Create series for which de novos are transitions (ti_series) and which
+# de novos are transversions (tv_series)
 ti_series = (((temp_two_df['Ref'] == 'A') & (temp_two_df['Alt'] == 'G')) |
              ((temp_two_df['Ref'] == 'G') & (temp_two_df['Alt'] == 'A')) |
              ((temp_two_df['Ref'] == 'C') & (temp_two_df['Alt'] == 'T')) |
@@ -52,6 +60,7 @@ temp_two_df = temp_two_df[['Ref', 'Alt', 'Ti', 'Tv', 'PB_Mom', 'PB_Dad', 'PB_Unp
 
 temp_two_df.reset_index(level='Location', inplace=True);
 
+# Function to find the difference between bordering de novos in BED file
 def find_difference(group):
     loc_list = group['Location'].tolist();
     length = len(loc_list);
@@ -81,6 +90,7 @@ temp_two_df = grouped.apply(find_difference);
 
 temp_two_df.set_index(['Location'], append=True, inplace=True);
 
+# Find CpG regions
 cpg_bed_list = [];
 for ID in patientIDs:
     cpg_bed_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/get_fasta_bed/' + ID + '_tri.hg38.dnv.bed',
@@ -91,7 +101,8 @@ print(cpg_df);
 
 
 
-
+# Find CpG islands using bedtools intersect with bed files and CpGisland file
+# from UCSC Genome Browser
 dnv_bed_list = [];
 for ID in patientIDs:
     dnv_bed = pybedtools.BedTool('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed');
