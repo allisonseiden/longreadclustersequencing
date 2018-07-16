@@ -97,7 +97,7 @@ for ID in patientIDs:
                                         sep=':|-|\t', names=['Chrom', 'Start', 'End', 'Tri_Nucleotide'], engine='python');
     cpg_id = [];
     for elem in cpg_bed['Tri_Nucleotide']:
-        elem = elem.upper();
+        elem.upper();
         cpg_id.append(ID);
     cpg_bed['ID'] = cpg_id;
     cpg_bed_list.append(cpg_bed);
