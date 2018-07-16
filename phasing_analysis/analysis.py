@@ -100,8 +100,9 @@ cpg_df = pd.concat(cpg_bed_list, ignore_index=True);
 dnv_list = [];
 for elem in cpg_df['End']:
     dnv_list.append(elem-1);
-print(dnv_list);
-# print(cpg_df);
+dnv_series = pd.Series(dnv_list);
+cpg_df['Location'] = dnv_series;
+print(cpg_df);
 
 
 
