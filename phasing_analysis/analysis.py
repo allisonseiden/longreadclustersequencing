@@ -138,5 +138,6 @@ print(dnv_bed_df);
 analysis_df = temp_three_df.join(dnv_bed_df, how='left');
 analysis_df.fillna(value=False, inplace=True);
 analysis_df['CpG_Island'] = analysis_df['CpG_Island'].astype(int);
-#
+
+analysis_df.to_csv(path_or_buf='phasing_analysis_df.txt', sep='\t')
 print(analysis_df);
