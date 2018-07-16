@@ -33,8 +33,6 @@ temp_one_df = dnv_df.join(pb_parent_df, how='left');
 temp_two_df = temp_one_df.join(il_parent_df, how='left');
 
 
-
-
 ti_series = (((temp_two_df['Ref'] == 'A') & (temp_two_df['Alt'] == 'G')) |
              ((temp_two_df['Ref'] == 'G') & (temp_two_df['Alt'] == 'A')) |
              ((temp_two_df['Ref'] == 'C') & (temp_two_df['Alt'] == 'T')) |
@@ -83,6 +81,17 @@ temp_two_df = grouped.apply(find_difference);
 
 temp_two_df.set_index(['Location'], append=True, inplace=True);
 
+cpg_bed_list = [];
+for ID in patientIDs:
+    cpg_bed_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/get_fasta_bed/' + ID + '_tri.hg38.dnv.bed',
+                                        sep=':|-|\t'));
+
+cpg_df = pd.concat(cpg_bed_list, ignore_index=True);
+print(cpg_df);
+
+
+
+
 dnv_bed_list = [];
 for ID in patientIDs:
     dnv_bed = pybedtools.BedTool('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed');
@@ -100,11 +109,7 @@ dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_Island']];
 dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 analysis_df = temp_two_df.join(dnv_bed_df, how='left');
-for elem in analysis_df['CpG_Island']:
-    print(elem);
-
-
-# analysis_df.fillna(value=0, inplace=True);
+analysis_df.fillna(value=0, inplace=True);
 
 
 
