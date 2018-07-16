@@ -17,4 +17,6 @@ group_by_ref_alt = analysis_df.groupby(['Ref', 'Alt']);
 # C_A_phased_unphased = pd.concat([C_A_pb_phased, C_A_il_phased], axis=1);
 
 for name, group in group_by_ref_alt:
-    print(type(name));
+    if name[0] == 'C' and name[1] == 'A':
+        print(name);
+        print(group);
