@@ -3,7 +3,7 @@ import numpy as np
 
 analysis_df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/phasing_analysis_df.txt',
                             sep='\t');
-analysis_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
+# analysis_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 C_A_pb_phased = (((analysis_df['Ref'] == 'C') & (analysis_df['Alt'] == 'A')) &
               ((analysis_df['PB_Mom']) | (analysis_df['PB_Dad'])));
