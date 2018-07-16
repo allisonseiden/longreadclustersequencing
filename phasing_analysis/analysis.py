@@ -96,10 +96,10 @@ for ID in patientIDs:
     cpg_bed = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/get_fasta_bed/' + ID + '_tri.hg38.dnv.bed',
                                         sep=':|-|\t', names=['Chrom', 'Start', 'End', 'Tri_Nucleotide'], engine='python');
     cpg_id = [];
-    for elem in cpg_bed['Tri_Nucleotide']:
-        print(elem);
-        elem.upper();
-        print(elem);
+    for i in range(cpg_bed.shape[0]):
+        print(cpg_bed['Tri_Nucleotide'][i]);
+        cpg_bed['Tri_Nucleotide'][i].upper();
+        print(cpg_bed['Tri_Nucleotide'][i]);
         cpg_id.append(ID);
     cpg_bed['ID'] = cpg_id;
     cpg_bed_list.append(cpg_bed);
