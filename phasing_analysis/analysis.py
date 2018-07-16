@@ -137,6 +137,6 @@ print(dnv_bed_df);
 
 analysis_df = temp_three_df.join(dnv_bed_df, how='left');
 analysis_df.fillna(value=False, inplace=True);
-#
+analysis_df['CpG_Island'] = analysis_df['CpG_Island'].astype(int);
 #
 print(analysis_df);
