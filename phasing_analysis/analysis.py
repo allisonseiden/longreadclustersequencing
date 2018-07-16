@@ -117,13 +117,8 @@ for elem in cpg_df['Tri_Nucleotide']:
     else:
         cpg.append(0);
 cpg_df['CpG'] = cpg;
-print(cpg_df);
 
-
-
-
-
-
+temp_three_df = temp_two_df.join(cpg_df, how='left');
 
 # Find CpG islands using bedtools intersect with bed files and CpGisland file
 # from UCSC Genome Browser
@@ -142,9 +137,9 @@ dnv_bed_df['CpG_Island'] = CpG_island;
 dnv_bed_df = dnv_bed_df[['ID', 'Chrom', 'Location', 'CpG_Island']];
 dnv_bed_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
-analysis_df = temp_two_df.join(dnv_bed_df, how='left');
+analysis_df = temp_three_df.join(dnv_bed_df, how='left');
 analysis_df.fillna(value=0, inplace=True);
 
 
 
-# print(analysis_df);
+print(analysis_df);
