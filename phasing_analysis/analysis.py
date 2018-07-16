@@ -97,7 +97,9 @@ for ID in patientIDs:
                                         sep=':|-|\t', names=['Chrom', 'Start', 'End', 'Tri_Nucleotide'], engine='python');
     cpg_id = [];
     for elem in cpg_bed['Tri_Nucleotide']:
+        print(elem);
         elem.upper();
+        print(elem);
         cpg_id.append(ID);
     cpg_bed['ID'] = cpg_id;
     cpg_bed_list.append(cpg_bed);
@@ -110,7 +112,7 @@ dnv_series = pd.Series(dnv_list);
 cpg_df['Location'] = dnv_series;
 cpg_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 cpg_df = cpg_df[['Tri_Nucleotide']];
-print(cpg_df);
+
 
 
 
