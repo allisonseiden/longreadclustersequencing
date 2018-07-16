@@ -110,6 +110,13 @@ cpg_df['Location'] = dnv_series;
 cpg_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 cpg_df['Tri_Nucleotide'] = cpg_df['Tri_Nucleotide'].str.upper();
 cpg_df = cpg_df[['Tri_Nucleotide']];
+cpg = [];
+for elem in cpg_df['Tri_Nucleotide']:
+    if (elem[1] == 'C' and (elem[0] == 'G' or elem[2] == 'G')) or (elem[1] == 'G' and (elem[0] == 'C' or elem[2] == 'C')):
+        cpg.append(1);
+    else:
+        cpg.append(0);
+cpg_df['CpG'] = cpg;
 print(cpg_df);
 
 
