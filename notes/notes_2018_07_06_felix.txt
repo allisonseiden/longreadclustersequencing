@@ -77,3 +77,32 @@ grep -C10 "\s97256709\s" ../1-00801_no_indels/1-00801_chr13_phased.vcf |cut -f2,
 
 # closest indel is at chr13:97251834
 chr13:97251634-97256809
+
+
+chr12:75272545
+1-00801_illumina
+cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/WhatshapVCFs
+grep -C10 "\s75272545\s" 1-00801_illumina/1-00801_chr12_phased.vcf | cut -f2,4-5,10-12
+
+chr16:9021367
+grep -C10 "\s9021367\s" 1-00801_illumina/1-00801_chr16_phased.vcf | cut -f2,4-5,10-12
+
+
+chr20:39588834
+grep -C10 "\s39588834\s" 1-00801_illumina/1-00801_chr20_phased.vcf | cut -f2,4-5,10-12
+
+chr8:106717486
+grep -C10 "\s106717486\s" 1-00801_illumina/1-00801_chr8_phased.vcf | cut -f2,4-5,10-12
+
+
+## UNPHASED with illumina, phased with PacBio
+
+chr2:158890470
+grep -C10 "\s158890470\s" 1-00801/1-00801_chr2_phased.vcf | cut -f2,4-5,10-12
+
+chr2:158889529-158891600
+
+chr5:72378426
+grep -C10 "\s72378426\s" 1-00801/1-00801_chr5_phased.vcf | cut -f2,4-5,10-12
+chr5:72376573-72379530
+1-00801_chr5_72378426
