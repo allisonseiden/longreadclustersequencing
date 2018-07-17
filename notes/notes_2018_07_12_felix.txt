@@ -1,0 +1,19 @@
+
+
+https://richtf01.u.hpc.mssm.edu/PacbioProject/PacbioHg38Bams/1-00801_edit_sorted.bam
+https://richtf01.u.hpc.mssm.edu/PacbioProject/IlluminaHg38Bams/1-00801.hg38.dedup.clean.recal.cram
+https://richtf01.u.hpc.mssm.edu/PacbioProject/IlluminaHg38Bams/1-00801-01.hg38.dedup.clean.recal.cram
+https://richtf01.u.hpc.mssm.edu/PacbioProject/IlluminaHg38Bams/1-00801-02.hg38.dedup.clean.recal.cram
+
+
+## looking through the Illumina data
+chr10:64696050
+grep -C15 "\s64696050\s" ../1-00801_illumina/1-00801_chr10_phased.vcf |cut -f2,4-5,10-12
+
+
+# informative vars
+chr10:64696480
+
+chr10:64695950-64696680
+
+chr10_64696050_inform_mom_64696480.png
