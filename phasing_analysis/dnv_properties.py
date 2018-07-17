@@ -3,7 +3,9 @@ import numpy as np
 
 analysis_df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/phasing_analysis_df.txt',
                             sep='\t');
-
+total_data = analysis_df.sum(numeric_only=True);
+total_data = total_data.append(pd.Series(['All'], index=['Mutational_Class']));
+print(total_data);
 
 group_by_ref_alt = analysis_df.groupby(['ID', 'Ref', 'Alt']);
 C_A_df_list = [];
