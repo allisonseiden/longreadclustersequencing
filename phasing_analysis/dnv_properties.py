@@ -13,7 +13,7 @@ C_A_df_list = [];
 
 
 for name, group in group_by_ref_alt:
-    if name[1] == 'C' and name[2] == 'A':
+    if (name[1] == 'C' and name[2] == 'A') or (name[1] == 'G' and name[2] == 'T'):
         C_A_df_list.append(group);
 
 C_A_df = pd.concat(C_A_df_list, ignore_index=True);
