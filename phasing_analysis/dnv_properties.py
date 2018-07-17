@@ -17,4 +17,5 @@ C_A_df = pd.concat(C_A_df_list, ignore_index=True);
 C_A_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 C_A_data = C_A_df.sum(numeric_only=True)
-print(type(C_A_data));
+C_A_data.append(pd.Series(['C->A'], index=['Mutational_Class']));
+print(C_A_data);
