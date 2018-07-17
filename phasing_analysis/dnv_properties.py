@@ -10,5 +10,4 @@ group_by_ref_alt = analysis_df.groupby(['ID', 'Ref', 'Alt']);
 
 for name, group in group_by_ref_alt:
     if name[1] == 'C' and name[2] == 'A':
-        print(name);
-        print(group);
+        print(type(group));
