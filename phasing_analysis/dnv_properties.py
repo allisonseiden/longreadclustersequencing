@@ -4,6 +4,7 @@ import numpy as np
 analysis_df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/phasing_analysis_df.txt',
                             sep='\t');
 total_data = analysis_df.sum(numeric_only=True);
+total_data.drop(['Location', 'Closest DNV Distance']);
 total_data = total_data.append(pd.Series(['All'], index=['Mutational_Class']));
 print(total_data);
 
@@ -18,6 +19,7 @@ for name, group in group_by_ref_alt:
 C_A_df = pd.concat(C_A_df_list, ignore_index=True);
 C_A_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
-C_A_data = C_A_df.sum(numeric_only=True)
+C_A_data = C_A_df.sum(numeric_only=True);
+C_A_data.drop(['Closest DNV Distance']);
 C_A_data = C_A_data.append(pd.Series(['C->A'], index=['Mutational_Class']));
 print(C_A_data);
