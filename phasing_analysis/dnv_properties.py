@@ -4,7 +4,7 @@ import numpy as np
 analysis_df = pd.read_table('/Users/Seiden/Documents/Summer2018/longreadclustersequencing/phasing_analysis/phasing_analysis_df.txt',
                             sep='\t');
 
-pacbio_df = analysis_df.loc[:,['ID', 'Chrom', 'Location', 'Ref', 'Alt', 'PB_Mom', 'PB_Dad', 'PB_Unphased', 'CpG']];
+pacbio_df = analysis_df.loc[:,['ID', 'Chrom', 'Location', 'PB_Mom', 'PB_Dad', 'PB_Unphased']];
 length = analysis_df.shape[0];
 for i in range(length):
     if pacbio_df['PB_Mom'][i] == 1:
@@ -13,6 +13,9 @@ for i in range(length):
         pacbio_df.loc[i, 'Parent'] = 'Father';
     else:
         pacbio_df.loc[i, 'Parent'] = 'None';
+
+pacbio_df.to_csv(path_or_buf='all_pacbio_data.txt', sep='\t');
+
 
 dnv_nums_dict = {};
 dnv_nums_dict['Total'] = pacbio_df.sum(numeric_only=True);
