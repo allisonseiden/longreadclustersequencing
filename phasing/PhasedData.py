@@ -40,7 +40,7 @@ class PhasedData:
         self.id = patientID;
         self.mom = patientID + '-01';
         self.dad = patientID + '-02';
-        self.bed = pd.read_table('/hpc/users/seidea02/www/longreadclustersequencing/data/' + self.id + '_dnv.bed',
+        self.bed = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/' + self.id + '_dnv.bed',
                                     sep='\t', names = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']);
         self.vcf_dfs = {};
         self.gtf_dfs = {};
