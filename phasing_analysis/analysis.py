@@ -15,7 +15,7 @@ il_df_list = [];
 # Create lists of pandas dataframes for BED files, Pacbio dataframes, and
 # Illumina dataframes for all patient IDs
 for ID in patientIDs:
-    bed_list.append(pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed',
+    bed_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/' + ID + '_dnv.bed',
                                 sep='\t', names = ['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
     pb_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/pacbio_dataframes/' + ID + '_dataframe.txt',
                                 sep='\t'));
@@ -93,7 +93,7 @@ temp_two_df.set_index(['Location'], append=True, inplace=True);
 # Find CpG regions
 cpg_bed_list = [];
 for ID in patientIDs:
-    cpg_bed = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/get_fasta_bed/' + ID + '_tri.hg38.dnv.bed',
+    cpg_bed = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/get_fasta_bed/' + ID + '_tri.dnv.bed',
                                         sep=':|-|\t', names=['Chrom', 'Start', 'End', 'Tri_Nucleotide'], engine='python');
     cpg_id = [];
     for elem in cpg_bed['Chrom']:
@@ -124,7 +124,7 @@ temp_three_df = temp_two_df.join(cpg_df, how='left');
 # from UCSC Genome Browser
 dnv_bed_list = [];
 for ID in patientIDs:
-    dnv_bed = pybedtools.BedTool('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + ID + '.hg38.dnv.bed');
+    dnv_bed = pybedtools.BedTool('/hpc/users/seidea02/longreadclustersequencing/data/' + ID + '_dnv.bed');
     dnv_bed.intersect('CpG_islands.bed').saveas('CpG_islands/CpG_islands_' + ID + '.bed');
     dnv_bed_list.append(pd.read_table('CpG_islands/CpG_islands_' + ID + '.bed', sep='\t',
                         names=['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
