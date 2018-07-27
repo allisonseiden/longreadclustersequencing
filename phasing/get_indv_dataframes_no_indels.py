@@ -12,22 +12,22 @@ from PhasedData import PhasedData
 # patient_1.convert_to_dataframe();
 #
 #
-# patient_2 = PhasedData('1-01019');
-# patient_2.create_vcf_no_indels();
-# patient_2.create_dnvs_dictionary();
-# patient_2.fill_bounds_dictionary();
-# patient_2.find_variants_for_phasing(7);
-# patient_2.assign_to_parent();
-# patient_2.convert_to_dataframe();
+patient_2 = PhasedData('1-01019');
+patient_2.create_vcf_no_indels();
+patient_2.create_dnvs_dictionary();
+patient_2.fill_bounds_dictionary();
+patient_2.find_variants_for_phasing(7);
+patient_2.assign_to_parent();
+patient_2.convert_to_dataframe();
 
 
-# patient_3 = PhasedData('1-03897');
-# patient_3.create_vcf_no_indels();
-# patient_3.create_dnvs_dictionary();
-# patient_3.fill_bounds_dictionary();
-# patient_3.find_variants_for_phasing(7);
-# patient_3.assign_to_parent();
-# patient_3.convert_to_dataframe();
+patient_3 = PhasedData('1-03897');
+patient_3.create_vcf_no_indels();
+patient_3.create_dnvs_dictionary();
+patient_3.fill_bounds_dictionary();
+patient_3.find_variants_for_phasing(7);
+patient_3.assign_to_parent();
+patient_3.convert_to_dataframe();
 #
 #
 # patient_4 = PhasedData('1-04190');
@@ -76,19 +76,19 @@ from PhasedData import PhasedData
 #
 #
 #
-patient_9 = PhasedData('1-05673');
-patient_9.create_vcf_no_indels();
-patient_9.create_dnvs_dictionary();
-patient_9.fill_bounds_dictionary();
-patient_9.find_variants_for_phasing(7);
-patient_9.assign_to_parent();
-patient_9.convert_to_dataframe();
-
-
-patient_10 = PhasedData('1-05846');
-patient_10.create_vcf_no_indels();
-patient_10.create_dnvs_dictionary();
-patient_10.fill_bounds_dictionary();
-patient_10.find_variants_for_phasing(7);
-patient_10.assign_to_parent();
-patient_10.convert_to_dataframe();
+# patient_9 = PhasedData('1-05673');
+# patient_9.create_vcf_no_indels();
+# patient_9.create_dnvs_dictionary();
+# patient_9.fill_bounds_dictionary();
+# patient_9.find_variants_for_phasing(7);
+# patient_9.assign_to_parent();
+# patient_9.convert_to_dataframe();
+#
+#
+# patient_10 = PhasedData('1-05846');
+# patient_10.create_vcf_no_indels();
+# patient_10.create_dnvs_dictionary();
+# patient_10.fill_bounds_dictionary();
+# patient_10.find_variants_for_phasing(7);
+# patient_10.assign_to_parent();
+# patient_10.convert_to_dataframe();
