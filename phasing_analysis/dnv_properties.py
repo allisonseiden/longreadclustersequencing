@@ -85,7 +85,7 @@ for key in mutation_groups:
     pb_dad_series = dnv_nums_dict[key]['Dad']/pb_total_dad;
     temp = pd.concat([pb_mom_series, pb_dad_series], axis=1);
     temp.reset_index(inplace=True);
-    mutational_class_series = pd.Series([key] * 3);
+    mutational_class_series = pd.Series([key] * 30);
     dnv_percent_dict[key] = pd.concat([temp, mutational_class_series], axis=1);
     dnv_percent_dict[key].rename(columns={0 : 'Mutational_Class'}, inplace=True);
     dnv_percent_dict[key]['Fraction'] = dnv_percent_dict[key].iloc[:, 1:3].sum(axis=1);
