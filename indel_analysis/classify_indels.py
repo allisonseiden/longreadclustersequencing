@@ -1,13 +1,15 @@
 import pandas as pd
 import numpy as np
+import subprocess as sp
 
 
 class Bedfile:
 
-    def __init__(self, bed_location):
+    def __init__(self, bed_location, fasta_location):
         self.orig_bed = pd.read_table(bed_location, names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID'],
                                         sep='\t', engine='python');
         self.mod_bed = self.orig_bed;
+        self.fasta = fasta_location;
 
     def get_indels_from_bed(self):
         length = self.mod_bed.shape[0];
@@ -47,13 +49,20 @@ class Bedfile:
                     self.mod_bed.loc[i, 'Start'] -= 2*allele_len;
                     self.mod_bed.loc[i, 'End'] += 3*allele_len;
 
+    def get_fasta(self):
+        self.mod_bed.to_csv(path_or_buf='tmp.bed', sep='\t');
+        cmd = 'bedtools getfasta -fi' + self.fasta + '-bed tmp.bed -fo fasta_test.bed -tab';
+        sp.call(cmd, shell=True);
+
+
 
 
 
 
 if __name__ == '__main__':
-    test = Bedfile('/Users/allisonseiden/Documents/longreadclustersequencing/data/1-00801_dnv.bed');
+    test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-00801_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa');
     test.get_indels_from_bed();
     test.get_allele();
     test.change_bounds();
+    test.get_fasta();
     print(test.mod_bed);
