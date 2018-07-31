@@ -51,7 +51,7 @@ class Bedfile:
 
     def get_fasta(self):
         self.mod_bed.to_csv(path_or_buf='tmp.bed', sep='\t');
-        cmd = 'bedtools getfasta -fi ' + self.fasta + '-bed tmp.bed -fo fasta_test.bed -tab';
+        cmd = 'bedtools getfasta -fi ' + self.fasta + ' -bed tmp.bed -fo fasta_test.bed -tab';
         sp.call(cmd, shell=True);
 
 
