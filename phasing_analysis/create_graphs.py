@@ -9,7 +9,7 @@ sb.set_context("paper");
 sb.set_style("ticks", {"font.family" : ['calibri']})
 dnv_data = pd.read_csv('dnv_parent_percentages.txt', sep='\t', engine='python');
 dnv_data.set_index(['Mutational_Class'], inplace=True);
-mutation_list = ['C_A', 'C_T', 'C_G', 'T_A', 'T_C', 'T_G', 'CpG_TpG'];
+mutation_list = ['C_A', 'C_T', 'C_G', 'T_A', 'T_C', 'T_G', 'CpG_TpG', 'Indels'];
 length = len(mutation_list);
 
 f, axarr = plt.subplots(2, 4, sharex=True, sharey=True, figsize=(10, 3));
@@ -33,6 +33,9 @@ for i in range(length):
         dad = axarr[1, 2].barh(y_pos[0], fraction_list[0], color='#352846', left=0.005, height=0.425, label='Father');
         mom = axarr[1, 2].barh(y_pos[1], fraction_list[1], color='#E2AE38', left=0.005, height=0.425, label='Mother');
         axarr[1, 2].set_title('CpG  >  TpG');
+        dad = axarr[1, 3].barh(y_pos[0], fraction_list[0], color='#352846', left=0.005, height=0.425, label='Father');
+        mom = axarr[1, 3].barh(y_pos[1], fraction_list[1], color='#E2AE38', left=0.005, height=0.425, label='Mother');
+        axarr[1, 3].set_title('Indels');
 f.text(0.5, 0.06, 'Fraction', ha='center', va='center');
 f.text(0.02, 0.5, 'Mutational Class', ha='center', va='center', rotation='vertical');
 f.tight_layout(pad=2.5, w_pad=1.0, h_pad=1.0);
