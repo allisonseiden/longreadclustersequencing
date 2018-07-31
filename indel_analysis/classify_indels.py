@@ -51,9 +51,12 @@ class Bedfile:
 
     def get_fasta(self):
         self.mod_bed.to_csv(path_or_buf='tmp.bed', sep='\t', header=False, index=False);
-        cmd = 'bedtools getfasta -fi ' + self.fasta + ' -bed tmp.bed -fo fasta_test.bed -tab';
+        cmd = 'bedtools getfasta -fi ' + self.fasta + ' -bed tmp.bed -fo fasta_tmp.bed -tab';
         sp.call(cmd, shell=True);
-
+        fasta_df = pd.read_table('fasta_tmp.bed', sep=':|-|\t', engine='python', names=['Chrom', 'Start', 'End', 'Sequence']);
+        self.mod_bed.set_index(['Chrom', 'Start', 'End'], inplace=True);
+        fasta_df.set_index(['Chrom', 'Start', 'End'], inplace=True);
+        self.mod_bed = self.mod_bed.join(fasta_df, how='left');
 
 
 
