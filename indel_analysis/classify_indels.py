@@ -50,7 +50,7 @@ class Bedfile:
                     self.mod_bed.loc[i, 'End'] += 3*allele_len;
 
     def get_fasta(self):
-        self.mod_bed.to_csv(path_or_buf='tmp.bed', sep='\t');
+        self.mod_bed.to_csv(path_or_buf='tmp.bed', sep='\t', header=False, index=False);
         cmd = 'bedtools getfasta -fi ' + self.fasta + ' -bed tmp.bed -fo fasta_test.bed -tab';
         sp.call(cmd, shell=True);
 
