@@ -61,6 +61,7 @@ class Bedfile:
         sp.call('rm tmp.bed fasta_tmp.bed', shell=True);
 
     def assign_class(self):
+        # working on this currently
         length = self.mod_bed.shape[0];
         for i in range(length):
             allele_len = len(self.mod_bed.loc[i, 'Allele']);
