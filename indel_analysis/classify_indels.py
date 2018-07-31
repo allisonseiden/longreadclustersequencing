@@ -63,10 +63,11 @@ class Bedfile:
     def assign_class(self):
         length = self.mod_bed.shape[0];
         for i in range(length):
-            allele_len = self.mod_bed.loc[i, 'Allele'];
+            allele_len = len(self.mod_bed.loc[i, 'Allele']);
             seq = self.mod_bed.loc[i, 'Sequence'];
             mid = len(seq)/2;
-            print(mid);
+            if seq[mid:mid + allele_len] == self.mod_bed.loc[i, 'Allele']:
+                print(self.mod_bed.loc[i, 'Allele']);
 
 
 
