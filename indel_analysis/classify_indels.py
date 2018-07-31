@@ -57,6 +57,7 @@ class Bedfile:
         self.mod_bed.set_index(['Chrom', 'Start', 'End'], inplace=True);
         fasta_df.set_index(['Chrom', 'Start', 'End'], inplace=True);
         self.mod_bed = self.mod_bed.join(fasta_df, how='left');
+        sp.call('rm tmp.bed fasta_tmp.bed', shell=True);
 
 
 
