@@ -1,4 +1,4 @@
-ID	Chrom	Location	PB_Mom	PB_Dad	PB_Unphased
+ID	Chrom	Location	PB_Mom_Indel	PB_Dad_Indel	PB_Unphased_Indel
 1-00801	chr12	75272545	1	0	0
 1-00801	chr16	9021367	0	1	0
 1-00801	chr2	158890470	1	0	0
@@ -50,7 +50,7 @@ ID	Chrom	Location	PB_Mom	PB_Dad	PB_Unphased
 1-05443	chr20	214997	0	1	0
 1-05443 chr1	16887465	0	1	0
 1-05673	chr1	27642928	0	1	0
-1-05673	chr11	4772971		0	0	1
+1-05673	chr11	4772971	0	0	1
 1-05673	chr18	37968396	1	0	0
 1-05673	chr2	60995728	0	1	0
 1-05673	chr4	14567444	1	0	0
