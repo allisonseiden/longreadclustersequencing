@@ -59,6 +59,16 @@ class Bedfile:
         self.mod_bed = self.mod_bed.join(fasta_df, how='left');
         sp.call('rm tmp.bed fasta_tmp.bed', shell=True);
 
+    def assign_class(self):
+        length = self.mod_bed.shape[0];
+        for i in range(length):
+            allele_len = self.mod_bed.loc[i, 'Allele'];
+            seq = self.mod_bed.loc[i, 'Sequence'];
+            mid = len(seq)/2;
+            print(mid);
+
+
+
 
 
 
@@ -69,4 +79,4 @@ if __name__ == '__main__':
     test.get_allele();
     test.change_bounds();
     test.get_fasta();
-    print(test.mod_bed);
+    test.assign_class();
