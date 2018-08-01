@@ -111,11 +111,10 @@ class Bedfile:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'CCC';
                 else:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'non-CCC';
-        print(self.mod_bed);
 
     def intersect_repeat(self):
         self.mod_bed.to_csv(path_or_buf='tmp.bed', sep='\t', header=False, index=False);
-        cmd = 'bedtools intersect -a ' + self.repeat_masker + ' -b tmp.bed';
+        cmd = 'bedtools intersect -a tmp.bed -b ' + self.repeat_masker;
         sp.call(cmd, shell=True);
 
 if __name__ == '__main__':
