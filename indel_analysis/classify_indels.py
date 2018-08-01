@@ -64,56 +64,57 @@ class Bedfile:
         length = self.mod_bed.shape[0];
         for i in range(length):
             allele_len = len(self.mod_bed.loc[i, 'Allele']);
-            ref_len = len(self.mod_bed.loc[i, 'Ref']);
-            alt_len = len(self.mod_bed.loc[i, 'Alt']);
             seq = self.mod_bed.loc[i, 'Sequence'];
             mid = int(len(seq)/2);
             half_allele = int(allele_len/2);
             bases_before = "";
             bases_after = "";
             index = mid + 1;
-            if ref_len < alt_len: # insertions
-                bases_before = seq[mid-allele_len+1:mid+1]; # start index at place where insertion occurs (A -> AT includes A in before bases)
-                # if allele_len == 1: # check for homopolymer or change in copy count of single bases
-                #     bases_after += seq[index:index+1]; # makes sure that base after is included even if it is not a copy of the allele
-                #     index += 1;
-                #     while (index < len(seq)) and (seq[index:index+1] == self.mod_bed.loc[i, 'Allele']):
-                #         bases_after += seq[index:index+1];
-                #         index += 1;
+            if len(self.mod_bed.loc[i, 'Ref']) < len(self.mod_bed.loc[i, 'Alt']): # insertions
+                bases_before = seq[mid-allele_len+1:mid+1]; # start index at place where insertion occurs
                 if len(seq) % 2 != 0: # handles indexing error of even-length and odd-length alleles behaving differently
                     bases_after = seq[mid+1:mid+allele_len+1];
                 else:
                     bases_after = seq[mid:mid+allele_len];
             else: # deletions
                 bases_before = seq[(mid-half_allele-allele_len):(mid-half_allele)];
-                # if allele_len == 1:
-                #     bases_after += seq[index:index+1]; # makes sure that base after is included even if it is not a copy of the allele
-                #     index += 1;
-                #     while (index < len(seq)) and (seq[index:index+1] == self.mod_bed.loc[i, 'Allele']):
-                #         bases_after += seq[index:index+1];
-                #         index += 1;
                 if len(seq) % 2 != 0:
                     bases_after = seq[(mid+half_allele+1):(mid+half_allele+allele_len+1)];
                 else:
                     bases_after = seq[(mid+half_allele):(mid+half_allele+allele_len)];
             if allele_len == 1: # check for homopolymer or change in copy count of single bases
-                bases_after = seq[index:index+1]; # makes sure that base after is included even if it is not a copy of the allele
+                bases_after = seq[index:index+1]; # makes sure that base immediately after is included even if it is not a copy of the allele
                 index += 1;
                 while (index < len(seq)) and (seq[index:index+1] == self.mod_bed.loc[i, 'Allele']):
                     bases_after += seq[index:index+1];
                     index += 1;
             prev_next_bases = [bases_before, bases_after];
-            print(self.mod_bed.loc[i, 'Allele']);
-            print(seq);
-            print(prev_next_bases);
+            return prev_next_bases;
 
-
+    def assign_class(self):
+        prev_next_bases = self.get_prev_next_bases();
+        length = self.mod_bed.shape[0];
+        for i in range(length):
+            allele_len = len(self.mod_bed.loc[i, 'Allele']);
+            if allele_len == 1:
+                if len(prev_next_bases[0]) >= 6 or len(prev_next_bases[1]) >= 6:
+                    self.mod_bed.loc[i, 'Indel_Class'] = 'HR';
+                elif len(prev_next_bases[0]) > 1 or len(prev_next_bases[1]) > 1:
+                    self.mod_bed.loc[i, 'Indel_Class'] = 'CCC';
+                else:
+                    self.mod_bed.loc[i, 'Indel_Class'] = 'non-CCC';
+            else:
+                if self.mod_bed.loc[i, 'Allele'] == prev_next_bases[0] or self.mod_bed.loc[i, 'Allele'] == prev_next_bases[1]:
+                    self.mod_bed.loc[i, 'Indel_Class'] = 'CCC';
+                else:
+                    self.mod_bed.loc[i, 'Indel_Class'] = 'non-CCC';
+        print(self.mod_bed);
 
 
 if __name__ == '__main__':
-    test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-03897_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa');
+    test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-00801_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa');
     test.get_indels_from_bed();
     test.get_allele();
     test.change_bounds();
     test.get_fasta();
-    test.get_prev_next_bases();
+    test.assign_class();
