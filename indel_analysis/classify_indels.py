@@ -89,8 +89,10 @@ class Bedfile:
                     bases_after = seq[(mid+half_allele+1):(mid+half_allele+allele_len+1)];
                 else:
                     bases_after = seq[(mid+half_allele):(mid+half_allele+allele_len)];
-
-
+            print(self.mod_bed.loc[i, 'Allele']);
+            print(seq);
+            print(bases_before);
+            print(bases_after);
 
 
 
