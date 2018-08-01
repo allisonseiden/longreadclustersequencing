@@ -70,7 +70,7 @@ class Bedfile:
             print(self.mod_bed.loc[i, 'Allele']);
             print(seq);
             print(seq[(mid-half_allele-allele_len):(mid-half_allele)]);
-            print(seq[(mid+half_allele+1):(mid+half_allele+allele_len+1)]);
+            print(seq[(mid+half_allele):(mid+half_allele+allele_len+1)]);
 
 
 
