@@ -66,9 +66,8 @@ class Bedfile:
             allele_len = len(self.mod_bed.loc[i, 'Allele']);
             seq = self.mod_bed.loc[i, 'Sequence'];
             mid = int(len(seq)/2);
-            print(len(seq));
-            print(mid);
-            print(seq[:mid]);
+            print(seq);
+            print(seq[mid-allenle_len:mid]);
             print(seq[mid:mid+allele_len]);
 
 
