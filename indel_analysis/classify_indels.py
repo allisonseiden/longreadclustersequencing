@@ -74,7 +74,10 @@ class Bedfile:
             # deletions, using allele as directions for bases on either side
             if ref_len < alt_len:
                 print(seq[mid-allele_len:mid]);
-                print(seq[mid+allele_len+1:mid+2*allele_len+1]);
+                if len(seq) % 2 != 0:
+                    print(seq[mid+1:mid+allele_len+1]);
+                else:
+                    print(seq[mid:mid+allele_len]);
             else:
                 print(seq[(mid-half_allele-allele_len):(mid-half_allele)]);
                 if len(seq) % 2 != 0:
@@ -89,7 +92,7 @@ class Bedfile:
 
 
 if __name__ == '__main__':
-    test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-00801_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa');
+    test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-01019_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa');
     test.get_indels_from_bed();
     test.get_allele();
     test.change_bounds();
