@@ -44,9 +44,9 @@ class Bedfile:
             else:
                 if allele_len == 1:
                     self.mod_bed.loc[i, 'Start'] -= 6;
-                    self.mod_bed.loc[i, 'End'] += 6 + allele_len;
+                    self.mod_bed.loc[i, 'End'] += 6;
                 else:
-                    self.mod_bed.loc[i, 'Start'] -= 2*allele_len;
+                    self.mod_bed.loc[i, 'Start'] -= (2*allele_len-1);
                     self.mod_bed.loc[i, 'End'] += 3*allele_len;
 
     def get_fasta(self):
@@ -70,7 +70,7 @@ class Bedfile:
             print(self.mod_bed.loc[i, 'Allele']);
             print(seq);
             print(seq[(mid-half_allele-allele_len):(mid-half_allele)]);
-            print(seq[(mid+half_allele):(mid+half_allele+allele_len)]);
+            print(seq[(mid+half_allele):(mid+half_allele+allele_len+1)]);
 
 
 
