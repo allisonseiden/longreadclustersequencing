@@ -35,14 +35,14 @@ class Bedfile:
         for i in range(length):
             allele_len = len(self.mod_bed.loc[i, 'Allele']);
             if len(self.mod_bed.loc[i, 'Ref']) < len(self.mod_bed.loc[i, 'Alt']):
-                if allele_len < 6:
+                if allele_len == 1:
                     self.mod_bed.loc[i, 'Start'] -= 6;
                     self.mod_bed.loc[i, 'End'] += 6;
                 else:
                     self.mod_bed.loc[i, 'Start'] -= 2*allele_len;
                     self.mod_bed.loc[i, 'End'] += 2*allele_len;
             else:
-                if allele_len < 6:
+                if allele_len == 1:
                     self.mod_bed.loc[i, 'Start'] -= 6;
                     self.mod_bed.loc[i, 'End'] += 6 + allele_len;
                 else:
