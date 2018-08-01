@@ -121,7 +121,7 @@ class Bedfile:
         sp.call(cmd_2, shell=True);
         repeat_df = pd.read_table('tmp_intersect.bed', sep='\t', names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class', 'genoName', 'genoStart', 'genoEnd', 'repName', 'repClass', 'repFamily']);
         non_repeat_df = pd.read_table('tmp_non_intersect.bed', sep='\t', names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class']);
-        sp.call('rm tmp.bed tmp_intersect.bed tmp_non_intersect.bed');
+        sp.call('rm tmp.bed tmp_intersect.bed tmp_non_intersect.bed', shell=True);
         intersect_df = repeat_df.append(non_repeat_df, ignore_index=True);
         intersect_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
         self.mod_bed.join(intersect_df, how='left');
