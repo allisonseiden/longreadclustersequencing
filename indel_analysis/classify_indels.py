@@ -64,17 +64,23 @@ class Bedfile:
         length = self.mod_bed.shape[0];
         for i in range(length):
             allele_len = len(self.mod_bed.loc[i, 'Allele']);
+            ref_len = len(self.mod_bed.loc[i, 'Ref']);
+            alt_len = len(self.mod_bed.loc[i, 'Alt']);
             seq = self.mod_bed.loc[i, 'Sequence'];
             mid = int(len(seq)/2);
             half_allele = int(allele_len/2);
             print(self.mod_bed.loc[i, 'Allele']);
             print(seq);
-            if len(seq) % 2 != 0:
-                print(seq[(mid-half_allele-allele_len):(mid-half_allele)]);
-                print(seq[(mid+half_allele+1):(mid+half_allele+allele_len+1)]);
+            # deletions, using allele as directions for bases on either side
+            print(seq[(mid-half_allele-allele_len):(mid-half_allele)]);
+            if ref_len < alt_len:
+                print(seq[mid-allele_len:mid]);
+                print(seq[mid+1:mid+allele_len+1]);
             else:
-                print(seq[(mid-half_allele-allele_len):(mid-half_allele)]);
-                print(seq[(mid+half_allele):(mid+half_allele+allele_len)]);
+                if len(seq) % 2 != 0:
+                    print(seq[(mid+half_allele+1):(mid+half_allele+allele_len+1)]);
+                else:
+                    print(seq[(mid+half_allele):(mid+half_allele+allele_len)]);
 
 
 
