@@ -97,7 +97,7 @@ class Bedfile:
                 else:
                     bases_after = seq[(mid+half_allele):(mid+half_allele+allele_len)];
             if allele_len == 1: # check for homopolymer or change in copy count of single bases
-                bases_after += seq[index:index+1]; # makes sure that base after is included even if it is not a copy of the allele
+                bases_after = seq[index:index+1]; # makes sure that base after is included even if it is not a copy of the allele
                 index += 1;
                 while (index < len(seq)) and (seq[index:index+1] == self.mod_bed.loc[i, 'Allele']):
                     bases_after += seq[index:index+1];
