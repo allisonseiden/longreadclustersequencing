@@ -67,7 +67,7 @@ class Bedfile:
             seq = self.mod_bed.loc[i, 'Sequence'];
             mid = int(len(seq)/2);
             print(seq);
-            print(seq[mid-allenle_len:mid]);
+            print(seq[mid-allele_len:mid]);
             print(seq[mid:mid+allele_len]);
 
 
