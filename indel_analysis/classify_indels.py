@@ -90,7 +90,7 @@ class Bedfile:
                     bases_after += seq[index:index+1];
                     index += 1;
             prev_next_bases.append([bases_before, bases_after]);
-            return prev_next_bases;
+        return prev_next_bases;
 
     def assign_class(self):
         prev_next_bases = self.get_prev_next_bases();
