@@ -95,23 +95,23 @@ class Bedfile:
     def assign_class(self):
         prev_next_bases = self.get_prev_next_bases();
         length = self.mod_bed.shape[0];
-        for i in range(length):
-            print(prev_next_bases[i]);
-            print(self.mod_bed.loc[i, 'Allele']);
-            allele_len = len(self.mod_bed.loc[i, 'Allele']);
-            if allele_len == 1:
-                if len(prev_next_bases[i][0]) >= 6 or len(prev_next_bases[i][1]) >= 6:
-                    self.mod_bed.loc[i, 'Indel_Class'] = 'HR';
-                elif len(prev_next_bases[i][0]) > 1 or len(prev_next_bases[i][1]) > 1:
-                    self.mod_bed.loc[i, 'Indel_Class'] = 'CCC';
-                else:
-                    self.mod_bed.loc[i, 'Indel_Class'] = 'non-CCC';
-            else:
-                if self.mod_bed.loc[i, 'Allele'] == prev_next_bases[i][0] or self.mod_bed.loc[i, 'Allele'] == prev_next_bases[i][1]:
-                    self.mod_bed.loc[i, 'Indel_Class'] = 'CCC';
-                else:
-                    self.mod_bed.loc[i, 'Indel_Class'] = 'non-CCC';
-        print(self.mod_bed);
+        print(prev_next_bases)
+        # for i in range(length):
+        #     print(self.mod_bed.loc[i, 'Allele']);
+        #     allele_len = len(self.mod_bed.loc[i, 'Allele']);
+        #     if allele_len == 1:
+        #         if len(prev_next_bases[i][0]) >= 6 or len(prev_next_bases[i][1]) >= 6:
+        #             self.mod_bed.loc[i, 'Indel_Class'] = 'HR';
+        #         elif len(prev_next_bases[i][0]) > 1 or len(prev_next_bases[i][1]) > 1:
+        #             self.mod_bed.loc[i, 'Indel_Class'] = 'CCC';
+        #         else:
+        #             self.mod_bed.loc[i, 'Indel_Class'] = 'non-CCC';
+        #     else:
+        #         if self.mod_bed.loc[i, 'Allele'] == prev_next_bases[i][0] or self.mod_bed.loc[i, 'Allele'] == prev_next_bases[i][1]:
+        #             self.mod_bed.loc[i, 'Indel_Class'] = 'CCC';
+        #         else:
+        #             self.mod_bed.loc[i, 'Indel_Class'] = 'non-CCC';
+        # print(self.mod_bed);
 
 
 if __name__ == '__main__':
