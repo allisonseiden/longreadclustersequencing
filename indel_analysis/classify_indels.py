@@ -119,13 +119,15 @@ class Bedfile:
         sp.call(cmd, shell=True);
         # cmd_2 = 'bedtools intersect -a tmp.bed -b ' + self.repeat_masker + ' -v > tmp_non_intersect.bed';
         # sp.call(cmd_2, shell=True);
-        # repeat_df = pd.read_table('tmp_intersect.bed', sep='\t', names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class', 'genoName', 'genoStart', 'genoEnd', 'repName', 'repClass', 'repFamily']);
+        repeat_df = pd.read_table('tmp_intersect.bed', sep='\t', names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class', 'genoName', 'genoStart', 'genoEnd', 'repName', 'repClass', 'repFamily']);
         # non_repeat_df = pd.read_table('tmp_non_intersect.bed', sep='\t', names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class']);
         # sp.call('rm tmp.bed tmp_intersect.bed tmp_non_intersect.bed', shell=True);
         # intersect_df = repeat_df.append(non_repeat_df, ignore_index=True);
         # intersect_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
-        # self.mod_bed.join(intersect_df, how='left');
-        # print(self.mod_bed);
+        self.mod_bed.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
+        repeat_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
+        self.mod_bed = self.mod_bed.join(repeat_df, how='left');
+        print(self.mod_bed);
 
 if __name__ == '__main__':
     test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-03897_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa', '/hpc/users/seidea02/longreadclustersequencing/data/repeats.bed');
