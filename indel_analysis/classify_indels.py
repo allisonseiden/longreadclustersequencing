@@ -69,8 +69,12 @@ class Bedfile:
             half_allele = int(allele_len/2);
             print(self.mod_bed.loc[i, 'Allele']);
             print(seq);
-            print(seq[(mid-half_allele-allele_len):(mid-half_allele)]);
-            print(seq[(mid+half_allele):(mid+half_allele+allele_len+1)]);
+            if len(seq) % 2 != 0:
+                print(seq[(mid-half_allele-allele_len):(mid-half_allele)]);
+                print(seq[(mid+half_allele+1):(mid+half_allele+allele_len+1)]);
+            else:
+                print(seq[(mid-half_allele-allele_len):(mid-half_allele)]);
+                print(seq[(mid+half_allele):(mid+half_allele+allele_len)]);
 
 
 
