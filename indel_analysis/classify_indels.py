@@ -73,11 +73,12 @@ class Bedfile:
             bases_after = "";
             index = mid + 1;
             if ref_len < alt_len:
-                bases_before = seq[mid-allele_len:mid];
+                bases_before = seq[mid-allele_len+1:mid+1];
                 if allele_len == 1:
-                    count = 0;
+                    bases_after += seq[index:index+1]; # makes sure that base after is included even if it is not a copy of the allele
+                    index += 1;
                     while (index < len(seq)) and (seq[index:index+1] == self.mod_bed.loc[i, 'Allele']):
-                        bases_after += self.mod_bed.loc[i, 'Allele'];
+                        bases_after += seq[index:index+1];
                         index += 1;
                 elif len(seq) % 2 != 0:
                     bases_after = seq[mid+1:mid+allele_len+1];
@@ -86,9 +87,10 @@ class Bedfile:
             else:
                 bases_before = seq[(mid-half_allele-allele_len):(mid-half_allele)];
                 if allele_len == 1:
-                    count = 0;
+                    bases_after += seq[index:index+1]; # makes sure that base after is included even if it is not a copy of the allele
+                    index += 1;
                     while (index < len(seq)) and (seq[index:index+1] == self.mod_bed.loc[i, 'Allele']):
-                        bases_after += self.mod_bed.loc[i, 'Allele'];
+                        bases_after += seq[index:index+1];
                         index += 1;
                 elif len(seq) % 2 != 0:
                     bases_after = seq[(mid+half_allele+1):(mid+half_allele+allele_len+1)];
