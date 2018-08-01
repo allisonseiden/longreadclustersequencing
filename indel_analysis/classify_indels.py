@@ -125,7 +125,7 @@ class Bedfile:
                                         sep='\t', names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class']);
         repeat_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
         non_repeat_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
-        intersect_df = repeat_df.join(non_repeat_df, how='left');
+        intersect_df = repeat_df.append(non_repeat_df);
         print(intersect_df);
 
 if __name__ == '__main__':
