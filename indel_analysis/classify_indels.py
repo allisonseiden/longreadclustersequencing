@@ -62,6 +62,7 @@ class Bedfile:
 
     def get_prev_next_bases(self):
         length = self.mod_bed.shape[0];
+        prev_next_bases = [];
         for i in range(length):
             allele_len = len(self.mod_bed.loc[i, 'Allele']);
             seq = self.mod_bed.loc[i, 'Sequence'];
@@ -88,25 +89,25 @@ class Bedfile:
                 while (index < len(seq)) and (seq[index:index+1] == self.mod_bed.loc[i, 'Allele']):
                     bases_after += seq[index:index+1];
                     index += 1;
-            prev_next_bases = [bases_before, bases_after];
+            prev_next_bases.append([bases_before, bases_after]);
             return prev_next_bases;
 
     def assign_class(self):
         prev_next_bases = self.get_prev_next_bases();
         length = self.mod_bed.shape[0];
         for i in range(length):
-            print(prev_next_bases);
+            print(prev_next_bases[i]);
             print(self.mod_bed.loc[i, 'Allele']);
             allele_len = len(self.mod_bed.loc[i, 'Allele']);
             if allele_len == 1:
-                if len(prev_next_bases[0]) >= 6 or len(prev_next_bases[1]) >= 6:
+                if len(prev_next_bases[i][0]) >= 6 or len(prev_next_bases[i][1]) >= 6:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'HR';
-                elif len(prev_next_bases[0]) > 1 or len(prev_next_bases[1]) > 1:
+                elif len(prev_next_bases[i][0]) > 1 or len(prev_next_bases[i][1]) > 1:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'CCC';
                 else:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'non-CCC';
             else:
-                if self.mod_bed.loc[i, 'Allele'] == prev_next_bases[0] or self.mod_bed.loc[i, 'Allele'] == prev_next_bases[1]:
+                if self.mod_bed.loc[i, 'Allele'] == prev_next_bases[i][0] or self.mod_bed.loc[i, 'Allele'] == prev_next_bases[i][1]:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'CCC';
                 else:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'non-CCC';
