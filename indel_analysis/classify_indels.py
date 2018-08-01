@@ -60,7 +60,7 @@ class Bedfile:
         self.mod_bed.reset_index(inplace=True);
         sp.call('rm tmp.bed fasta_tmp.bed', shell=True);
 
-    def assign_class(self):
+    def get_prev_next_bases(self):
         length = self.mod_bed.shape[0];
         for i in range(length):
             allele_len = len(self.mod_bed.loc[i, 'Allele']);
@@ -69,21 +69,31 @@ class Bedfile:
             seq = self.mod_bed.loc[i, 'Sequence'];
             mid = int(len(seq)/2);
             half_allele = int(allele_len/2);
+            bases_before = "";
+            bases_after = "";
+            index = mid + 1;
+            if allele_len == 1:
+                count = 0;
+                while seq[index:index+1] == self.mod_bed.loc[i, 'Allele']:
+                    count += 1;
+                    index += 1;
+                print(count);
+            if ref_len < alt_len:
+                bases_before = seq[mid-allele_len:mid];
+                if len(seq) % 2 != 0:
+                    bases_after = seq[mid+1:mid+allele_len+1];
+                else:
+                    bases_after = seq[mid:mid+allele_len];
+            else:
+                bases_before = seq[(mid-half_allele-allele_len):(mid-half_allele)];
+                if len(seq) % 2 != 0:
+                    bases_after = seq[(mid+half_allele+1):(mid+half_allele+allele_len+1)];
+                else:
+                    bases_after = seq[(mid+half_allele):(mid+half_allele+allele_len)];
             print(self.mod_bed.loc[i, 'Allele']);
             print(seq);
-            # deletions, using allele as directions for bases on either side
-            if ref_len < alt_len:
-                print(seq[mid-allele_len:mid]);
-                if len(seq) % 2 != 0:
-                    print(seq[mid+1:mid+allele_len+1]);
-                else:
-                    print(seq[mid:mid+allele_len]);
-            else:
-                print(seq[(mid-half_allele-allele_len):(mid-half_allele)]);
-                if len(seq) % 2 != 0:
-                    print(seq[(mid+half_allele+1):(mid+half_allele+allele_len+1)]);
-                else:
-                    print(seq[(mid+half_allele):(mid+half_allele+allele_len)]);
+            print(bases_before);
+            print(bases_after);
 
 
 
@@ -97,4 +107,4 @@ if __name__ == '__main__':
     test.get_allele();
     test.change_bounds();
     test.get_fasta();
-    test.assign_class();
+    test.get_prev_next_bases();
