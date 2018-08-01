@@ -114,7 +114,7 @@ class Bedfile:
 
     def intersect_repeat(self):
         self.mod_bed.to_csv(path_or_buf='tmp.bed', sep='\t', header=False, index=False);
-        cmd = 'bedtools intersect -a tmp.bed -b ' + self.repeat_masker;
+        cmd = 'bedtools intersect -a tmp.bed -b ' + self.repeat_masker + ' -wb';
         sp.call(cmd, shell=True);
 
 if __name__ == '__main__':
