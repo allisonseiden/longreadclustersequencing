@@ -123,8 +123,8 @@ class Bedfile:
                                     sep='\t', names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class', 'genoName', 'genoStart', 'genoEnd', 'repName', 'repClass', 'repFamily']);
         non_repeat_df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/indel_analysis/tmp_non_intersect.bed',
                                         sep='\t', names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class']);
-        repeat_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
-        non_repeat_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
+        # repeat_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
+        # non_repeat_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
         intersect_df = repeat_df.append(non_repeat_df);
         print(intersect_df);
 
