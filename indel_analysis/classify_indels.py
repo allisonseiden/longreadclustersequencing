@@ -92,6 +92,7 @@ class Bedfile:
                     bases_after += seq[index:index+1];
                     index += 1;
             prev_next_bases.append([bases_before, bases_after]);
+        self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele']]
         return prev_next_bases;
 
     def assign_class(self):
@@ -116,6 +117,13 @@ class Bedfile:
         self.mod_bed.to_csv(path_or_buf='tmp.bed', sep='\t', header=False, index=False);
         cmd = 'bedtools intersect -a tmp.bed -b ' + self.repeat_masker + ' -wb';
         sp.call(cmd, shell=True);
+        cmd_2 = 'bedtools intersect -a -tmp.bed -b ' + self.repeat_masker + ' -wb -v';
+        sp.call(cmd_2, shell=True);
+        # repeat_df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/indel_analysis/tmp_intersect.bed',
+        #                             sep='\t', names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class', 'genoName', 'genoStart', 'genoEnd', 'repName', 'repClass', 'repFamily']);
+        # non_repeat_df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/indel_analysis/tmp_non_intersect.bed',
+        #                                 sep='\t', names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class']);
+
 
 if __name__ == '__main__':
     test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-03897_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa', '/hpc/users/seidea02/longreadclustersequencing/data/repeats.bed');
