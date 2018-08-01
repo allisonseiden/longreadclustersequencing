@@ -133,3 +133,4 @@ if __name__ == '__main__':
     test.get_fasta();
     test.assign_class();
     test.intersect_repeat();
+    print(test.mod_bed);
