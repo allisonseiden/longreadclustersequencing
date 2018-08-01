@@ -95,6 +95,8 @@ class Bedfile:
         prev_next_bases = self.get_prev_next_bases();
         length = self.mod_bed.shape[0];
         for i in range(length):
+            print(prev_next_bases);
+            print(self.mod_bed.loc[i, 'Allele']);
             allele_len = len(self.mod_bed.loc[i, 'Allele']);
             if allele_len == 1:
                 if len(prev_next_bases[0]) >= 6 or len(prev_next_bases[1]) >= 6:
