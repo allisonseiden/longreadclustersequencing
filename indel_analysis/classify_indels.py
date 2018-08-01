@@ -5,11 +5,12 @@ import subprocess as sp
 
 class Bedfile:
 
-    def __init__(self, bed_location, fasta_location):
+    def __init__(self, bed_location, fasta_location, repeat_masker):
         self.orig_bed = pd.read_table(bed_location, names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID'],
                                         sep='\t', engine='python');
         self.mod_bed = self.orig_bed;
         self.fasta = fasta_location;
+        self.repeat_masker = repeat_masker;
 
     def get_indels_from_bed(self):
         length = self.mod_bed.shape[0];
@@ -25,7 +26,7 @@ class Bedfile:
         # put in error handling for if their ref alt is all messed up
         length = self.mod_bed.shape[0];
         for i in range(length):
-            if len(self.mod_bed.loc[i, 'Ref']) == 1:
+            if len(self.mod_bed.loc[i, 'Ref']) < len(self.mod_bed.loc[i, 'Alt']):
                 self.mod_bed.loc[i, 'Allele'] = self.mod_bed.loc[i, 'Alt'][1:];
             else:
                 self.mod_bed.loc[i, 'Allele'] = self.mod_bed.loc[i, 'Ref'][1:];
@@ -112,11 +113,15 @@ class Bedfile:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'non-CCC';
         print(self.mod_bed);
 
+    def intersect_repeat(self):
+        cmd = 'bedtools intersect -a ' + self.repeat_masker + ' -b ' + self.mod_bed;
+        sp.call(cmd, shell=True);
 
 if __name__ == '__main__':
-    test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-03897_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa');
+    test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-03897_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa', '/hpc/users/seidea02/longreadclustersequencing/data/repeats.bed');
     test.get_indels_from_bed();
     test.get_allele();
     test.change_bounds();
     test.get_fasta();
     test.assign_class();
+    test.intersect_repeat();
