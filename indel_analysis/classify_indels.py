@@ -117,7 +117,7 @@ class Bedfile:
         self.mod_bed.to_csv(path_or_buf='tmp.bed', sep='\t', header=False, index=False);
         cmd = 'bedtools intersect -a tmp.bed -b ' + self.repeat_masker + ' -wb';
         sp.call(cmd, shell=True);
-        cmd_2 = 'bedtools intersect -a -tmp.bed -b ' + self.repeat_masker + ' -wb -v';
+        cmd_2 = 'bedtools intersect -a -tmp.bed -b ' + self.repeat_masker + ' -v';
         sp.call(cmd_2, shell=True);
         # repeat_df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/indel_analysis/tmp_intersect.bed',
         #                             sep='\t', names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class', 'genoName', 'genoStart', 'genoEnd', 'repName', 'repClass', 'repFamily']);
