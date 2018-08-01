@@ -74,7 +74,7 @@ class Bedfile:
             # deletions, using allele as directions for bases on either side
             if ref_len < alt_len:
                 print(seq[mid-allele_len:mid]);
-                print(seq[mid+1:mid+2*allele_len+1]);
+                print(seq[mid+allele_len+1:mid+2*allele_len+1]);
             else:
                 print(seq[(mid-half_allele-allele_len):(mid-half_allele)]);
                 if len(seq) % 2 != 0:
