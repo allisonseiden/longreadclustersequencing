@@ -43,8 +43,8 @@ class Bedfile:
                     self.mod_bed.loc[i, 'End'] += 2*allele_len;
             else:
                 if allele_len == 1:
-                    self.mod_bed.loc[i, 'Start'] -= 6;
-                    self.mod_bed.loc[i, 'End'] += 6;
+                    self.mod_bed.loc[i, 'Start'] -= 5;
+                    self.mod_bed.loc[i, 'End'] += 7;
                 else:
                     self.mod_bed.loc[i, 'Start'] -= (2*allele_len-1);
                     self.mod_bed.loc[i, 'End'] += 3*allele_len;
