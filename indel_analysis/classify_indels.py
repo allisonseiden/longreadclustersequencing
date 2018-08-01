@@ -58,7 +58,7 @@ class Bedfile:
         fasta_df.set_index(['Chrom', 'Start', 'End'], inplace=True);
         self.mod_bed = self.mod_bed.join(fasta_df, how='left');
         self.mod_bed.reset_index(inplace=True);
-        self.mod_bed['Sequence'].apply(lambda x: x.upper(), inplace=True);
+        self.mod_bed['Sequence'] = self.mod_bed['Sequence'].str.upper();
         sp.call('rm tmp.bed fasta_tmp.bed', shell=True);
 
     def get_prev_next_bases(self):
