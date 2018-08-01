@@ -101,7 +101,7 @@ class Bedfile:
             if allele_len == 1:
                 if len(prev_next_bases[i][0]) >= 6 or len(prev_next_bases[i][1]) >= 6:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'HR';
-                elif len(prev_next_bases[i][0]) > 1 or len(prev_next_bases[i][1]) > 1:
+                elif len(prev_next_bases[i][0]) > 1 or len(prev_next_bases[i][1]) > 1 or prev_next_bases[i][0] == self.mod_bed.loc[i, 'Allele'] or prev_next_bases[i][1] == self.mod_bed.loc[i, 'Allele']:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'CCC';
                 else:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'non-CCC';
