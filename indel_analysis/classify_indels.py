@@ -74,10 +74,9 @@ class Bedfile:
             index = mid + 1;
             if allele_len == 1:
                 count = 0;
-                while seq[index:index+1] == self.mod_bed.loc[i, 'Allele']:
-                    count += 1;
+                while (index < len(seq)) and (seq[index:index+1] == self.mod_bed.loc[i, 'Allele']):
+                    bases_after += self.mod_bed.loc[i, 'Allele'];
                     index += 1;
-                print(count);
             if ref_len < alt_len:
                 bases_before = seq[mid-allele_len:mid];
                 if len(seq) % 2 != 0:
@@ -90,10 +89,6 @@ class Bedfile:
                     bases_after = seq[(mid+half_allele+1):(mid+half_allele+allele_len+1)];
                 else:
                     bases_after = seq[(mid+half_allele):(mid+half_allele+allele_len)];
-            print(self.mod_bed.loc[i, 'Allele']);
-            print(seq);
-            print(bases_before);
-            print(bases_after);
 
 
 
