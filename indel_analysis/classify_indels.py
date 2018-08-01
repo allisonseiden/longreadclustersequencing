@@ -103,7 +103,9 @@ class Bedfile:
                     bases_after += seq[index:index+1];
                     index += 1;
             prev_next_bases = [bases_before, bases_after];
-            return prev_next_bases;
+            print(self.mod_bed.loc[i, 'Allele']);
+            print(seq);
+            print(prev_next_bases);
 
 
 
