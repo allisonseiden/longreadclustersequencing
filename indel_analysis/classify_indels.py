@@ -80,7 +80,7 @@ class Bedfile:
                 #     while (index < len(seq)) and (seq[index:index+1] == self.mod_bed.loc[i, 'Allele']):
                 #         bases_after += seq[index:index+1];
                 #         index += 1;
-                elif len(seq) % 2 != 0: # handles indexing error of even-length and odd-length alleles behaving differently
+                if len(seq) % 2 != 0: # handles indexing error of even-length and odd-length alleles behaving differently
                     bases_after = seq[mid+1:mid+allele_len+1];
                 else:
                     bases_after = seq[mid:mid+allele_len];
@@ -92,7 +92,7 @@ class Bedfile:
                 #     while (index < len(seq)) and (seq[index:index+1] == self.mod_bed.loc[i, 'Allele']):
                 #         bases_after += seq[index:index+1];
                 #         index += 1;
-                elif len(seq) % 2 != 0:
+                if len(seq) % 2 != 0:
                     bases_after = seq[(mid+half_allele+1):(mid+half_allele+allele_len+1)];
                 else:
                     bases_after = seq[(mid+half_allele):(mid+half_allele+allele_len)];
