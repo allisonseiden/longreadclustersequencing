@@ -72,19 +72,19 @@ class Bedfile:
             bases_before = "";
             bases_after = "";
             index = mid + 1;
-            if ref_len < alt_len:
-                bases_before = seq[mid-allele_len+1:mid+1];
-                if allele_len == 1:
+            if ref_len < alt_len: # insertions
+                bases_before = seq[mid-allele_len+1:mid+1]; # start index at place where insertion occurs (A -> AT includes A in before bases)
+                if allele_len == 1: # check for homopolymer or change in copy count of single bases
                     bases_after += seq[index:index+1]; # makes sure that base after is included even if it is not a copy of the allele
                     index += 1;
                     while (index < len(seq)) and (seq[index:index+1] == self.mod_bed.loc[i, 'Allele']):
                         bases_after += seq[index:index+1];
                         index += 1;
-                elif len(seq) % 2 != 0:
+                elif len(seq) % 2 != 0: # handles indexing error of even-length and odd-length alleles behaving differently
                     bases_after = seq[mid+1:mid+allele_len+1];
                 else:
                     bases_after = seq[mid:mid+allele_len];
-            else:
+            else: # deletions
                 bases_before = seq[(mid-half_allele-allele_len):(mid-half_allele)];
                 if allele_len == 1:
                     bases_after += seq[index:index+1]; # makes sure that base after is included even if it is not a copy of the allele
@@ -106,7 +106,7 @@ class Bedfile:
 
 
 if __name__ == '__main__':
-    test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-01019_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa');
+    test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-00801_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa');
     test.get_indels_from_bed();
     test.get_allele();
     test.change_bounds();
