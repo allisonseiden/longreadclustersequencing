@@ -106,7 +106,7 @@ class Bedfile:
 
 
 if __name__ == '__main__':
-    test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-00801_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa');
+    test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/1-03897_dnv.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa');
     test.get_indels_from_bed();
     test.get_allele();
     test.change_bounds();
