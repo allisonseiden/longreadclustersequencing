@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 import subprocess as sp
+import argparse
 
 
 class Bedfile:
@@ -126,7 +127,12 @@ class Bedfile:
         self.mod_bed = self.mod_bed[['ID', 'Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class', 'repName', 'repClass', 'repFamily']];
 
 if __name__ == '__main__':
-    test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/dnvs_2018_07_24.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa', '/hpc/users/seidea02/longreadclustersequencing/data/repeats.bed');
+    parser = argparse.ArgumentParser(description='Sorts indels into mutational classes', epilog='Allison Seiden <ahseiden@gmail.com>');
+    parser.add_argument("-b", "--bed", help="Location of BED file with all variants. Must be formatted as Chrom/Start/End/Ref/Alt/PatientID.", required=True);
+    parser.add_argument("-f", "--fasta", help="Location of reference fasta file.", required=True);
+    parser.add_argument("-r", "--repeat", help="Location of RepeatMasker file downloaded from UCSC Genome Browser. Refer to docs to see how to download RepeatMasker.", required=True);
+    args = parser.parse_args();
+    test = Bedfile(args.bed, args.fasta, args.repeat);
     test.get_indels_from_bed();
     test.get_allele();
     test.change_bounds();
