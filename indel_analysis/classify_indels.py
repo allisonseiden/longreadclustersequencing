@@ -199,7 +199,7 @@ class SortIt:
         self.orig_bed.set_index(['ID', 'Chrom', 'Start', 'End'], inplace=True);
         indels_from_orig = ((len(self.orig_bed['Ref']) > 1) | (len(self.orig_bed['Alt']) > 1));
         # temp = self.orig_bed.join(self.mod_bed, how='left');
-        print(indels_from_orig);
+        print(type(indels_from_orig));
         # self.mod_bed['Start'] = self.orig_bed['Start'];
         # self.mod_bed['End'] = self.orig_bed['End'];
 
