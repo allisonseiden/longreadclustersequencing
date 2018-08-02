@@ -47,13 +47,14 @@ class SortIt:
             if ref_len == 1 and alt_len == 1:
                 indices.append(i);
         self.mod_bed.drop(self.mod_bed.index[indices], inplace=True);
-        self.indels_from_orig.drop(self.indels_from_orig.index[indices], inplace=True);
-        self.mod_bed.reset_index(inplace=True);
-        self.indels_from_orig.reset_index(inplace=True);
-        self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
-        self.indels_from_orig = self.indels_from_orig[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
-        print(self.mod_bed);
         print(self.indels_from_orig);
+        # self.indels_from_orig.drop(self.indels_from_orig.index[indices], inplace=True);
+        # self.mod_bed.reset_index(inplace=True);
+        # self.indels_from_orig.reset_index(inplace=True);
+        # self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
+        # self.indels_from_orig = self.indels_from_orig[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
+        # print(self.mod_bed);
+        # print(self.indels_from_orig);
 
 
 
