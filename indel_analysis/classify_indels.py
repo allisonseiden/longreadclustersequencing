@@ -207,12 +207,11 @@ class SortIt:
                                 'Allele', 'ID', 'Indel_Class'], inplace=True);
         repeat_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt',
                                 'Allele', 'ID', 'Indel_Class'], inplace=True);
-        print(repeat_df);
-        # self.mod_bed = self.mod_bed.join(repeat_df, how='left');
-        # self.mod_bed.reset_index(inplace=True);
-        # self.mod_bed = self.mod_bed[['ID', 'Chrom','Start', 'End', 'Ref', 'Alt',
-        #                                 'Allele', 'Indel_Class', 'repName',
-        #                                 'repClass', 'repFamily']];
+        self.mod_bed = self.mod_bed.join(repeat_df, how='left');
+        self.mod_bed.reset_index(inplace=True);
+        self.mod_bed = self.mod_bed[['ID', 'Chrom','Start', 'End', 'Ref', 'Alt',
+                                        'Allele', 'Indel_Class', 'repName',
+                                        'repClass', 'repFamily']];
 
 
 def main():
