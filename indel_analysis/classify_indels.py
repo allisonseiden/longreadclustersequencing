@@ -185,6 +185,12 @@ class SortIt:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'non-CCC';
 
     def intersect_repeat(self):
+        # reassign start and end columns to original locations
+        self.mod_bed.sort_values(by=['ID']);
+        self.indels_from_orig.sort_values(by=['ID']);
+        self.mod_bed['Start'] = self.indels_from_orig['Start'].astype(int);
+        self.mod_bed['End'] = self.indels_from_orig['End'].astype(int);
+
         self.mod_bed.to_csv(path_or_buf='tmp.bed', sep='\t', header=False,
                             index=False);
         cmd = 'bedtools intersect -a tmp.bed -b ' + self.repeat_masker;
@@ -208,11 +214,6 @@ class SortIt:
         #                                 'Allele', 'Indel_Class', 'repName',
         #                                 'repClass', 'repFamily']];
 
-        # reassign start and end columns to original locations
-        # self.mod_bed.sort_values(by=['ID']);
-        # self.indels_from_orig.sort_values(by=['ID']);
-        # self.mod_bed['Start'] = self.indels_from_orig['Start'].astype(int);
-        # self.mod_bed['End'] = self.indels_from_orig['End'].astype(int);
 
 def main():
     parser = argparse.ArgumentParser(description="Sorts indels into " +
