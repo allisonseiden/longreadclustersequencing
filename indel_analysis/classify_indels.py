@@ -194,6 +194,10 @@ class SortIt:
                                         'Alt', 'Allele', 'Indel_Class', 'repName',
                                         'repClass', 'repFamily']];
 
+        # reassign start and end columns to original locations
+        self.mod_bed['Start'] = self.orig_bed['Start'];
+        self.mod_bed['End'] = self.orig_bed['End'];
+
 def main():
     parser = argparse.ArgumentParser(description="Sorts indels into " +
                                         "mutational classes", epilog="Allison" +
