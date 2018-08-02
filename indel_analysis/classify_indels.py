@@ -46,6 +46,8 @@ class SortIt:
         self.mod_bed = self.mod_bed.drop(self.mod_bed.index[indices]);
         self.mod_bed.reset_index(inplace=True);
         self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
+        # make original bed indels only
+        self.orig_bed = self.mod_bed;
 
     """ Collects base sequence that is inserted or deleted from Ref/Alt
     """
