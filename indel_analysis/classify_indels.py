@@ -197,13 +197,13 @@ class SortIt:
                                 'Allele', 'ID', 'Indel_Class'], inplace=True);
         self.mod_bed = self.mod_bed.join(repeat_df, how='left');
         self.mod_bed.reset_index(inplace=True);
-        self.mod_bed = self.mod_bed[['ID', 'Chrom', 'Ref', 'Start', 'End',
-                                        'Alt', 'Allele', 'Indel_Class', 'repName',
+        self.mod_bed = self.mod_bed[['ID', 'Chrom','Start', 'End', 'Ref', 'Alt',
+                                        'Allele', 'Indel_Class', 'repName',
                                         'repClass', 'repFamily']];
 
         # reassign start and end columns to original locations
-        self.mod_bed['Start'] = self.indels_from_orig['Start'];
-        self.mod_bed['End'] = self.indels_from_orig['End'];
+        self.mod_bed['Start'] = self.indels_from_orig['Start'].astype(int);
+        self.mod_bed['End'] = self.indels_from_orig['End'].astype(int);
 
 def main():
     parser = argparse.ArgumentParser(description="Sorts indels into " +
