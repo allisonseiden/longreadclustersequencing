@@ -195,9 +195,11 @@ class SortIt:
                                         'repClass', 'repFamily']];
 
         # reassign start and end columns to original locations
-        self.orig_bed.set_index(['ID', 'Chrom', 'Ref', 'Alt'], inplace=True);
+        self.orig_bed.sort_values(by=['ID'])
+        self.orig_bed.set_index(['ID', 'Chrom', 'Start', 'End'], inplace=True);
+        indels_from_orig = ((len(self.orig_bed['Ref']) > 1) | (len(self.orig_bed['Alt']) > 1));
         # temp = self.orig_bed.join(self.mod_bed, how='left');
-        print(self.orig_bed);
+        print(indels_from_orig);
         # self.mod_bed['Start'] = self.orig_bed['Start'];
         # self.mod_bed['End'] = self.orig_bed['End'];
 
