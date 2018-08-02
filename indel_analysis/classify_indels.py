@@ -129,7 +129,7 @@ if __name__ == '__main__':
     test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/dnvs_2018_07_24.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa', '/hpc/users/seidea02/longreadclustersequencing/data/repeats.bed');
     test.get_indels_from_bed();
     test.get_allele();
-    # test.change_bounds();
+    test.change_bounds();
     # test.get_fasta();
     # test.assign_class();
     # test.intersect_repeat();
