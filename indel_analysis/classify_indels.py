@@ -121,9 +121,9 @@ class Bedfile:
         sp.call('rm tmp.bed tmp_intersect.bed', shell=True);
         self.mod_bed.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'ID', 'Indel_Class'], inplace=True);
         repeat_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'ID', 'Indel_Class'], inplace=True);
-        # self.mod_bed = self.mod_bed.join(repeat_df, how='left');
-        # self.mod_bed.reset_index(inplace=True);
-        # self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class', 'repName', 'repClass', 'repFamily', 'ID']];
+        self.mod_bed = self.mod_bed.join(repeat_df, how='left');
+        self.mod_bed.reset_index(inplace=True);
+        self.mod_bed = self.mod_bed[['ID', 'Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class', 'repName', 'repClass', 'repFamily', 'ID']];
 
 if __name__ == '__main__':
     test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/dnvs_2018_07_24.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa', '/hpc/users/seidea02/longreadclustersequencing/data/repeats.bed');
