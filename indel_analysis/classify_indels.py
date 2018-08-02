@@ -235,8 +235,7 @@ def main():
     ravenclaw.get_fasta();
     ravenclaw.assign_class();
     ravenclaw.intersect_repeat();
-    print(ravenclaw.mod_bed);
-    # ravenclaw.mod_bed.to_csv(path_or_buf='classified_indels.txt', sep='\t', header=False, index=False);
+    ravenclaw.mod_bed.to_csv(path_or_buf='classified_indels.txt', sep='\t', header=False, index=False);
 
 if __name__ == '__main__':
     main();
