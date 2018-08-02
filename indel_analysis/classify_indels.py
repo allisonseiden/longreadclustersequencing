@@ -31,8 +31,12 @@ class SortIt:
                                         sep='\t', engine='python');
         # for ensuring that the right locations are preserved when changing
         # start and end values at the end of program
-        self.indels_from_orig = self.orig_bed;
-        self.mod_bed = self.orig_bed;
+        self.indels_from_orig = pd.read_table(bed_location, names=['Chrom', 'Start',
+                                        'End', 'Ref', 'Alt', 'ID'],
+                                        sep='\t', engine='python');
+        self.mod_bed = pd.read_table(bed_location, names=['Chrom', 'Start',
+                                        'End', 'Ref', 'Alt', 'ID'],
+                                        sep='\t', engine='python');
         self.fasta = fasta_location;
         self.repeat_masker = repeat_masker;
 
@@ -47,14 +51,13 @@ class SortIt:
             if ref_len == 1 and alt_len == 1:
                 indices.append(i);
         self.mod_bed.drop(self.mod_bed.index[indices], inplace=True);
-        print(self.orig_bed);
-        # self.indels_from_orig.drop(self.indels_from_orig.index[indices], inplace=True);
-        # self.mod_bed.reset_index(inplace=True);
-        # self.indels_from_orig.reset_index(inplace=True);
-        # self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
-        # self.indels_from_orig = self.indels_from_orig[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
-        # print(self.mod_bed);
-        # print(self.indels_from_orig);
+        self.indels_from_orig.drop(self.indels_from_orig.index[indices], inplace=True);
+        self.mod_bed.reset_index(inplace=True);
+        self.indels_from_orig.reset_index(inplace=True);
+        self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
+        self.indels_from_orig = self.indels_from_orig[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
+        print(self.mod_bed);
+        print(self.indels_from_orig);
 
 
 
