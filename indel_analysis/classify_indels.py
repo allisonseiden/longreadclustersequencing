@@ -195,10 +195,12 @@ class SortIt:
                                         'repClass', 'repFamily']];
 
         # reassign start and end columns to original locations
-        self.mod_bed.sort_values(by=['Start']);
-        self.orig_bed.sort_values(by=['Start']);
-        self.mod_bed['Start'] = self.orig_bed['Start'];
-        self.mod_bed['End'] = self.orig_bed['End'];
+        print(self.mod_bed);
+        print(self.orig_bed);
+        # self.mod_bed.sort_values(by=['Start']);
+        # self.orig_bed.sort_values(by=['Start']);
+        # self.mod_bed['Start'] = self.orig_bed['Start'];
+        # self.mod_bed['End'] = self.orig_bed['End'];
 
 def main():
     parser = argparse.ArgumentParser(description="Sorts indels into " +
