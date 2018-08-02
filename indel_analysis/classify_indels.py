@@ -233,7 +233,7 @@ def main():
     ravenclaw.get_indels_from_bed();
     ravenclaw.get_allele();
     ravenclaw.change_bounds();
-    # ravenclaw.get_fasta();
+    ravenclaw.get_fasta();
     # ravenclaw.assign_class();
     # ravenclaw.intersect_repeat();
     print(ravenclaw.mod_bed);
