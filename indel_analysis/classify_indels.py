@@ -20,7 +20,7 @@ class Bedfile:
                 indices.append(i);
         self.mod_bed = self.mod_bed.drop(self.mod_bed.index[indices]);
         self.mod_bed.reset_index(inplace=True);
-        self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt']];
+        self.mod_bed = self.mod_bed[['ID', 'Chrom', 'Start', 'End', 'Ref', 'Alt']];
 
     def get_allele(self):
         # put in error handling for if their ref alt is all messed up
@@ -92,7 +92,7 @@ class Bedfile:
                     bases_after += seq[index:index+1];
                     index += 1;
             prev_next_bases.append([bases_before, bases_after]);
-        self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele']]
+        self.mod_bed = self.mod_bed[['ID', 'Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele']]
         return prev_next_bases;
 
     def assign_class(self):
@@ -119,11 +119,11 @@ class Bedfile:
         sp.call(cmd, shell=True);
         repeat_df = pd.read_table('tmp_intersect.bed', sep='\t', names=['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class', 'genoName', 'genoStart', 'genoEnd', 'repName', 'repClass', 'repFamily']);
         sp.call('rm tmp.bed tmp_intersect.bed', shell=True);
-        self.mod_bed.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
-        repeat_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
+        self.mod_bed.set_index(['ID', 'Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
+        repeat_df.set_index(['ID', 'Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class'], inplace=True);
         self.mod_bed = self.mod_bed.join(repeat_df, how='left');
         self.mod_bed.reset_index(inplace=True);
-        self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class', 'repName', 'repClass', 'repFamily']];
+        self.mod_bed = self.mod_bed[['ID', 'Chrom', 'Start', 'End', 'Ref', 'Alt', 'Allele', 'Indel_Class', 'repName', 'repClass', 'repFamily']];
 
 if __name__ == '__main__':
     test = Bedfile('/hpc/users/seidea02/longreadclustersequencing/data/dnvs_2018_07_24.bed', '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa', '/hpc/users/seidea02/longreadclustersequencing/data/repeats.bed');
