@@ -46,8 +46,8 @@ class SortIt:
             alt_len = len(self.mod_bed.loc[i, 'Alt']);
             if ref_len == 1 and alt_len == 1:
                 indices.append(i);
-        print(length);
-        # self.mod_bed.drop(self.mod_bed.index[indices], inplace=True);
+        self.mod_bed.drop(self.mod_bed.index[indices], inplace=True);
+        print(self.mod_bed);
         # self.indels_from_orig.drop(self.indels_from_orig.index[indices], inplace=True);
         # self.mod_bed.reset_index(inplace=True);
         # self.indels_from_orig.reset_index(inplace=True);
