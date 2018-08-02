@@ -36,18 +36,16 @@ class SortIt:
     """ Retrieves indels from BED file of all variants
     """
     def get_indels_from_bed(self):
-        length = self.mod_bed.shape[0];
+        length = self.orig_bed.shape[0];
         indices = [];
         for i in range(length):
-            ref_len = len(self.mod_bed.loc[i, 'Ref']);
-            alt_len = len(self.mod_bed.loc[i, 'Alt']);
+            ref_len = len(self.orig_bed.loc[i, 'Ref']);
+            alt_len = len(self.orig_bed.loc[i, 'Alt']);
             if ref_len == 1 and alt_len == 1:
                 indices.append(i);
-        self.mod_bed = self.mod_bed.drop(self.mod_bed.index[indices]);
-        self.mod_bed.reset_index(inplace=True);
-        self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
-        # make original bed indels only
-        self.orig_bed = self.mod_bed;
+        self.orig_bed = self.orig_bed.drop(self.orig_bed.index[indices]);
+        self.orig_bed.reset_index(inplace=True);
+        self.orig_bed = self.orig_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
 
     """ Collects base sequence that is inserted or deleted from Ref/Alt
     """
@@ -197,8 +195,6 @@ class SortIt:
                                         'repClass', 'repFamily']];
 
         # reassign start and end columns to original locations
-        print(self.mod_bed);
-        print(self.orig_bed);
         # self.mod_bed.sort_values(by=['Start']);
         # self.orig_bed.sort_values(by=['Start']);
         # self.mod_bed['Start'] = self.orig_bed['Start'];
