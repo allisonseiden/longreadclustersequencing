@@ -52,8 +52,7 @@ class SortIt:
         self.indels_from_orig.reset_index(inplace=True);
         self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
         self.indels_from_orig = self.indels_from_orig[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
-        print(self.mod_bed);
-        print(self.indels_from_orig);
+
 
     """ Collects base sequence that is inserted or deleted from Ref/Alt
     """
@@ -227,7 +226,9 @@ def main():
 
     ravenclaw = SortIt(args.bed, args.fasta, args.repeat);
     ravenclaw.get_indels_from_bed();
-    # ravenclaw.get_allele();
+    ravenclaw.get_allele();
+    print(self.mod_bed);
+    print(self.indels_from_orig);
     # ravenclaw.change_bounds();
     # ravenclaw.get_fasta();
     # ravenclaw.assign_class();
