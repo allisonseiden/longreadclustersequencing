@@ -52,7 +52,8 @@ class SortIt:
         self.indels_from_orig.reset_index(inplace=True);
         self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
         self.indels_from_orig = self.indels_from_orig[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
-        print(self.mod_bed.shape[0]);
+        self.mod_bed.sort_values(by=['ID'], inplace=True);
+        print(self.mod_bed);
 
 
     """ Collects base sequence that is inserted or deleted from Ref/Alt
