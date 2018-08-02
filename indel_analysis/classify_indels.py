@@ -202,8 +202,10 @@ class SortIt:
                                         'repClass', 'repFamily']];
 
         # reassign start and end columns to original locations
-        self.mod_bed['Start'] = self.indels_from_orig['Start'].astype(int);
-        self.mod_bed['End'] = self.indels_from_orig['End'].astype(int);
+        self.mod_bed.sort_values(by=['ID']);
+        self.indels_from_orig.sort_values(by=['ID']);
+        self.mod_bed['Start'] = int(self.indels_from_orig['Start']);
+        self.mod_bed['End'] = int(self.indels_from_orig['End']);
 
 def main():
     parser = argparse.ArgumentParser(description="Sorts indels into " +
