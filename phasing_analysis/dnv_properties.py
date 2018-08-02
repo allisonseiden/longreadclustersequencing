@@ -6,10 +6,12 @@ analysis_df = pd.read_table('/Users/allisonseiden/Documents/longreadclusterseque
 indels_df = pd.read_table('/Users/allisonseiden/Documents/longreadclustersequencing/phasing_analysis/indels_df.txt',
                             sep='\t');
 
+
 pacbio_df = analysis_df.loc[:,['ID', 'Chrom', 'Location', 'Ref', 'Alt', 'PB_Mom', 'PB_Dad', 'PB_Unphased', 'CpG', 'CpG_Island']];
 
-pacbio_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
+
 indels_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
+pacbio_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
 df = pacbio_df.join(indels_df, how='left');
 df.reset_index(inplace=True);
@@ -48,8 +50,6 @@ dnv_nums_dict['Total'] = dnv_nums_dict['Total'].append(pd.Series(['All'], index=
 
 group_by_ref_alt = df.groupby(['Ref', 'Alt']);
 mutation_groups = {'C_A' : [], 'C_T' : [], 'C_G' : [], 'T_A' : [], 'T_C' : [], 'T_G' : [], 'CpG_TpG' : [], 'Indels' : []};
-# # mutation_groups = {'C_A' : [], 'G_T' : [], 'C_T' : [], 'G_A' : [], 'C_G' : [], 'G_C' : [],
-# #                     'T_A' : [], 'A_T' : [], 'T_C' : [], 'A_G' : [], 'T_G' : [], 'A_C' : []};
 full_data_dfs = {};
 
 for name, group in group_by_ref_alt:

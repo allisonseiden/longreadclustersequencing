@@ -7,8 +7,9 @@ import seaborn as sb
 
 sb.set_context("paper");
 sb.set_style("ticks", {'font.family' : ['serif']});
-# dnv_data = pd.read_csv('dnv_parent_percentages.txt', sep='\t', engine='python');
-# dnv_data.set_index(['Mutational_Class'], inplace=True);
+dnv_data = pd.read_csv('dnv_parent_percentages.txt', sep='\t', engine='python');
+dnv_data.set_index(['Mutational_Class'], inplace=True);
+print(dnv_data);
 # mutation_list = ['C_A', 'C_T', 'C_G', 'T_A', 'T_C', 'T_G', 'CpG_TpG', 'Indels'];
 # length = len(mutation_list);
 #
@@ -46,7 +47,7 @@ sb.set_style("ticks", {'font.family' : ['serif']});
 # plt.savefig("mom_dad_comparison_bar_chart.png");
 # #
 # -------------------- end of mom and dad comparison bar chart
-#
+# 
 # patientIDs = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389", "1-04460", "1-04537", "1-05443", "1-05673", "1-05846"];
 # mutation_list = ['C_A', 'C_T', 'C_G', 'T_A', 'T_C', 'T_G', 'CpG_TpG', 'Indels'];
 # length = len(mutation_list);
@@ -98,7 +99,7 @@ sb.set_style("ticks", {'font.family' : ['serif']});
 # plt.savefig('/Users/allisonseiden/Documents/longreadclustersequencing/graphs/mom_dad_age_scatter.png');
 
 # --------------------------- end of parental age scatter plot
-# 
+#
 # pacbio_data = pd.read_table('all_pacbio_data.txt', sep='\t', engine='python');
 # # f, axarr = plt.subplots(2, 5, sharex=True, sharey=True);
 # # chr_list = ['chr1', 'chr2', 'chr3', 'chr4', 'chr5', 'chr7', 'chr8', 'chr9', 'chr10', 'chr12'];
