@@ -197,18 +197,13 @@ class SortIt:
                                 'Allele', 'ID', 'Indel_Class'], inplace=True);
         self.mod_bed = self.mod_bed.join(repeat_df, how='left');
         self.mod_bed.reset_index(inplace=True);
-        self.mod_bed = self.mod_bed[['ID', 'Chrom', 'Ref',
+        self.mod_bed = self.mod_bed[['ID', 'Chrom', 'Ref', 'Start', 'End',
                                         'Alt', 'Allele', 'Indel_Class', 'repName',
                                         'repClass', 'repFamily']];
 
         # reassign start and end columns to original locations
-        self.orig_bed.sort_values(by=['ID'])
-        self.orig_bed.set_index(['ID', 'Chrom', 'Start', 'End'], inplace=True);
-        indels_from_orig = self.orig_bed[(len(self.orig_bed['Ref']) > 1) | (len(self.orig_bed['Alt']) > 1)];
-        # temp = self.orig_bed.join(self.mod_bed, how='left');
-        print(type(indels_from_orig));
-        # self.mod_bed['Start'] = self.orig_bed['Start'];
-        # self.mod_bed['End'] = self.orig_bed['End'];
+        self.mod_bed['Start'] = self.indels_from_orig['Start'];
+        self.mod_bed['End'] = self.indels_from_orig['End'];
 
 def main():
     parser = argparse.ArgumentParser(description="Sorts indels into " +
@@ -227,12 +222,11 @@ def main():
     ravenclaw = SortIt(args.bed, args.fasta, args.repeat);
     ravenclaw.get_indels_from_bed();
     ravenclaw.get_allele();
+    ravenclaw.change_bounds();
+    ravenclaw.get_fasta();
+    ravenclaw.assign_class();
+    ravenclaw.intersect_repeat();
     print(ravenclaw.mod_bed);
-    print(ravenclaw.indels_from_orig);
-    # ravenclaw.change_bounds();
-    # ravenclaw.get_fasta();
-    # ravenclaw.assign_class();
-    # ravenclaw.intersect_repeat();
     # ravenclaw.mod_bed.to_csv(path_or_buf='classified_indels.txt', sep='\t', header=False, index=False);
 
 if __name__ == '__main__':
