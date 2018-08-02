@@ -52,7 +52,8 @@ class SortIt:
         self.indels_from_orig.reset_index(inplace=True);
         self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
         self.indels_from_orig = self.indels_from_orig[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
-        self.mod_bed.sort_values(by=['ID'], inplace=True);
+        self.mod_bed.sort_values(by=['ID', 'Chrom', 'Start'], inplace=True);
+        self.mod_bed.reset_index(inplace=True);
         print(self.mod_bed);
 
 
