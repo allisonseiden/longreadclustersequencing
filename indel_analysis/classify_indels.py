@@ -29,6 +29,9 @@ class SortIt:
         self.orig_bed = pd.read_table(bed_location, names=['Chrom', 'Start',
                                         'End', 'Ref', 'Alt', 'ID'],
                                         sep='\t', engine='python');
+        # for ensuring that the right locations are preserved when changing
+        # start and end values at the end of program
+        self.indels_from_orig = self.orig_bed;
         self.mod_bed = self.orig_bed;
         self.fasta = fasta_location;
         self.repeat_masker = repeat_masker;
@@ -44,8 +47,13 @@ class SortIt:
             if ref_len == 1 and alt_len == 1:
                 indices.append(i);
         self.mod_bed = self.mod_bed.drop(self.mod_bed.index[indices]);
+        self.indels_from_orig = self.indels_from_orig.drop(self.indels_from_orig.index[indices]);
         self.mod_bed.reset_index(inplace=True);
+        self.indels_from_orig.reset_index(inplace=True);
         self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
+        self.indels_from_orig = self.indels_from_orig[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
+        print(self.mod_bed);
+        print(self.indels_from_orig);
 
     """ Collects base sequence that is inserted or deleted from Ref/Alt
     """
@@ -219,11 +227,11 @@ def main():
 
     ravenclaw = SortIt(args.bed, args.fasta, args.repeat);
     ravenclaw.get_indels_from_bed();
-    ravenclaw.get_allele();
-    ravenclaw.change_bounds();
-    ravenclaw.get_fasta();
-    ravenclaw.assign_class();
-    ravenclaw.intersect_repeat();
+    # ravenclaw.get_allele();
+    # ravenclaw.change_bounds();
+    # ravenclaw.get_fasta();
+    # ravenclaw.assign_class();
+    # ravenclaw.intersect_repeat();
     # ravenclaw.mod_bed.to_csv(path_or_buf='classified_indels.txt', sep='\t', header=False, index=False);
 
 if __name__ == '__main__':
