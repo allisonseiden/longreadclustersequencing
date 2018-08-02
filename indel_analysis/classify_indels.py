@@ -157,7 +157,7 @@ class SortIt:
                 if len(seq_before) >= 6 or len(seq_after) >= 6:
                     self.mod_bed.loc[i, 'Indel_Class'] = 'HR';
                 # change in copy count
-            elif (len(seq_before) > 1 or len(seq_after) > 1 or
+                elif (len(seq_before) > 1 or len(seq_after) > 1 or
                     seq_before == allele or seq_after == allele):
                     self.mod_bed.loc[i, 'Indel_Class'] = 'CCC';
                 # no change in copy count
