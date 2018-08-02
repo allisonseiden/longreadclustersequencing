@@ -135,7 +135,7 @@ class SortIt:
             # check for homopolymer or change in copy count of single bases
             if allele_len == 1:
                 seq_aft = seq[ind:ind+1];
-                while (ind < len(seq)) and (seq[ind:ind+1] == allele:
+                while (ind < len(seq)) and (seq[ind:ind+1] == allele):
                     seq_aft += seq[ind:ind+1];
                     ind += 1;
             prev_next_bases.append([seq_bef, seq_aft]);
