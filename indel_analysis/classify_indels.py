@@ -195,6 +195,8 @@ class SortIt:
                                         'repClass', 'repFamily']];
 
         # reassign start and end columns to original locations
+        self.mod_bed.set_index(['Chrom', 'Ref', 'Alt', 'ID']);
+        self.orig_bed.set_index(['Chrom', 'Ref', 'Alt', 'ID']);
         self.mod_bed['Start'] = self.orig_bed['Start'];
         self.mod_bed['End'] = self.orig_bed['End'];
 
