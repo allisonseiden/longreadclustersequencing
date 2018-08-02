@@ -130,7 +130,7 @@ if __name__ == '__main__':
     test.get_indels_from_bed();
     test.get_allele();
     test.change_bounds();
-    # test.get_fasta();
+    test.get_fasta();
     # test.assign_class();
     # test.intersect_repeat();
     print(test.mod_bed);
