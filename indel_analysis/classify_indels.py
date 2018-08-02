@@ -217,9 +217,9 @@ def main():
 
     ravenclaw = SortIt(args.bed, args.fasta, args.repeat);
     ravenclaw.get_indels_from_bed();
+    ravenclaw.get_allele();
     print(ravenclaw.mod_bed);
     print(ravenclaw.orig_bed);
-    # ravenclaw.get_allele();
     # ravenclaw.change_bounds();
     # ravenclaw.get_fasta();
     # ravenclaw.assign_class();
