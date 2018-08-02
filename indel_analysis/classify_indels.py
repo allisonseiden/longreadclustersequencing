@@ -36,17 +36,16 @@ class SortIt:
     """ Retrieves indels from BED file of all variants
     """
     def get_indels_from_bed(self):
-        length = self.orig_bed.shape[0];
+        length = self.mod_bed.shape[0];
         indices = [];
         for i in range(length):
-            ref_len = len(self.orig_bed.loc[i, 'Ref']);
-            alt_len = len(self.orig_bed.loc[i, 'Alt']);
+            ref_len = len(self.mod_bed.loc[i, 'Ref']);
+            alt_len = len(self.mod_bed.loc[i, 'Alt']);
             if ref_len == 1 and alt_len == 1:
                 indices.append(i);
-        self.orig_bed = self.orig_bed.drop(self.orig_bed.index[indices]);
-        self.orig_bed.reset_index(inplace=True);
-        self.orig_bed = self.orig_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
-        self.mod_bed = self.orig_bed;
+        self.mod_bed = self.mod_bed.drop(self.mod_bed.index[indices]);
+        self.mod_bed.reset_index(inplace=True);
+        self.mod_bed = self.mod_bed[['Chrom', 'Start', 'End', 'Ref', 'Alt', 'ID']];
 
     """ Collects base sequence that is inserted or deleted from Ref/Alt
     """
@@ -191,13 +190,15 @@ class SortIt:
                                 'Allele', 'ID', 'Indel_Class'], inplace=True);
         self.mod_bed = self.mod_bed.join(repeat_df, how='left');
         self.mod_bed.reset_index(inplace=True);
-        self.mod_bed = self.mod_bed[['ID', 'Chrom', 'Start', 'End', 'Ref',
+        self.mod_bed = self.mod_bed[['ID', 'Chrom', 'Ref',
                                         'Alt', 'Allele', 'Indel_Class', 'repName',
                                         'repClass', 'repFamily']];
 
         # reassign start and end columns to original locations
-        # self.mod_bed.sort_values(by=['Start']);
-        # self.orig_bed.sort_values(by=['Start']);
+        self.mod_bed.set_index(['ID', 'Chrom', 'Ref', 'Alt']);
+        self.orig_bed.set_index(['ID', 'Chrom', 'Ref', 'Alt']);
+        temp = self.orig_bed.join(self.mod_bed, how='left');
+        print(temp);
         # self.mod_bed['Start'] = self.orig_bed['Start'];
         # self.mod_bed['End'] = self.orig_bed['End'];
 
@@ -218,12 +219,10 @@ def main():
     ravenclaw = SortIt(args.bed, args.fasta, args.repeat);
     ravenclaw.get_indels_from_bed();
     ravenclaw.get_allele();
-    print(ravenclaw.mod_bed);
-    print(ravenclaw.orig_bed);
-    # ravenclaw.change_bounds();
-    # ravenclaw.get_fasta();
-    # ravenclaw.assign_class();
-    # ravenclaw.intersect_repeat();
+    ravenclaw.change_bounds();
+    ravenclaw.get_fasta();
+    ravenclaw.assign_class();
+    ravenclaw.intersect_repeat();
     # ravenclaw.mod_bed.to_csv(path_or_buf='classified_indels.txt', sep='\t', header=False, index=False);
 
 if __name__ == '__main__':
