@@ -37,10 +37,10 @@ class SortIt:
     """
     def get_indels_from_bed(self):
         length = self.mod_bed.shape[0];
-        ref_len = len(self.mod_bed.loc[i, 'Ref']);
-        alt_len = len(self.mod_bed.loc[i, 'Alt']);
         indices = [];
         for i in range(length):
+            ref_len = len(self.mod_bed.loc[i, 'Ref']);
+            alt_len = len(self.mod_bed.loc[i, 'Alt']);
             if ref_len == 1 and alt_len == 1:
                 indices.append(i);
         self.mod_bed = self.mod_bed.drop(self.mod_bed.index[indices]);
