@@ -201,15 +201,16 @@ class SortIt:
                                 'Allele', 'ID', 'Indel_Class'], inplace=True);
         repeat_df.set_index(['Chrom', 'Start', 'End', 'Ref', 'Alt',
                                 'Allele', 'ID', 'Indel_Class'], inplace=True);
-        self.mod_bed = self.mod_bed.join(repeat_df, how='left');
-        self.mod_bed.reset_index(inplace=True);
-        self.mod_bed = self.mod_bed[['ID', 'Chrom','Start', 'End', 'Ref', 'Alt',
-                                        'Allele', 'Indel_Class', 'repName',
-                                        'repClass', 'repFamily']];
+        print(repeat_df);
+        # self.mod_bed = self.mod_bed.join(repeat_df, how='left');
+        # self.mod_bed.reset_index(inplace=True);
+        # self.mod_bed = self.mod_bed[['ID', 'Chrom','Start', 'End', 'Ref', 'Alt',
+        #                                 'Allele', 'Indel_Class', 'repName',
+        #                                 'repClass', 'repFamily']];
 
         # reassign start and end columns to original locations
-        self.mod_bed.sort_values(by=['ID']);
-        self.indels_from_orig.sort_values(by=['ID']);
+        # self.mod_bed.sort_values(by=['ID']);
+        # self.indels_from_orig.sort_values(by=['ID']);
         # self.mod_bed['Start'] = self.indels_from_orig['Start'].astype(int);
         # self.mod_bed['End'] = self.indels_from_orig['End'].astype(int);
 
