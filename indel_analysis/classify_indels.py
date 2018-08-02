@@ -210,8 +210,6 @@ class SortIt:
         # reassign start and end columns to original locations
         self.mod_bed.sort_values(by=['ID']);
         self.indels_from_orig.sort_values(by=['ID']);
-        print(self.mod_bed);
-        print(self.indels_from_orig);
         # self.mod_bed['Start'] = self.indels_from_orig['Start'].astype(int);
         # self.mod_bed['End'] = self.indels_from_orig['End'].astype(int);
 
@@ -235,7 +233,7 @@ def main():
     ravenclaw.change_bounds();
     ravenclaw.get_fasta();
     ravenclaw.assign_class();
-    # ravenclaw.intersect_repeat();
+    ravenclaw.intersect_repeat();
     print(ravenclaw.mod_bed);
     # ravenclaw.mod_bed.to_csv(path_or_buf='classified_indels.txt', sep='\t', header=False, index=False);
 
