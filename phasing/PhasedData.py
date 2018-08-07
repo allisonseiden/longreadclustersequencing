@@ -68,7 +68,7 @@ class PhasedData:
                                                 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
                                                 self.id, self.mom, self.dad],
                                                 comment = '#');
-            self.gtf_dfs["chr{0}".format(i)] =  pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '_illumina/' + self.id + '_chr' + num + 'phased.gtf',
+            self.gtf_dfs["chr{0}".format(i)] =  pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '_illumina/' + self.id + '_chr' + num + '_phased.gtf',
                                                 sep='\t', names = ['Chrom', 'Allison', 'Start', 'End', 'Felix', 'Plus', 'Dot', 'Madeline']);
         print('---VCF and GTF dictionaries created for ' + self.id);
 
@@ -88,7 +88,7 @@ class PhasedData:
                                                 'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
                                                 self.id, self.mom, self.dad],
                                                 comment = '#');
-            self.gtf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '_no_indels/' + self.id + '_chr' + num + 'phased.gtf',
+            self.gtf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '_no_indels/' + self.id + '_chr' + num + '_phased.gtf',
                                                 sep='\t', names = ['Chrom', 'Allison', 'Start', 'End', 'Felix', 'Plus', 'Dot', 'Madeline']);
         print('---VCF and GTF dictionaries created for ' + self.id);
 
@@ -372,10 +372,29 @@ class PhasedData:
 
         self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'From Mom',
                                             'From Dad', 'Unphased']];
-        self.parent_df.to_csv(path_or_buf=self.id + '_dataframe_test.txt', sep='\t', float_format='%g', index=False);
+        self.parent_df.to_csv(path_or_buf=self.id + '_dataframe.txt', sep='\t', float_format='%g', index=False);
 
-    def no_indels(self):
+    """
+        ------------------------------------------------------------------------
+        Calls all the functions that are needed for Pacbio data (i.e. no indels)
+        ------------------------------------------------------------------------
+    """
+    def pacbio(self):
         self.create_vcf_no_indels();
+        self.create_dnvs_dictionary();
+        self.fill_bounds_dictionary();
+        self.find_variants_for_phasing(7);
+        self.assign_to_parent();
+        self.convert_to_dataframe();
+
+    """
+        ------------------------------------------------------------------------
+        Calls all the functions that are needed for Illumina data
+        (i.e. with indels)
+        ------------------------------------------------------------------------
+    """
+    def illumina(self):
+        self.create_vcf_dictionary();
         self.create_dnvs_dictionary();
         self.fill_bounds_dictionary();
         self.find_variants_for_phasing(7);
