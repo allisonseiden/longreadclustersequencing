@@ -53,7 +53,8 @@ paternal_data = dnv_data[dnv_data.Parent == 'Father'];
 maternal_data = dnv_data[dnv_data.Parent == 'Mother'];
 
 f, axarr = plt.subplots(1, 3, sharex=True, sharey=True, figsize=(10, 5));
-plt.xlim((0, 100));
+plt.xlim((0, 80));
+plt.ylim((-5, 10));
 for i in range(length):
     # paternal_mut_df = paternal_data[paternal_data.Indel_Class == indel_list[i]];
     # maternal_mut_df = maternal_data[maternal_data.Indel_Class == indel_list[i]];

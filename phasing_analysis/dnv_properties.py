@@ -1,6 +1,8 @@
 import pandas as pd
 import numpy as np
 
+
+# read in dataframe with SNPs and dataframe with indels
 analysis_df = pd.read_table('/Users/allisonseiden/Documents/longreadclustersequencing/phasing_analysis/phasing_analysis_df.txt',
                             sep='\t');
 indels_df = pd.read_table('/Users/allisonseiden/Documents/longreadclustersequencing/phasing_analysis/indels_df.txt',
@@ -17,6 +19,8 @@ df = pacbio_df.join(indels_df, how='left');
 df.reset_index(inplace=True);
 df.fillna(value=0, inplace=True);
 
+# create column that explicity states whether the de novo came from mom or dad,
+# helpful for graph later on
 length = df.shape[0];
 for i in range(length):
     if df['PB_Mom'][i] == 1:
@@ -42,7 +46,7 @@ df = df[['ID', 'Chrom', 'Location', 'Ref', 'Alt', 'CpG', 'Mom', 'Dad', 'Unphased
 
 df.to_csv(path_or_buf='all_pacbio_data.txt', sep='\t');
 
-
+# get totals in order to get percentages later on
 dnv_nums_dict = {};
 dnv_nums_dict['Total'] = df.sum(numeric_only=True);
 dnv_nums_dict['Total'].drop(['Location'], inplace=True);
@@ -52,6 +56,7 @@ group_by_ref_alt = df.groupby(['Ref', 'Alt']);
 mutation_groups = {'C_A' : [], 'C_T' : [], 'C_G' : [], 'T_A' : [], 'T_C' : [], 'T_G' : [], 'CpG_TpG' : [], 'Indels' : []};
 full_data_dfs = {};
 
+# group together all columns of dataframe that are of the same mutational class
 for name, group in group_by_ref_alt:
     if (name[0] == 'C' and name[1] == 'A') or (name[0] == 'G' and name[1] == 'T'):
         mutation_groups['C_A'].append(group);
@@ -74,9 +79,8 @@ for name, group in group_by_ref_alt:
 pb_total_mom = float(dnv_nums_dict['Total']['Mom']);
 pb_total_dad = float(dnv_nums_dict['Total']['Dad']);
 pb_total_unphased = float(dnv_nums_dict['Total']['Unphased']);
-# # il_total_mom = float(dnv_data_dict['Total']['IL_Mom']);
-# # il_total_dad = float(dnv_data_dict['Total']['IL_Dad']);
-# # il_total_unphased = float(dnv_data_dict['Total']['IL_Unphased']);
+
+# loop through mutational classes and obtain percentages for mom and dad
 dnv_percent_dict = {};
 for key in mutation_groups:
     full_data_dfs[key] = pd.concat(mutation_groups[key], ignore_index=True);
@@ -92,7 +96,6 @@ for key in mutation_groups:
     dnv_percent_dict[key] = dnv_percent_dict[key][['Mutational_Class', 'Parent', 'Fraction']];
     dnv_percent_dict[key].drop([2], inplace=True);
     dnv_percent_dict[key] = dnv_percent_dict[key][dnv_percent_dict[key].Fraction != 0]
-    # dnv_percent_dict[key].set_index(['Mutational_Class'], inplace=True);
 
 
 
