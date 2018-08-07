@@ -40,7 +40,7 @@ class PhasedData:
         self.id = patientID;
         self.mom = patientID + '-01';
         self.dad = patientID + '-02';
-        self.bed = pd.read_table('/hpc/users/seidea02/www/PacbioProject/DNV_calls/BED/' + self.id + '.hg38.dnv.bed',
+        self.bed = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/' + self.id + '_dnv.bed',
                                     sep='\t', names = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']);
         self.vcf_dfs = {};
         self.gtf_dfs = {};
@@ -372,4 +372,12 @@ class PhasedData:
 
         self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'From Mom',
                                             'From Dad', 'Unphased']];
-        self.parent_df.to_csv(path_or_buf=self.id + '_dataframe.txt', sep='\t', float_format='%g', index=False);
+        self.parent_df.to_csv(path_or_buf=self.id + '_dataframe_test.txt', sep='\t', float_format='%g', index=False);
+
+    def no_indels(self):
+        self.create_vcf_no_indels();
+        self.create_dnvs_dictionary();
+        self.fill_bounds_dictionary();
+        self.find_variants_for_phasing(7);
+        self.assign_to_parent();
+        self.convert_to_dataframe();
