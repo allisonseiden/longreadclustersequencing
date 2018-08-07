@@ -28,4 +28,4 @@ def split_compress_index(num):
 
 if __name__ == '__main__':
     pool = mp.Pool(processes=5);
-    pool.map(split_compress_index, range(2, 23))
+    pool.map(split_compress_index, range(1, 22))
