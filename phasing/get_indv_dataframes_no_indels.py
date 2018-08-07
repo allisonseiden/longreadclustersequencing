@@ -2,6 +2,7 @@
     Whatshap software (without indels flag) """
 
 from PhasedData import PhasedData
+import multiprocessing as mp
 
 # patient_1 = PhasedData('1-00801');
 # patient_1.create_vcf_no_indels();
@@ -12,22 +13,22 @@ from PhasedData import PhasedData
 # patient_1.convert_to_dataframe();
 #
 #
-patient_2 = PhasedData('1-01019');
-patient_2.create_vcf_no_indels();
-patient_2.create_dnvs_dictionary();
-patient_2.fill_bounds_dictionary();
-patient_2.find_variants_for_phasing(7);
-patient_2.assign_to_parent();
-patient_2.convert_to_dataframe();
-
-
-patient_3 = PhasedData('1-03897');
-patient_3.create_vcf_no_indels();
-patient_3.create_dnvs_dictionary();
-patient_3.fill_bounds_dictionary();
-patient_3.find_variants_for_phasing(7);
-patient_3.assign_to_parent();
-patient_3.convert_to_dataframe();
+# patient_2 = PhasedData('1-01019');
+# patient_2.create_vcf_no_indels();
+# patient_2.create_dnvs_dictionary();
+# patient_2.fill_bounds_dictionary();
+# patient_2.find_variants_for_phasing(7);
+# patient_2.assign_to_parent();
+# patient_2.convert_to_dataframe();
+#
+#
+# patient_3 = PhasedData('1-03897');
+# patient_3.create_vcf_no_indels();
+# patient_3.create_dnvs_dictionary();
+# patient_3.fill_bounds_dictionary();
+# patient_3.find_variants_for_phasing(7);
+# patient_3.assign_to_parent();
+# patient_3.convert_to_dataframe();
 #
 #
 # patient_4 = PhasedData('1-04190');
@@ -92,3 +93,14 @@ patient_3.convert_to_dataframe();
 # patient_10.find_variants_for_phasing(7);
 # patient_10.assign_to_parent();
 # patient_10.convert_to_dataframe();
+
+
+patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389', '1-04460', '1-04537', '1-05443', '1-05673', '1-05846'];
+
+def get_dataframes(ID):
+    patient = PhasedData(ID);
+    patient.no_indels();
+
+if __name__ == '__main__':
+  pool = mp.Pool(processes=5);
+  pool.map(get_dataframes, patientIDs);
