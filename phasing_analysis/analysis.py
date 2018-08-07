@@ -9,56 +9,49 @@ import pybedtools
 patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389', '1-04460',
                 '1-04537', '1-05443', '1-05673', '1-05846'];
 bed_list = [];
-pb_df_list = [];
-il_df_list = [];
+parent_df_list = [];
+
 
 # Create lists of pandas dataframes for BED files, Pacbio dataframes, and
 # Illumina dataframes for all patient IDs
 for ID in patientIDs:
     bed_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/' + ID + '_dnv.bed',
                                 sep='\t', names = ['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
-    pb_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/pacbio_dataframes/' + ID + '_dataframe.txt',
-                                sep='\t'));
-    il_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/illumina_dataframes/' + ID + '_dataframe.txt',
+    parent_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/pacbio_dataframes/' + ID + '_dataframe.txt',
                                 sep='\t'));
 
-# Create combined dataframe for all BED files, Pacbio dataframes, and
-# Illumina dataframes
+
+# Create combined dataframe for all BED files and parentally assigned dataframes
 dnv_df = pd.concat(bed_list, ignore_index=True);
-pb_parent_df = pd.concat(pb_df_list, ignore_index=True);
-pb_parent_df.rename(columns={"From Mom": "PB_Mom", "From Dad": "PB_Dad", "Unphased": "PB_Unphased"}, inplace=True);
-il_parent_df = pd.concat(il_df_list, ignore_index=True);
-il_parent_df.rename(columns={"From Mom": "IL_Mom", "From Dad": "IL_Dad", "Unphased": "IL_Unphased"}, inplace=True);
+parent_df = pd.concat(pb_df_list, ignore_index=True);
 
 dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
-pb_parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
-il_parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
+parent_df.set_index(['ID', 'Chrom', 'Location'], inplace=True);
 
-# Join together BED dataframe, Pacbio dataframe, and Illumina dataframe
-temp_one_df = dnv_df.join(pb_parent_df, how='left');
-temp_two_df = temp_one_df.join(il_parent_df, how='left');
+# Join together BED dataframe and parent dataframe
+temp_one_df = dnv_df.join(parent_df, how='left');
 
 
 # Create series for which de novos are transitions (ti_series) and which
 # de novos are transversions (tv_series)
-ti_series = (((temp_two_df['Ref'] == 'A') & (temp_two_df['Alt'] == 'G')) |
-             ((temp_two_df['Ref'] == 'G') & (temp_two_df['Alt'] == 'A')) |
-             ((temp_two_df['Ref'] == 'C') & (temp_two_df['Alt'] == 'T')) |
-             ((temp_two_df['Ref'] == 'T') & (temp_two_df['Alt'] == 'C')));
-tv_series = (((temp_two_df['Ref'] == 'A') & ((temp_two_df['Alt'] == 'T') | (temp_two_df['Alt'] == 'C'))) |
-             ((temp_two_df['Ref'] == 'G') & ((temp_two_df['Alt'] == 'T') | (temp_two_df['Alt'] == 'C'))) |
-             ((temp_two_df['Ref'] == 'T') & ((temp_two_df['Alt'] == 'A') | (temp_two_df['Alt'] == 'G'))) |
-             ((temp_two_df['Ref'] == 'C') & ((temp_two_df['Alt'] == 'A') | (temp_two_df['Alt'] == 'G'))));
+ti_series = (((temp_one_df['Ref'] == 'A') & (temp_one_df['Alt'] == 'G')) |
+             ((temp_one_df['Ref'] == 'G') & (temp_one_df['Alt'] == 'A')) |
+             ((temp_one_df['Ref'] == 'C') & (temp_one_df['Alt'] == 'T')) |
+             ((temp_one_df['Ref'] == 'T') & (temp_one_df['Alt'] == 'C')));
+tv_series = (((temp_one_df['Ref'] == 'A') & ((temp_one_df['Alt'] == 'T') | (temp_one_df['Alt'] == 'C'))) |
+             ((temp_one_df['Ref'] == 'G') & ((temp_one_df['Alt'] == 'T') | (temp_one_df['Alt'] == 'C'))) |
+             ((temp_one_df['Ref'] == 'T') & ((temp_one_df['Alt'] == 'A') | (temp_one_df['Alt'] == 'G'))) |
+             ((temp_one_df['Ref'] == 'C') & ((temp_one_df['Alt'] == 'A') | (temp_one_df['Alt'] == 'G'))));
 
 
-temp_two_df['Ti'] = ti_series;
-temp_two_df['Tv'] = tv_series;
-temp_two_df['Ti'] = temp_two_df['Ti'].astype(int);
-temp_two_df['Tv'] = temp_two_df['Tv'].astype(int);
+temp_one_df['Ti'] = ti_series;
+temp_one_df['Tv'] = tv_series;
+temp_one_df['Ti'] = temp_one_df['Ti'].astype(int);
+temp_one_df['Tv'] = temp_one_df['Tv'].astype(int);
 
-temp_two_df = temp_two_df[['Ref', 'Alt', 'Ti', 'Tv', 'PB_Mom', 'PB_Dad', 'PB_Unphased', 'IL_Mom', 'IL_Dad', 'IL_Unphased']];
+temp_one_df = temp_one_df[['Ref', 'Alt', 'Ti', 'Tv', 'Mom', 'Dad', 'Unphased']];
 
-temp_two_df.reset_index(level='Location', inplace=True);
+temp_one_df.reset_index(level='Location', inplace=True);
 
 # Function to find the difference between bordering de novos in BED file
 def find_difference(group):
@@ -85,10 +78,10 @@ def find_difference(group):
     group['Closest DNV Distance'] = d_series.values;
     return group;
 
-grouped = temp_two_df.groupby(['ID', 'Chrom']);
-temp_two_df = grouped.apply(find_difference);
+grouped = temp_one_df.groupby(['ID', 'Chrom']);
+temp_one_df = grouped.apply(find_difference);
 
-temp_two_df.set_index(['Location'], append=True, inplace=True);
+temp_one_df.set_index(['Location'], append=True, inplace=True);
 
 # Find CpG regions
 cpg_bed_list = [];
@@ -118,7 +111,7 @@ for elem in cpg_df['Tri_Nucleotide']:
         cpg.append(0);
 cpg_df['CpG'] = cpg;
 
-temp_three_df = temp_two_df.join(cpg_df, how='left');
+temp_two_df = temp_one_df.join(cpg_df, how='left');
 
 # Find CpG islands using bedtools intersect with bed files and CpGisland file
 # from UCSC Genome Browser
@@ -135,7 +128,7 @@ dnv_bed_df['CpG_Island'] = [True] * dnv_bed_df.shape[0];
 dnv_bed_df = dnv_bed_df[['CpG_Island']];
 print(dnv_bed_df);
 
-analysis_df = temp_three_df.join(dnv_bed_df, how='left');
+analysis_df = temp_two_df.join(dnv_bed_df, how='left');
 analysis_df.fillna(value=False, inplace=True);
 analysis_df['CpG_Island'] = analysis_df['CpG_Island'].astype(int);
 
