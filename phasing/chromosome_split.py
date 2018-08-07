@@ -18,8 +18,8 @@ import multiprocessing as mp
 #         subprocess.call(index, shell=True);
 
 def split_compress_index(num):
-    filename = "Illumina_WGS_chr" + str(i) + ".vcf";
-    split = "tabix -h /sc/orga/projects/chdiTrios/GMKF_WGS_Trios_Dec_2017/GMKF_Seidman_CongenitalHeartDisease_WGS.vcf.gz chr" + str(i) + " > " + filename;
+    filename = "Illumina_WGS_chr" + str(num) + ".vcf";
+    split = "tabix -h /sc/orga/projects/chdiTrios/GMKF_WGS_Trios_Dec_2017/GMKF_Seidman_CongenitalHeartDisease_WGS.vcf.gz chr" + str(num) + " > " + filename;
     subprocess.call(split, shell=True);
     compress = "bgzip " + filename;
     subprocess.call(compress, shell=True);
