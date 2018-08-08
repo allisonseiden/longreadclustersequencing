@@ -5,8 +5,8 @@ import multiprocessing as mp
 """ Script 1/2 to run Whatshap with indels flag using Illumina data for first
     5 patient IDs, uses multiprocessing """
 
-df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/Illumina_crams_batch1.txt');
-patientID = df.tolist();
+df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/Illumina_crams_batch1.txt', names=['ID']);
+patientID = df['ID'].tolist();
 print(df);
 print(patientID);
 
