@@ -13,7 +13,7 @@ patientID = df['ID'].tolist();
 def illumina_whatshap(ID):
     mkdir = 'mkdir ' + ID;
     sp.call(mkdir, shell=True);
-    cd = 'cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' + ID;
+    cd = 'cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/IlluminaWhatshapVCFs/Batch1' + ID;
     sp.call(cd, shell=True);
     for i in range(1, 23):
         vcf_filename = "/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/";
