@@ -36,7 +36,7 @@ def split_vcf(num):
         cd += 'GMKF_TrioVCFs/Batch3';
     sp.call(cd, shell=True);
     sp.call(command, shell=True);
-    sp.call(index, shell=True);
+    # sp.call(index, shell=True);
 
 
 if __name__ == '__main__':
