@@ -34,9 +34,9 @@ def split_vcf(num):
     else:
         cd = 'cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/';
         cd += 'GMKF_TrioVCFs/Batch3';
-    # sp.call(cd, shell=True);
+    sp.call(cd, shell=True);
     sp.call(command, shell=True);
-    # sp.call(index, shell=True);
+    sp.call(index, shell=True);
 
 
 if __name__ == '__main__':
