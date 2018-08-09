@@ -17,7 +17,7 @@ def illumina_whatshap(ID):
     sp.call(cd, shell=True);
     for i in range(1, 23):
         vcf_filename = "/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/";
-        vcf_filename += "IlluminaVCFs/Illumina_WGS_chr" + str(i) + ".vcf.gz";
+        vcf_filename += "GMKF_TrioVCFs/" + ID + "_trio.vcf.gz";
         bam_filename = "/sc/orga/projects/chdiTrios/GMKF_WGS_Trios_Dec_2017/CRAM/Batch2/";
         bam_filename += ID + ".cram";
         command = "whatshap phase --sample=" + ID + " --ignore-read-groups";
