@@ -21,7 +21,7 @@ def split_vcf(num):
     dad = trio_df.loc[num, 'Father'];
     mom = trio_df.loc[num, 'Mother'];
     command = 'bcftools view -s ' + kiddo + ',' + mom + ',' + dad;
-    command += '-O z -o ' + kiddo + '_trio.vcf.gz /sc/orga/projects/';
+    command += ' -O z -o ' + kiddo + '_trio.vcf.gz /sc/orga/projects/';
     command += 'chdiTrios/GMKF_WGS_Trios_Dec_2017/';
     command += 'GMKF_Seidman_CongenitalHeartDisease_WGS.vcf.gz';
     index = 'tabix -p vcf ' + kiddo + '_trio.vcf.gz';
