@@ -26,15 +26,18 @@ def split_vcf(num):
     command += 'GMKF_Seidman_CongenitalHeartDisease_WGS.vcf.gz';
     index = 'tabix -p vcf ' + kiddo + '_trio.vcf.gz';
     if kiddo in batch1:
-        cd = 'cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/';
-        cd += 'GMKF_TrioVCFs/Batch1';
+        # cd = 'cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/';
+        # cd += 'GMKF_TrioVCFs/Batch1';
+        sp.call('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/GMKF_TrioVCFs/Batch1', shell=True);
     elif kiddo in batch2:
-        cd = 'cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/';
-        cd += 'GMKF_TrioVCFs/Batch2';
+        # cd = 'cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/';
+        # cd += 'GMKF_TrioVCFs/Batch2';
+        sp.call('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/GMKF_TrioVCFs/Batch2', shell=True);
     else:
-        cd = 'cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/';
-        cd += 'GMKF_TrioVCFs/Batch3';
-    sp.call(cd, shell=True);
+        # cd = 'cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/';
+        # cd += 'GMKF_TrioVCFs/Batch3';
+        sp.call('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/GMKF_TrioVCFs/Batch3', shell=True);
+    # sp.call(cd, shell=True);
     sp.call(command, shell=True);
     sp.call(index, shell=True);
 
