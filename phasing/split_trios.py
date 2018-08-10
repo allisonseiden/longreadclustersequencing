@@ -1,3 +1,21 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+
+"""Split VCF by sample.
+
+:Authors: Allison Seiden, Felix Richter
+:Date: 2018-08-10
+:Copyright: 2018, Allison Seiden
+:License: CC BY-SA
+
+
+module load samtools/1.8 bcftools/1.7 tabix
+module load python/3.5.0 py_packages/3.5
+python3 ~/longreadclustersequencing/phasing/split_trios.py
+
+"""
+
+
 import pandas as pd
 import subprocess as sp
 import multiprocessing as mp
@@ -21,6 +39,7 @@ def split_vcf(num):
     kiddo = trio_df.loc[num, 'Child'];
     dad = trio_df.loc[num, 'Father'];
     mom = trio_df.loc[num, 'Mother'];
+    print(kiddo)
     if os.path.exists(kiddo + '_trio.vcf.gz'):
         return kiddo
     command = 'bcftools view -s ' + kiddo + ',' + mom + ',' + dad;
