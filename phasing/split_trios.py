@@ -78,5 +78,5 @@ if __name__ == '__main__':
                             names=['Fam_ID', 'Child', 'Father', 'Mother'],
                             sep='\t', comment='#');
     length = trio_df.shape[0];
-    pool = mp.Pool(processes=1);
+    pool = mp.Pool(processes=7);
     pool.map(split_vcf, range(length));
