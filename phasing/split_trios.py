@@ -41,7 +41,6 @@ def split_vcf(num):
     kiddo = trio_df.loc[num, 'Child'];
     dad = trio_df.loc[num, 'Father'];
     mom = trio_df.loc[num, 'Mother'];
-    print(kiddo)
     vcf_exists = os.path.exists(kiddo + '_trio.vcf.gz')
     tbx_exists = os.path.exists(kiddo + '_trio.vcf.gz.tbi')
     # first check if VCF created but not indexed (likely due to crash)
@@ -53,6 +52,7 @@ def split_vcf(num):
     if vcf_exists and tbx_exists:
         print('Already done with ' + kiddo)
         return kiddo
+    print('Starting ' + kiddo)
     command = 'bcftools view -s ' + kiddo + ',' + mom + ',' + dad;
     command += ' -O z -o ' + kiddo + '_trio.vcf.gz /sc/orga/projects/';
     command += 'chdiTrios/GMKF_WGS_Trios_Dec_2017/';
