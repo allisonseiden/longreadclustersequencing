@@ -46,17 +46,19 @@ def split_vcf(num):
     tbx_exists = os.path.exists(kiddo + '_trio.vcf.gz.tbi')
     # first check if VCF created but not indexed (likely due to crash)
     if vcf_exists and not tbx_exists:
-        print('Deleting the following file: ' + kiddo + '_trio.vcf.gz')
+        print('Deleting and restarting this file: ' + kiddo + '_trio.vcf.gz')
         os.remove(kiddo + '_trio.vcf.gz')
+        return kiddo
     # if BOTH VCF and tabix were created, skip and move on to next one
     if vcf_exists and tbx_exists:
         print('Already done with ' + kiddo)
         return kiddo
-    command = 'bcftools view -s ' + kiddo + ',' + mom + ',' + dad;
-    command += ' -O z -o ' + kiddo + '_trio.vcf.gz /sc/orga/projects/';
-    command += 'chdiTrios/GMKF_WGS_Trios_Dec_2017/';
-    command += 'GMKF_Seidman_CongenitalHeartDisease_WGS.vcf.gz';
-    index = 'tabix -p vcf ' + kiddo + '_trio.vcf.gz';
+    return kiddo
+    # command = 'bcftools view -s ' + kiddo + ',' + mom + ',' + dad;
+    # command += ' -O z -o ' + kiddo + '_trio.vcf.gz /sc/orga/projects/';
+    # command += 'chdiTrios/GMKF_WGS_Trios_Dec_2017/';
+    # command += 'GMKF_Seidman_CongenitalHeartDisease_WGS.vcf.gz';
+    # index = 'tabix -p vcf ' + kiddo + '_trio.vcf.gz';
     # cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
     #       'PacbioProject/');
     # if kiddo in batch1:
@@ -66,9 +68,9 @@ def split_vcf(num):
     # else:
     #     sp.call(cd + 'GMKF_TrioVCFs/Batch3', shell=True);
     # sp.call(cd, shell=True);
-    sp.call(command, shell=True);
-    sp.call(index, shell=True);
-    return kiddo
+    # sp.call(command, shell=True);
+    # sp.call(index, shell=True);
+    # return kiddo
 
 
 if __name__ == '__main__':
@@ -78,4 +80,4 @@ if __name__ == '__main__':
                             sep='\t', comment='#');
     length = trio_df.shape[0];
     pool = mp.Pool(processes=1);
-    pool.map(split_vcf, range(49));  # range(length)
+    pool.map(split_vcf, range(length));
