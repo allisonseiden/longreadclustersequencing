@@ -48,8 +48,8 @@ def split_vcf(num):
     # if vcf_exists and not tbx_exists:
     #     print('Deleting and restarting this file: ' + kiddo + '_trio.vcf.gz')
     #     os.remove(kiddo + '_trio.vcf.gz')
-    # if BOTH VCF and tabix were created, skip and move on to next one
-    if vcf_exists and tbx_exists:
+    # if VCF was created, skip and move on to next one
+    if vcf_exists:
         print('Already done with ' + kiddo)
         return kiddo
     print('Starting ' + kiddo)
