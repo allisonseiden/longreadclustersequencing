@@ -53,12 +53,11 @@ def split_vcf(num):
     if vcf_exists and tbx_exists:
         print('Already done with ' + kiddo)
         return kiddo
-    return kiddo
-    # command = 'bcftools view -s ' + kiddo + ',' + mom + ',' + dad;
-    # command += ' -O z -o ' + kiddo + '_trio.vcf.gz /sc/orga/projects/';
-    # command += 'chdiTrios/GMKF_WGS_Trios_Dec_2017/';
-    # command += 'GMKF_Seidman_CongenitalHeartDisease_WGS.vcf.gz';
-    # index = 'tabix -p vcf ' + kiddo + '_trio.vcf.gz';
+    command = 'bcftools view -s ' + kiddo + ',' + mom + ',' + dad;
+    command += ' -O z -o ' + kiddo + '_trio.vcf.gz /sc/orga/projects/';
+    command += 'chdiTrios/GMKF_WGS_Trios_Dec_2017/';
+    command += 'GMKF_Seidman_CongenitalHeartDisease_WGS.vcf.gz';
+    index = 'tabix -p vcf ' + kiddo + '_trio.vcf.gz';
     # cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
     #       'PacbioProject/');
     # if kiddo in batch1:
@@ -67,10 +66,10 @@ def split_vcf(num):
     #     sp.call(cd + 'GMKF_TrioVCFs/Batch2', shell=True);
     # else:
     #     sp.call(cd + 'GMKF_TrioVCFs/Batch3', shell=True);
-    # sp.call(cd, shell=True);
-    # sp.call(command, shell=True);
-    # sp.call(index, shell=True);
-    # return kiddo
+    sp.call(cd, shell=True);
+    sp.call(command, shell=True);
+    sp.call(index, shell=True);
+    return kiddo
 
 
 if __name__ == '__main__':
