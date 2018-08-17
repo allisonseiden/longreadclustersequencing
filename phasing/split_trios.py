@@ -42,7 +42,7 @@ def split_vcf(num):
     dad = trio_df.loc[num, 'Father'];
     mom = trio_df.loc[num, 'Mother'];
     vcf_exists = os.path.exists(kiddo + '_trio.vcf.gz')
-    tbx_exists = os.path.exists(kiddo + '_trio.vcf.gz.tbi')
+    # tbx_exists = os.path.exists(kiddo + '_trio.vcf.gz.tbi')
     # first check if VCF created but not indexed (likely due to crash)
     # DO NOT use if running on multiple screens
     # if vcf_exists and not tbx_exists:
