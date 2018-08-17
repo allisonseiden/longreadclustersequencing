@@ -78,4 +78,4 @@ if __name__ == '__main__':
                             sep='\t', comment='#');
     length = trio_df.shape[0];
     pool = mp.Pool(processes=1);
-    pool.map(split_vcf, 49);  # range(length)
+    pool.map(split_vcf, range(49));  # range(length)
