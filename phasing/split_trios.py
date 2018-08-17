@@ -45,10 +45,10 @@ def split_vcf(num):
     vcf_exists = os.path.exists(kiddo + '_trio.vcf.gz')
     tbx_exists = os.path.exists(kiddo + '_trio.vcf.gz.tbi')
     # first check if VCF created but not indexed (likely due to crash)
-    if vcf_exists and not tbx_exists:
-        print('Deleting and restarting this file: ' + kiddo + '_trio.vcf.gz')
-        os.remove(kiddo + '_trio.vcf.gz')
-        return kiddo
+    # DO NOT use if running on multiple screens
+    # if vcf_exists and not tbx_exists:
+    #     print('Deleting and restarting this file: ' + kiddo + '_trio.vcf.gz')
+    #     os.remove(kiddo + '_trio.vcf.gz')
     # if BOTH VCF and tabix were created, skip and move on to next one
     if vcf_exists and tbx_exists:
         print('Already done with ' + kiddo)
