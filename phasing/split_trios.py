@@ -58,15 +58,17 @@ def split_vcf(num):
     command += 'chdiTrios/GMKF_WGS_Trios_Dec_2017/';
     command += 'GMKF_Seidman_CongenitalHeartDisease_WGS.vcf.gz';
     index = 'tabix -p vcf ' + kiddo + '_trio.vcf.gz';
-    # cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-    #       'PacbioProject/');
-    # if kiddo in batch1:
-    #     sp.call(cd + 'GMKF_TrioVCFs/Batch1', shell=True);
-    # elif kiddo in batch2:
-    #     sp.call(cd + 'GMKF_TrioVCFs/Batch2', shell=True);
-    # else:
-    #     sp.call(cd + 'GMKF_TrioVCFs/Batch3', shell=True);
+    """
+    cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+          'PacbioProject/');
+    if kiddo in batch1:
+        sp.call(cd + 'GMKF_TrioVCFs/Batch1', shell=True);
+    elif kiddo in batch2:
+        sp.call(cd + 'GMKF_TrioVCFs/Batch2', shell=True);
+    else:
+        sp.call(cd + 'GMKF_TrioVCFs/Batch3', shell=True);
     sp.call(cd, shell=True);
+    """
     sp.call(command, shell=True);
     sp.call(index, shell=True);
     return kiddo
