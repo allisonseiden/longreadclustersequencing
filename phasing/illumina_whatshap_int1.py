@@ -39,26 +39,26 @@ patientID = ['CG0000-1789']  # this is 1-00004
 def illumina_whatshap(ID):
     """Run whatshap for illumina data."""
     print(ID)
-    mkdir = 'mkdir ' + ID
+    mkdir = 'mkdir -p ' + ID
     sp.call(mkdir, shell=True)
     cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
           'IlluminaWhatshapVCFs/Batch1/' + ID)
     sp.call(cd, shell=True)
     for i in range(1, 23):
         # full VCF:
-        vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-                        'PacbioProject/GMKF_TrioVCFs/' + ID + '_trio.vcf.gz')
-        # per chrom VCF:
-        # fam_id = '1-00004'
         # vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-        #                 'PacbioProject/GMKF_TrioVCFs/{}/Illumina_WGS_{}' +
-        #                 '_chr{}.vcf.gz').format(fam_id, fam_id, i)
+        #                 'PacbioProject/GMKF_TrioVCFs/' + ID + '_trio.vcf.gz')
+        # per chrom VCF:
+        fam_id = '1-00004'
+        vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+                        'PacbioProject/GMKF_TrioVCFs/{}/Illumina_WGS_{}' +
+                        '_chr{}.vcf.gz').format(fam_id, fam_id, i)
         bam_filename = ('/sc/orga/projects/chdiTrios/GMKF_WGS_Trios_Dec_' +
                         '2017/CRAM/Batch3/' + ID + '.cram')
         command = ('time whatshap phase --sample=' + ID +
                    ' --ignore-read-groups' + ' --reference ' +
                    '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa --indels ' +
-                   '-o ' + ID + '/' + ID + '_chr' +
+                   '-o ' + ID + '/' + fam_id + '_chr' +
                    str(i) + '_phased.vcf ' + vcf_filename + ' ' + bam_filename)
         print(command)
         sp.call(command, shell=True)
