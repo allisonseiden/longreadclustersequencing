@@ -19,6 +19,7 @@ Once done, check that last line in every file is the same
 """
 
 import subprocess
+import os
 import multiprocessing as mp
 from functools import partial
 
@@ -45,11 +46,16 @@ from utils import get_trio_df
 #         subprocess.call(index, shell=True);
 
 
-def split_compress_index(chrom, kiddo):
+def split_compress_index(chrom, kiddo, fam_id):
     """Split trio VCF by chromosome and compress."""
     input_vcf = kiddo + '_trio.vcf.gz'
-    filename = kiddo + '/Illumina_WGS_' + kiddo + 'chr' + str(chrom) + '.vcf'
-    split = ('tabix -h {} chr{} > {}').format(input_vcf, str(chrom), filename)
+    filename = fam_id + '/Illumina_WGS_' + fam_id + 'chr' + str(chrom) + '.vcf'
+    print(input_vcf)
+    print(filename)
+    if not os.path.exists(fam_id):
+        print("Creating", fam_id)
+        os.makedirs(fam_id)
+    split = 'tabix -h {} chr{} > {}'.format(input_vcf, chrom, filename)
     print(split)
     # subprocess.call(split, shell=True)
     # compress = 'bgzip ' + filename
@@ -63,7 +69,10 @@ if __name__ == '__main__':
     print(trio_df)
     # loop over kids here
     kiddo = trio_df.loc[0, 'Child']
+    fam_id = trio_df.loc[0, 'Fam_ID']
+    print(kiddo)
+    print(fam_id)
     split_compress_index_partial = partial(
-        split_compress_index, kiddo)
+        split_compress_index, kiddo, fam_id)
     pool = mp.Pool(processes=5)
     pool.map(split_compress_index_partial, range(1, 22))
