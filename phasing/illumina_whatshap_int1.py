@@ -28,11 +28,11 @@ import multiprocessing as mp
     5 patient IDs, uses multiprocessing """
 
 df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/' +
-                   'Illumina_crams_batch1.txt', names=['ID'])
+                   'Illumina_crams_batch3.txt', names=['ID'])
 patientID = df['ID'].tolist()
 
 # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
-patientID = patientID[:2]
+patientID = ['CG0000-1789']
 
 def illumina_whatshap(ID):
     """Run whatshap for illumina data."""
@@ -46,7 +46,7 @@ def illumina_whatshap(ID):
         vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                         'PacbioProject/GMKF_TrioVCFs/' + ID + '_trio.vcf.gz')
         bam_filename = ('/sc/orga/projects/chdiTrios/GMKF_WGS_Trios_Dec_' +
-                        '2017/CRAM/Batch1/' + ID + '.cram')
+                        '2017/CRAM/Batch3/' + ID + '.cram')
         command = ('time whatshap phase --sample=' + ID +
                    ' --ignore-read-groups' + ' --reference ' +
                    '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa --indels ' +
