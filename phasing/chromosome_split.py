@@ -14,8 +14,6 @@ module load python/3.5.0 py_packages/3.5
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/GMKF_TrioVCFs/
 python3 ~/longreadclustersequencing/phasing/chromosome_split.py
 
-Once done, check that last line in every file is the same
-
 """
 
 import subprocess
@@ -51,7 +49,7 @@ def split_compress_index(chrom, kiddo, fam_id):
     print('Starting {} chr{}'.format(fam_id, chrom))
     input_vcf = kiddo + '_trio.vcf.gz'
     filename = '{}/Illumina_WGS_{}_chr{}.vcf'.format(fam_id, fam_id, chrom)
-    if os.path.exists(filename + '.gz'):
+    if os.path.exists(filename + '.gz.tbi'):
         return 'not_rerun_chr' + str(chrom)
     split = 'time tabix -h {} chr{} > {}'.format(input_vcf, chrom, filename)
     subprocess.call(split, shell=True)
@@ -65,13 +63,17 @@ def split_compress_index(chrom, kiddo, fam_id):
 if __name__ == '__main__':
     trio_df = get_trio_df()
     # loop over kids here
-    kiddo = trio_df.loc[0, 'Child']
-    fam_id = trio_df.loc[0, 'Fam_ID']
-    # create a directory per family ID if it doesn't exist
-    if not os.path.exists(fam_id):
-        print("Creating", fam_id)
-        os.makedirs(fam_id)
-    split_compress_index_partial = partial(
-        split_compress_index, kiddo=kiddo, fam_id=fam_id)
-    pool = mp.Pool(processes=5)
-    chr_done = pool.map(split_compress_index_partial, range(1, 23))
+    # trio_df.shape[0]
+    for kiddo_ct in range(0, 1):
+        kiddo = trio_df.loc[kiddo_ct, 'Child']
+        fam_id = trio_df.loc[kiddo_ct, 'Fam_ID']
+        if not os.path.exists(kiddo + '_trio.vcf.gz.tbi'):
+            pass
+        # create a directory per family ID if it doesn't exist
+        if not os.path.exists(fam_id):
+            print("Creating", fam_id)
+            os.makedirs(fam_id)
+        split_compress_index_partial = partial(
+            split_compress_index, kiddo=kiddo, fam_id=fam_id)
+        pool = mp.Pool(processes=5)
+        chr_done = pool.map(split_compress_index_partial, range(1, 23))
