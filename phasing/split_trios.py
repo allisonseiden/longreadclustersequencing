@@ -42,12 +42,14 @@ def split_vcf(num):
     dad = trio_df.loc[num, 'Father'];
     mom = trio_df.loc[num, 'Mother'];
     vcf_exists = os.path.exists(kiddo + '_trio.vcf.gz')
-    # tbx_exists = os.path.exists(kiddo + '_trio.vcf.gz.tbi')
-    # first check if VCF created but not indexed (likely due to crash)
+    """
+    tbx_exists = os.path.exists(kiddo + '_trio.vcf.gz.tbi')
+    # check if VCF created but not indexed (likely due to crash)
     # DO NOT use if running on multiple screens
-    # if vcf_exists and not tbx_exists:
-    #     print('Deleting and restarting this file: ' + kiddo + '_trio.vcf.gz')
-    #     os.remove(kiddo + '_trio.vcf.gz')
+    if vcf_exists and not tbx_exists:
+        print('Deleting and restarting this file: ' + kiddo + '_trio.vcf.gz')
+        os.remove(kiddo + '_trio.vcf.gz')
+    """
     # if VCF was created, skip and move on to next one
     if vcf_exists:
         print('Already done with ' + kiddo)
