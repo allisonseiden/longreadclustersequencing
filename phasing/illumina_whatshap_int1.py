@@ -9,9 +9,13 @@
 :License: CC BY-SA
 
 
+cd ~
+module purge
 module load samtools/1.8 bcftools/1.7 tabix
 module load python/3.5.0 py_packages/3.5
-cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/GMKF_TrioVCFs/
+source venv_phasing/bin/activate
+cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
+IlluminaWhatshapVCFs/Batch1/
 python3 ~/longreadclustersequencing/phasing/illumina_whatshap_int1.py
 
 """
@@ -48,8 +52,10 @@ def illumina_whatshap(ID):
                    '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa --indels ' +
                    '-o ' + ID + '/' + ID + '_chr' +
                    str(i) + '_phased.vcf ' + vcf_filename + ' ' + bam_filename)
+        print(command)
         sp.call(command, shell=True)
         print('======Sucessfully ran whatshap for ' + ID + ' on chr ' + str(i))
+        break
     sp.call('cd ..', shell=True)
 
 
