@@ -48,6 +48,7 @@ from utils import get_trio_df
 
 def split_compress_index(chrom, kiddo, fam_id):
     """Split trio VCF by chromosome and compress."""
+    print('Starting {} chr{}'.format(fam_id, chrom))
     input_vcf = kiddo + '_trio.vcf.gz'
     filename = '{}/Illumina_WGS_{}_chr{}.vcf'.format(fam_id, fam_id, chrom)
     if os.path.exists(filename + '.gz'):
@@ -66,7 +67,6 @@ if __name__ == '__main__':
     # loop over kids here
     kiddo = trio_df.loc[0, 'Child']
     fam_id = trio_df.loc[0, 'Fam_ID']
-    print(fam_id)
     # create a directory per family ID if it doesn't exist
     if not os.path.exists(fam_id):
         print("Creating", fam_id)
