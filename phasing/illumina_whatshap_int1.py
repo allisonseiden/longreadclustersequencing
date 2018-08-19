@@ -15,9 +15,10 @@ module load samtools/1.8 bcftools/1.7 tabix
 module load python/3.5.0 py_packages/3.5
 source venv_phasing/bin/activate
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
-IlluminaWhatshapVCFs/Batch1/
+IlluminaWhatshapVCFs/Batch3/
 python3 ~/longreadclustersequencing/phasing/illumina_whatshap_int1.py
 
+deactivate
 """
 
 import pandas as pd
@@ -32,7 +33,7 @@ df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/' +
 patientID = df['ID'].tolist()
 
 # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
-patientID = ['CG0000-1789']
+patientID = ['CG0000-1789']  # this is 1-00004
 
 def illumina_whatshap(ID):
     """Run whatshap for illumina data."""
@@ -43,8 +44,14 @@ def illumina_whatshap(ID):
           'IlluminaWhatshapVCFs/Batch1/' + ID)
     sp.call(cd, shell=True)
     for i in range(1, 23):
+        # full VCF:
+        # vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+        #                 'PacbioProject/GMKF_TrioVCFs/' + ID + '_trio.vcf.gz')
+        # per chrom VCF:
+        fam_id = '1-00004'
         vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-                        'PacbioProject/GMKF_TrioVCFs/' + ID + '_trio.vcf.gz')
+                        'PacbioProject/GMKF_TrioVCFs/{}/Illumina_WGS_{}' +
+                        '_chr{}.vcf.gz').format(fam_id, fam_id, i)
         bam_filename = ('/sc/orga/projects/chdiTrios/GMKF_WGS_Trios_Dec_' +
                         '2017/CRAM/Batch3/' + ID + '.cram')
         command = ('time whatshap phase --sample=' + ID +
