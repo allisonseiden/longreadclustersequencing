@@ -66,7 +66,6 @@ def split_compress_index(chrom, kiddo, fam_id):
 
 if __name__ == '__main__':
     trio_df = get_trio_df()
-    print(trio_df)
     # loop over kids here
     kiddo = trio_df.loc[0, 'Child']
     fam_id = trio_df.loc[0, 'Fam_ID']
