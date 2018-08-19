@@ -22,7 +22,7 @@ import subprocess
 import multiprocessing as mp
 from functools import partial
 
-from .utils import get_trio_df
+from utils import get_trio_df
 
 # Script to split VCF files into 22 separate VCF files by chromosome number
 
