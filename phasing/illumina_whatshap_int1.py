@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Split VCF by chromosome.
+r"""Split VCF by chromosome.
 
 :Authors: Allison Seiden, Felix Richter
 :Date: 2018-08-19
@@ -35,6 +35,7 @@ patientID = df['ID'].tolist()
 # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
 patientID = ['CG0000-1789']  # this is 1-00004
 
+
 def illumina_whatshap(ID):
     """Run whatshap for illumina data."""
     print(ID)
@@ -45,13 +46,13 @@ def illumina_whatshap(ID):
     sp.call(cd, shell=True)
     for i in range(1, 23):
         # full VCF:
-        # vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-        #                 'PacbioProject/GMKF_TrioVCFs/' + ID + '_trio.vcf.gz')
-        # per chrom VCF:
-        fam_id = '1-00004'
         vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-                        'PacbioProject/GMKF_TrioVCFs/{}/Illumina_WGS_{}' +
-                        '_chr{}.vcf.gz').format(fam_id, fam_id, i)
+                        'PacbioProject/GMKF_TrioVCFs/' + ID + '_trio.vcf.gz')
+        # per chrom VCF:
+        # fam_id = '1-00004'
+        # vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+        #                 'PacbioProject/GMKF_TrioVCFs/{}/Illumina_WGS_{}' +
+        #                 '_chr{}.vcf.gz').format(fam_id, fam_id, i)
         bam_filename = ('/sc/orga/projects/chdiTrios/GMKF_WGS_Trios_Dec_' +
                         '2017/CRAM/Batch3/' + ID + '.cram')
         command = ('time whatshap phase --sample=' + ID +
