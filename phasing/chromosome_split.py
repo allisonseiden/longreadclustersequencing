@@ -49,12 +49,9 @@ from utils import get_trio_df
 def split_compress_index(chrom, kiddo, fam_id):
     """Split trio VCF by chromosome and compress."""
     input_vcf = kiddo + '_trio.vcf.gz'
-    filename = fam_id + '/Illumina_WGS_' + fam_id + 'chr' + str(chrom) + '.vcf'
+    filename = '{}/Illumina_WGS_{}_chr{}.vcf'.format(fam_id, fam_id, chrom)
     print(input_vcf)
     print(filename)
-    if not os.path.exists(fam_id):
-        print("Creating", fam_id)
-        os.makedirs(fam_id)
     split = 'tabix -h {} chr{} > {}'.format(input_vcf, chrom, filename)
     print(split)
     # subprocess.call(split, shell=True)
@@ -71,6 +68,10 @@ if __name__ == '__main__':
     fam_id = trio_df.loc[0, 'Fam_ID']
     print(kiddo)
     print(fam_id)
+    # create a directory per family ID if it doesn't exist
+    if not os.path.exists(fam_id):
+        print("Creating", fam_id)
+        os.makedirs(fam_id)
     split_compress_index_partial = partial(
         split_compress_index, kiddo, fam_id)
     pool = mp.Pool(processes=5)
