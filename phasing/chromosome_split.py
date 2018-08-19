@@ -48,19 +48,17 @@ from utils import get_trio_df
 
 def split_compress_index(chrom, kiddo, fam_id):
     """Split trio VCF by chromosome and compress."""
-    print(kiddo)
-    print(fam_id)
     input_vcf = kiddo + '_trio.vcf.gz'
     filename = '{}/Illumina_WGS_{}_chr{}.vcf'.format(fam_id, fam_id, chrom)
-    print(input_vcf)
-    print(filename)
-    split = 'tabix -h {} chr{} > {}'.format(input_vcf, chrom, filename)
-    print(split)
-    # subprocess.call(split, shell=True)
-    # compress = 'bgzip ' + filename
-    # subprocess.call(compress, shell=True)
-    # index = 'tabix -p vcf ' + filename + '.gz'
-    # subprocess.call(index, shell=True)
+    if os.path.exists(filename + '.gz'):
+        return 'not_rerun_chr' + str(chrom)
+    split = 'time tabix -h {} chr{} > {}'.format(input_vcf, chrom, filename)
+    subprocess.call(split, shell=True)
+    compress = 'time bgzip ' + filename
+    subprocess.call(compress, shell=True)
+    index = 'time tabix -p vcf ' + filename + '.gz'
+    subprocess.call(index, shell=True)
+    return chrom
 
 
 if __name__ == '__main__':
@@ -68,6 +66,7 @@ if __name__ == '__main__':
     # loop over kids here
     kiddo = trio_df.loc[0, 'Child']
     fam_id = trio_df.loc[0, 'Fam_ID']
+    print(fam_id)
     # create a directory per family ID if it doesn't exist
     if not os.path.exists(fam_id):
         print("Creating", fam_id)
@@ -75,4 +74,4 @@ if __name__ == '__main__':
     split_compress_index_partial = partial(
         split_compress_index, kiddo=kiddo, fam_id=fam_id)
     pool = mp.Pool(processes=5)
-    pool.map(split_compress_index_partial, range(1, 22))
+    chr_done = pool.map(split_compress_index_partial, range(1, 23))
