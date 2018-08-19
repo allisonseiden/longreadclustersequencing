@@ -48,6 +48,8 @@ from utils import get_trio_df
 
 def split_compress_index(chrom, kiddo, fam_id):
     """Split trio VCF by chromosome and compress."""
+    print(kiddo)
+    print(fam_id)
     input_vcf = kiddo + '_trio.vcf.gz'
     filename = '{}/Illumina_WGS_{}_chr{}.vcf'.format(fam_id, fam_id, chrom)
     print(input_vcf)
@@ -66,13 +68,11 @@ if __name__ == '__main__':
     # loop over kids here
     kiddo = trio_df.loc[0, 'Child']
     fam_id = trio_df.loc[0, 'Fam_ID']
-    print(kiddo)
-    print(fam_id)
     # create a directory per family ID if it doesn't exist
     if not os.path.exists(fam_id):
         print("Creating", fam_id)
         os.makedirs(fam_id)
     split_compress_index_partial = partial(
-        split_compress_index, kiddo, fam_id)
+        split_compress_index, kiddo=kiddo, fam_id=fam_id)
     pool = mp.Pool(processes=5)
     pool.map(split_compress_index_partial, range(1, 22))
