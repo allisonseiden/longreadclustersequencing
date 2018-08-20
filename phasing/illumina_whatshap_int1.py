@@ -94,7 +94,7 @@ def illumina_whatshap(ID):
                '--reference {} --indels -o {}_phased.vcf {} {}').format(
                ID, ref_genome, ID, vcf_filename, bam_filename)
     print(command)
-    sp.call(command, shell=True)
+    # sp.call(command, shell=True)
     print('======Sucessfully ran whatshap for ' + ID)
     return ID
 
