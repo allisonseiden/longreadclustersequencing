@@ -3,8 +3,8 @@ import numpy as np;
 
 """
     ----------------------------------------------------------------------------
-    A class to create an object for the phased data for each proband and his/her
-    parents
+    A class to create an object for the phased data for each proband and
+    his/her parents
 
     Each object has variables:
     id - the sample ID for the proband
@@ -16,8 +16,8 @@ import numpy as np;
                 corresponding chromosome
     gtf_dfs - a dictionary with key: a chromosome number,
                 value: dataframe with info from gtf file
-    dnvs - a dictionary with key: chromosome number, value: list of de novos for
-            corresponding chromosome (only ones that whatshap phased)
+    dnvs - a dictionary with key: chromosome number, value: list of de novos
+            for corresponding chromosome (only ones that whatshap phased)
     bounds - a dictionary with key: chromosome number, value: a dictionary with
                 key: de novo position, value: list with discontinuity bounds
     to_phase - a dictionary with key: chromosome number, value: a dictionary
@@ -28,8 +28,8 @@ import numpy as np;
                 'mom'/'dad' assignments for each informative variant
     parent_df - a dataframe with columns for ID number (ID), chromosome number
                 (Chrom), variant position (Location), the number of informative
-                reads phased to mom (Mom Count), the number of informative reads
-                to dad (Dad Count), and columns to mark whether the de novo came
+                reads phased to mom (Mom Count), number of informative reads
+                to dad (Dad Count), and columns to mark if the de novo came
                 from mom (From Mom), from dad (From Dad), or if it needs a
                 second look (Troubleshoot) or is unphased (Unphased)
     ----------------------------------------------------------------------------

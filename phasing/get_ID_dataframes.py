@@ -15,8 +15,8 @@ def get_illumina_dataframes(ID):
     patient.illumina();
 
 if __name__ == '__main__':
-  pool = mp.Pool(processes=5);
-  # comment out the one which you're not using at the moment, only call one
-  # of these at a time
-  pool.map(get_pacbio_dataframes, patientIDs);
-  pool.map(get_illumina_dataframes, patientIDs);
+    pool = mp.Pool(processes=5);
+    # comment out the one which you're not using at the moment, only call one
+    # of these at a time
+    pool.map(get_pacbio_dataframes, patientIDs);
+    pool.map(get_illumina_dataframes, patientIDs);
