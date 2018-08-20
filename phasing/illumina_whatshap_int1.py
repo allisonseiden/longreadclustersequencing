@@ -43,7 +43,7 @@ patientID = df['ID'].tolist()
 
 def illumina_whatshap_per_chrom(ID):
     """Run whatshap for illumina data by CHROMOSOME."""
-    print(ID)
+    print('Starting ' + ID)
     mkdir = 'mkdir -p ' + ID
     sp.call(mkdir, shell=True)
     cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
@@ -76,7 +76,7 @@ def illumina_whatshap_per_chrom(ID):
 
 def illumina_whatshap(ID):
     """Run whatshap for illumina data for all chromosomes in a sample."""
-    print(ID)
+    print('Starting ' + ID)
     # check if output file already exists
     if os.path.exists(ID + '_phased.vcf'):
         print(ID + ' already run or currently running')
@@ -94,7 +94,7 @@ def illumina_whatshap(ID):
                '--reference {} --indels -o {}_phased.vcf {} {}').format(
                ID, ref_genome, ID, vcf_filename, bam_filename)
     print(command)
-    # sp.call(command, shell=True)
+    sp.call(command, shell=True)
     print('======Sucessfully ran whatshap for ' + ID)
     return ID
 
