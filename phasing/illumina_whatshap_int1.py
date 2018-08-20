@@ -77,7 +77,7 @@ def illumina_whatshap(ID):
     """Run whatshap for illumina data for all chromosomes in a sample."""
     print(ID)
     # check if output file already exists
-    if not os.path.exists(ID + '_phased.vcf'):
+    if os.path.exists(ID + '_phased.vcf'):
         return ID + '_already_run'
     vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                     'PacbioProject/GMKF_TrioVCFs/' + ID + '_trio.vcf.gz')
