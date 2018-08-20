@@ -82,7 +82,7 @@ def illumina_whatshap(ID):
         return ID + '_already_run'
     vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                     'PacbioProject/GMKF_TrioVCFs/' + ID + '_trio.vcf.gz')
-    # only run if VCF has completed
+    # only run if VCF trio split has completed and is available
     if not os.path.exists(vcf_filename + '.tbi'):
         return ID + '_not_run'
     bam_filename = ('/sc/orga/projects/chdiTrios/GMKF_WGS_Trios_Dec_' +
@@ -98,6 +98,6 @@ def illumina_whatshap(ID):
 
 
 if __name__ == '__main__':
-    pool = mp.Pool(processes=4)
+    pool = mp.Pool(processes=3)
     done_ids = pool.map(illumina_whatshap, patientID)
     print(done_ids)
