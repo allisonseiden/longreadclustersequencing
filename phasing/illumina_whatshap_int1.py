@@ -79,11 +79,13 @@ def illumina_whatshap(ID):
     print(ID)
     # check if output file already exists
     if os.path.exists(ID + '_phased.vcf'):
+        print(ID + ' already run or currently running')
         return ID + '_already_run'
     vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                     'PacbioProject/GMKF_TrioVCFs/' + ID + '_trio.vcf.gz')
     # only run if VCF trio split has completed and is available
     if not os.path.exists(vcf_filename + '.tbi'):
+        print(ID + ' not ready yet')
         return ID + '_not_run'
     bam_filename = ('/sc/orga/projects/chdiTrios/GMKF_WGS_Trios_Dec_' +
                     '2017/CRAM/Batch3/' + ID + '.cram')
