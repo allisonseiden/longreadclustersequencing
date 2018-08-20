@@ -18,6 +18,7 @@ cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/Batch3/
 python3 ~/longreadclustersequencing/phasing/illumina_whatshap_int1.py
 
+# once done, need to confirm that last line is the same in every file
 deactivate
 """
 
@@ -91,12 +92,12 @@ def illumina_whatshap(ID):
                '--reference {} --indels -o {}_phased.vcf {} {}').format(
                ID, ref_genome, ID, vcf_filename, bam_filename)
     print(command)
-    # sp.call(command, shell=True)
+    sp.call(command, shell=True)
     print('======Sucessfully ran whatshap for ' + ID)
     return ID
 
 
 if __name__ == '__main__':
-    pool = mp.Pool(processes=5)
+    pool = mp.Pool(processes=4)
     done_ids = pool.map(illumina_whatshap, patientID)
     print(done_ids)
