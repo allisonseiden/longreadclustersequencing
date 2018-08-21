@@ -66,8 +66,8 @@ def split_compress_index(chrom, kiddo, fam_id):
 if __name__ == '__main__':
     trio_df = get_trio_df()
     # loop over kids here
-    # trio_df.shape[0]
-    for kiddo_ct in range(0, 1):
+    # n_fams = trio_df.shape[0]
+    for kiddo_ct in range(0, 2):
         kiddo = trio_df.loc[kiddo_ct, 'Child']
         fam_id = trio_df.loc[kiddo_ct, 'Fam_ID']
         # skip this trio if it hasn't been extracted from the main VCF
