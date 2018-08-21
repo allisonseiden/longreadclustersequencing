@@ -25,6 +25,7 @@ deactivate
 import os
 import subprocess as sp
 import multiprocessing as mp
+import re
 
 import pandas as pd
 
@@ -39,6 +40,18 @@ patientID = df['ID'].tolist()
 # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
 patientID = ['CG0000-1789']  # this is 1-00004
 # patientID = ['CG0000-2637']
+# also try 1-00030
+
+
+def check_stderr_stdout(proc):
+    """Check subprocess stderr and stdout to see if job was killed."""
+    out, err = proc.communicate()
+    if re.search('kill', out, re.IGNORECASE):
+        print(out)
+        raise RuntimeError('Killed by minerva')
+    if re.search('kill', err, re.IGNORECASE):
+        print(out)
+        raise RuntimeError('Killed by minerva')
 
 
 def illumina_whatshap_per_chrom(ID):
@@ -68,7 +81,11 @@ def illumina_whatshap_per_chrom(ID):
             print(ID + str(i) + ' already run or currently running')
             continue
         print(command)
-        sp.call(command, shell=True)
+        # sp.call(command, shell=True)
+        # instead of just printing a shell command, get STDERR and
+        # STDOUT so that you can check if the job was killed or completed
+        proc = sp.Popen(command, shell=True, stdout=sp.PIPE, stderr=sp.STDOUT)
+        check_stderr_stdout(proc)
         print('======Sucessfully ran whatshap for ' + ID + ' on chr ' + str(i))
         break
     sp.call('cd ..', shell=True)
