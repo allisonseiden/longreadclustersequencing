@@ -19,6 +19,7 @@ def whatshap(ID):
         sp.call(command, shell=True);
         print("======Sucessfully ran whatshap for" + ID + " on chromosome " + str(num));
 
+
 if __name__ == '__main__':
   pool = mp.Pool(processes=5);
   pool.map(whatshap, patientID);

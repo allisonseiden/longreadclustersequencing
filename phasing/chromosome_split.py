@@ -21,6 +21,8 @@ import os
 import multiprocessing as mp
 from functools import partial
 
+import pysam
+
 from utils import get_trio_df
 
 # Script to split VCF files into 22 separate VCF files by chromosome number
@@ -67,13 +69,19 @@ if __name__ == '__main__':
     for kiddo_ct in range(0, 1):
         kiddo = trio_df.loc[kiddo_ct, 'Child']
         fam_id = trio_df.loc[kiddo_ct, 'Fam_ID']
+        # skip this trio if it hasn't been extracted from the main VCF
         if not os.path.exists(kiddo + '_trio.vcf.gz.tbi'):
-            pass
+            continue
         # create a directory per family ID if it doesn't exist
         if not os.path.exists(fam_id):
             print("Creating", fam_id)
             os.makedirs(fam_id)
+        # get all chromosomes aka contigs from VCF
+        tbx_handle = pysam.TabixFile(kiddo + '_trio.vcf.gz')
+        contigs = tbx_handle.contigs
+        print(contigs)
         split_compress_index_partial = partial(
             split_compress_index, kiddo=kiddo, fam_id=fam_id)
         pool = mp.Pool(processes=5)
-        chr_done = pool.map(split_compress_index_partial, range(1, 23))
+        # range(1, 23)
+        chr_done = pool.map(split_compress_index_partial, contigs)
