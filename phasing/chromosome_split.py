@@ -52,6 +52,7 @@ def split_compress_index(chrom, kiddo, fam_id):
     input_vcf = kiddo + '_trio.vcf.gz'
     filename = '{}/Illumina_WGS_{}_{}.vcf'.format(fam_id, fam_id, chrom)
     if os.path.exists(filename + '.gz.tbi'):
+        print('already done with {}'.format(chrom))
         return 'not_rerun_' + str(chrom)
     split = 'time tabix -h {} {} > {}'.format(input_vcf, chrom, filename)
     subprocess.call(split, shell=True)
@@ -85,3 +86,4 @@ if __name__ == '__main__':
         pool = mp.Pool(processes=5)
         # range(1, 23)
         chr_done = pool.map(split_compress_index_partial, contigs)
+        print(chr_done)
