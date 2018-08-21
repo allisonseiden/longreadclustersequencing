@@ -37,7 +37,7 @@ df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/' +
 patientID = df['ID'].tolist()
 
 # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
-# patientID = ['CG0000-1789']  # this is 1-00004
+patientID = ['CG0000-1789']  # this is 1-00004
 # patientID = ['CG0000-2637']
 
 
@@ -49,12 +49,9 @@ def illumina_whatshap_per_chrom(ID):
     cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
           'IlluminaWhatshapVCFs/Batch3/' + ID)
     sp.call(cd, shell=True)
+    fam_id = '1-00004'
     for i in range(1, 23):
-        # full VCF:
-        # vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-        #                 'PacbioProject/GMKF_TrioVCFs/' + ID + '_trio.vcf.gz')
         # per chrom VCF:
-        fam_id = '1-00004'
         vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                         'PacbioProject/GMKF_TrioVCFs/{}/Illumina_WGS_{}' +
                         '_chr{}.vcf.gz').format(fam_id, fam_id, i)
@@ -67,6 +64,9 @@ def illumina_whatshap_per_chrom(ID):
                    # SWITCH FROM fam_id to ID while testing here:
                    fam_id + '_chr' +
                    str(i) + '_phased.vcf ' + vcf_filename + ' ' + bam_filename)
+        if os.path.exists('{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)):
+            print(ID + str(i) + ' already run or currently running')
+            continue
         print(command)
         sp.call(command, shell=True)
         print('======Sucessfully ran whatshap for ' + ID + ' on chr ' + str(i))
@@ -101,5 +101,5 @@ def illumina_whatshap(ID):
 
 if __name__ == '__main__':
     pool = mp.Pool(processes=3)
-    done_ids = pool.map(illumina_whatshap, patientID)
+    done_ids = pool.map(illumina_whatshap_per_chrom, patientID)
     print(done_ids)
