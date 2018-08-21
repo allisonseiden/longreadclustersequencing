@@ -52,7 +52,6 @@ def split_compress_index(chrom, kiddo, fam_id):
     input_vcf = kiddo + '_trio.vcf.gz'
     filename = '{}/Illumina_WGS_{}_{}.vcf'.format(fam_id, fam_id, chrom)
     if os.path.exists(filename + '.gz.tbi'):
-        print('already done with {}'.format(chrom))
         return 'not_rerun_' + str(chrom)
     split = 'time tabix -h {} {} > {}'.format(input_vcf, chrom, filename)
     subprocess.call(split, shell=True)
@@ -70,12 +69,13 @@ if __name__ == '__main__':
     for kiddo_ct in range(0, 2):
         kiddo = trio_df.loc[kiddo_ct, 'Child']
         fam_id = trio_df.loc[kiddo_ct, 'Fam_ID']
+        print("Starting {}".format(fam_id))
         # skip this trio if it hasn't been extracted from the main VCF
         if not os.path.exists(kiddo + '_trio.vcf.gz.tbi'):
             continue
         # create a directory per family ID if it doesn't exist
         if not os.path.exists(fam_id):
-            print("Creating", fam_id)
+            print("Creating {} folder".format(fam_id))
             os.makedirs(fam_id)
         # get all chromosomes aka contigs from VCF
         tbx_handle = pysam.TabixFile(kiddo + '_trio.vcf.gz')
