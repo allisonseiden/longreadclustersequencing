@@ -48,12 +48,12 @@ from utils import get_trio_df
 
 def split_compress_index(chrom, kiddo, fam_id):
     """Split trio VCF by chromosome and compress."""
-    print('Starting {} chr{}'.format(fam_id, chrom))
+    print('Starting {} {}'.format(fam_id, chrom))
     input_vcf = kiddo + '_trio.vcf.gz'
-    filename = '{}/Illumina_WGS_{}_chr{}.vcf'.format(fam_id, fam_id, chrom)
+    filename = '{}/Illumina_WGS_{}_{}.vcf'.format(fam_id, fam_id, chrom)
     if os.path.exists(filename + '.gz.tbi'):
-        return 'not_rerun_chr' + str(chrom)
-    split = 'time tabix -h {} chr{} > {}'.format(input_vcf, chrom, filename)
+        return 'not_rerun_' + str(chrom)
+    split = 'time tabix -h {} {} > {}'.format(input_vcf, chrom, filename)
     subprocess.call(split, shell=True)
     compress = 'time bgzip ' + filename
     subprocess.call(compress, shell=True)
