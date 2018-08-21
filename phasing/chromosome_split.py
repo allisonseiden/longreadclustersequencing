@@ -69,7 +69,7 @@ if __name__ == '__main__':
     for kiddo_ct in range(0, 2):
         kiddo = trio_df.loc[kiddo_ct, 'Child']
         fam_id = trio_df.loc[kiddo_ct, 'Fam_ID']
-        print("Starting {}".format(fam_id))
+        print("Starting {} from {}".format(kiddo, fam_id))
         # skip this trio if it hasn't been extracted from the main VCF
         if not os.path.exists(kiddo + '_trio.vcf.gz.tbi'):
             continue
@@ -80,7 +80,6 @@ if __name__ == '__main__':
         # get all chromosomes aka contigs from VCF
         tbx_handle = pysam.TabixFile(kiddo + '_trio.vcf.gz')
         contigs = tbx_handle.contigs
-        print(contigs)
         split_compress_index_partial = partial(
             split_compress_index, kiddo=kiddo, fam_id=fam_id)
         pool = mp.Pool(processes=5)
