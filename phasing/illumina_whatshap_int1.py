@@ -78,7 +78,7 @@ def illumina_whatshap_per_chrom(ID):
                    fam_id + '_chr' +
                    str(i) + '_phased.vcf ' + vcf_filename + ' ' + bam_filename)
         if os.path.exists('{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)):
-            print(ID + str(i) + ' already run or currently running')
+            print('chr{} from {} already run'.format(i, ID))
             continue
         print(command)
         # sp.call(command, shell=True)
