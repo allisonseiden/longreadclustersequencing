@@ -45,12 +45,11 @@ patientID = ['CG0000-1789']  # this is 1-00004
 
 def check_stderr_stdout(proc):
     """Check subprocess stderr and stdout to see if job was killed."""
-    out, err = proc.communicate()
-    if re.search('kill', out, re.IGNORECASE):
-        print(out)
+    if re.search('kill', str(proc.stdout), re.IGNORECASE):
+        print(str(proc.stdout))
         raise RuntimeError('Killed by minerva')
-    if re.search('kill', err, re.IGNORECASE):
-        print(out)
+    if re.search('kill', str(proc.stderr), re.IGNORECASE):
+        print(str(proc.stderr))
         raise RuntimeError('Killed by minerva')
 
 
@@ -81,13 +80,13 @@ def illumina_whatshap_per_chrom(ID):
             print('chr{} from {} already run'.format(i, ID))
             continue
         print(command)
-        # sp.call(command, shell=True)
+        # sp.run(command, shell=True)
         # instead of just printing a shell command, get STDERR and
         # STDOUT so that you can check if the job was killed or completed
-        proc = sp.Popen(command, shell=True, stdout=sp.PIPE, stderr=sp.STDOUT)
+        # source: https://stackoverflow.com/a/34873354
+        proc = sp.run(command, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
         check_stderr_stdout(proc)
         print('======Sucessfully ran whatshap for ' + ID + ' on chr ' + str(i))
-        break
     sp.call('cd ..', shell=True)
 
 
