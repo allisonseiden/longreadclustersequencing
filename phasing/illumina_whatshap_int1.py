@@ -41,8 +41,8 @@ df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/' +
 patientID = df['ID'].tolist()
 
 # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
-patientID = ['CG0000-1789']  # this is 1-00004
-# patientID = ['CG0000-2637']
+# patientID = ['CG0000-1789']  # this is 1-00004
+patientID = ['CG0026-4554']
 # also try 1-00030
 
 
