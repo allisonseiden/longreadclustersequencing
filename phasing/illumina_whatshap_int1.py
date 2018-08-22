@@ -19,6 +19,9 @@ IlluminaWhatshapVCFs/Batch3/
 python3 ~/longreadclustersequencing/phasing/illumina_whatshap_int1.py
 
 # once done, need to confirm that last line is the same in every file
+# e.g.,  zcat GMKF_TrioVCFs/1-00004/Illumina_WGS_1-00004_chr4.vcf.gz | tail
+# and IlluminaWhatshapVCFs/Batch3/CG0000-1789/1-00004_chr4_phased.vcf
+
 deactivate
 """
 
