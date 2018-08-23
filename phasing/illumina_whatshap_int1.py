@@ -112,12 +112,11 @@ def illumina_whatshap(ID):
 
 if __name__ == '__main__':
     pool = mp.Pool(processes=3)
-    batch_ct = 3
+    batch_ct = 1
     patientID = get_batch_pt_ids(batch_ct)
     # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
     # patientID = ['CG0000-1789']  # this is 1-00004
-    patientID = patientID[0:2]  # ['CG0026-4554']
-    print(patientID)
+    patientID = ['CG0026-4554']
     whatshap_partial = partial(illumina_whatshap_per_chrom, batch_ct=batch_ct)
     done_ids = pool.map(whatshap_partial, patientID)
     print(done_ids)
