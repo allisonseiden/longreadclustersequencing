@@ -118,5 +118,5 @@ if __name__ == '__main__':
     # patientID = ['CG0000-1789']  # this is 1-00004
     patientID = ['CG0026-4554']
     whatshap_partial = partial(illumina_whatshap_per_chrom, batch_ct)
-    done_ids = pool.map(illumina_whatshap_per_chrom, patientID)
+    done_ids = pool.map(whatshap_partial, patientID)
     print(done_ids)
