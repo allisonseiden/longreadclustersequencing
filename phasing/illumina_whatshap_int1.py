@@ -53,9 +53,6 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
     # obtain the family ID
     trio_df = get_trio_df()
     fam_id = trio_df.loc[trio_df.Child == ID]['Fam_ID'].to_string(index=False)
-    print(fam_id)
-    print(type(fam_id))
-    print(type(ID))
     print('Starting {} (family {})'.format(ID, fam_id))
     # make and enter directories named after the DNA ID
     mkdir = 'mkdir -p ' + ID
@@ -119,7 +116,7 @@ if __name__ == '__main__':
     patientID = get_batch_pt_ids(batch_ct)
     # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
     # patientID = ['CG0000-1789']  # this is 1-00004
-    patientID = ['CG0026-4554']
+    patientID = patientID[0]  # ['CG0026-4554']
     whatshap_partial = partial(illumina_whatshap_per_chrom, batch_ct=batch_ct)
     done_ids = pool.map(whatshap_partial, patientID)
     print(done_ids)
