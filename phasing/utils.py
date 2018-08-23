@@ -20,3 +20,12 @@ def get_trio_df():
                             names=['Fam_ID', 'Child', 'Father', 'Mother'],
                             sep='\t', comment='#')
     return trio_df
+
+
+def get_batch_pt_ids(batch_ct):
+    """Load data on the correct batch."""
+    df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/' +
+                       'Illumina_crams_batch{}.txt'.format(batch_ct),
+                       names=['ID'])
+    patientID = df['ID'].tolist()
+    return patientID

@@ -29,21 +29,13 @@ import os
 import subprocess as sp
 import multiprocessing as mp
 import re
+from functools import partial
 
-import pandas as pd
+from utils import get_trio_df, get_batch_pt_ids
 
 
 """ Script 1/2 to run Whatshap with indels flag using Illumina data for first
     5 patient IDs, uses multiprocessing """
-
-df = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/' +
-                   'Illumina_crams_batch3.txt', names=['ID'])
-patientID = df['ID'].tolist()
-
-# patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
-# patientID = ['CG0000-1789']  # this is 1-00004
-patientID = ['CG0026-4554']
-# also try 1-00030
 
 
 def check_stderr_stdout(proc):
@@ -56,34 +48,34 @@ def check_stderr_stdout(proc):
         raise RuntimeError('Killed by minerva')
 
 
-def illumina_whatshap_per_chrom(ID):
+def illumina_whatshap_per_chrom(ID, batch_ct):
     """Run whatshap for illumina data by CHROMOSOME."""
+    # obtain the family ID
+    trio_df = get_trio_df()
+    fam_id = trio_df.loc[trio_df.Child == ID]
     print('Starting ' + ID)
+    # make and enter directories named after the DNA ID
     mkdir = 'mkdir -p ' + ID
     sp.call(mkdir, shell=True)
     cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
-          'IlluminaWhatshapVCFs/Batch3/' + ID)
+          'IlluminaWhatshapVCFs/Batch{}/{}').format(batch_ct, ID)
     sp.call(cd, shell=True)
-    fam_id = '1-00004'
     for i in range(1, 23):
-        # per chrom VCF:
         vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                         'PacbioProject/GMKF_TrioVCFs/{}/Illumina_WGS_{}' +
                         '_chr{}.vcf.gz').format(fam_id, fam_id, i)
         bam_filename = ('/sc/orga/projects/chdiTrios/GMKF_WGS_Trios_Dec_' +
-                        '2017/CRAM/Batch3/' + ID + '.cram')
+                        '2017/CRAM/Batch{}/{}.cram').format(batch_ct, ID)
         command = ('time whatshap phase --sample=' + ID +
                    ' --ignore-read-groups --reference ' +
                    '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa --indels ' +
                    '-o ' + ID + '/' +
-                   # SWITCH FROM fam_id to ID while testing here:
                    fam_id + '_chr' +
                    str(i) + '_phased.vcf ' + vcf_filename + ' ' + bam_filename)
         if os.path.exists('{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)):
             print('chr{} from {} already run'.format(i, ID))
             continue
         print(command)
-        # sp.run(command, shell=True)
         # instead of just printing a shell command, get STDERR and
         # STDOUT so that you can check if the job was killed or completed
         # source: https://stackoverflow.com/a/34873354
@@ -120,5 +112,11 @@ def illumina_whatshap(ID):
 
 if __name__ == '__main__':
     pool = mp.Pool(processes=3)
+    batch_ct = 3
+    patientID = get_batch_pt_ids(batch_ct)
+    # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
+    # patientID = ['CG0000-1789']  # this is 1-00004
+    patientID = ['CG0026-4554']
+    whatshap_partial = partial(illumina_whatshap_per_chrom, batch_ct)
     done_ids = pool.map(illumina_whatshap_per_chrom, patientID)
     print(done_ids)
