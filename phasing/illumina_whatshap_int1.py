@@ -52,7 +52,9 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
     """Run whatshap for illumina data by CHROMOSOME."""
     # obtain the family ID
     trio_df = get_trio_df()
-    fam_id = trio_df.loc[trio_df.Child == ID]['Fam_ID']
+    fam_id = trio_df.loc[trio_df.Child == ID, 'Fam_ID']
+    print(fam_id)
+    print(type(fam_id))
     print('Starting {} (family {})'.format(ID, fam_id))
     # make and enter directories named after the DNA ID
     mkdir = 'mkdir -p ' + ID
