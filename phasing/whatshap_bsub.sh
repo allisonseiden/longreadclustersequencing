@@ -9,6 +9,9 @@
 #BSUB -e whatshap_int1.stderr
 
 
+# submit with this command:
+# bsub < whatshap_bsub.sh
+
 cd ~
 module purge
 module load samtools/1.8 bcftools/1.7 tabix

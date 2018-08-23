@@ -40,6 +40,7 @@ from utils import get_trio_df, get_batch_pt_ids
 
 def check_stderr_stdout(proc):
     """Check subprocess stderr and stdout to see if job was killed."""
+    print(str(proc.stdout))
     if re.search('kill', str(proc.stdout), re.IGNORECASE):
         print(str(proc.stdout))
         raise RuntimeError('Killed by minerva')
