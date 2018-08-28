@@ -80,14 +80,14 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
         # instead of just printing a shell command, get STDERR and
         # STDOUT so that you can check if the job was killed or completed
         # source: https://stackoverflow.com/a/34873354
-        proc = sp.run(command, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
-        check_stderr_stdout(proc)
+        # proc = sp.run(command, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
+        # check_stderr_stdout(proc)
         print('======Sucessfully ran whatshap for ' + ID + ' on chr ' + str(i))
     sp.call('cd ..', shell=True)
 
 
-def illumina_whatshap(ID):
-    """Run whatshap for illumina data for all chromosomes in a sample."""
+"""def illumina_whatshap(ID):
+    ""Run whatshap for illumina data for all chromosomes in a sample.""
     print('Starting ' + ID)
     # check if output file already exists
     if os.path.exists(ID + '_phased.vcf'):
@@ -109,15 +109,16 @@ def illumina_whatshap(ID):
     sp.call(command, shell=True)
     print('======Sucessfully ran whatshap for ' + ID)
     return ID
+    """
 
 
 if __name__ == '__main__':
-    pool = mp.Pool(processes=1)
+    pool = mp.Pool(processes=3)
     batch_ct = 1
     patientID = get_batch_pt_ids(batch_ct)
     # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
     # patientID = ['CG0000-1789']  # this is 1-00004
-    patientID = ['CG0026-4554']
+    # patientID = ['CG0026-4554']
     whatshap_partial = partial(illumina_whatshap_per_chrom, batch_ct=batch_ct)
     done_ids = pool.map(whatshap_partial, patientID)
     print(done_ids)
