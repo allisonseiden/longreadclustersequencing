@@ -16,7 +16,7 @@ python3 ~/longreadclustersequencing/phasing/chromosome_split.py
 
 """
 
-import subprocess
+import subprocess as sp
 import os
 import multiprocessing as mp
 from functools import partial
@@ -46,19 +46,36 @@ from utils import get_trio_df
 #         subprocess.call(index, shell=True);
 
 
+def clean_files(filename):
+    """Check if intermediate but not final files exist and clean."""
+    vcf_exists = os.path.exists(filename)
+    gz_vcf_exists = os.path.exists(filename + '.gz')
+    tbx_exists = os.path.exists(filename + '.gz.tbi')
+    if vcf_exists and not tbx_exists:
+        print('Deleting and restarting this file: ' + filename)
+        os.remove(filename)
+    if gz_vcf_exists and not tbx_exists:
+        print('Deleting and restarting this file: ' + filename + '.gz')
+        os.remove(filename + '.gz')
+
+
 def split_compress_index(chrom, kiddo, fam_id):
     """Split trio VCF by chromosome and compress."""
     print('Starting {} {}'.format(fam_id, chrom))
     input_vcf = kiddo + '_trio.vcf.gz'
     filename = '{}/Illumina_WGS_{}_{}.vcf'.format(fam_id, fam_id, chrom)
+    # check if already done
     if os.path.exists(filename + '.gz.tbi'):
         return 'not_rerun_' + str(chrom)
-    split = 'time tabix -h {} {} > {}'.format(input_vcf, chrom, filename)
-    subprocess.call(split, shell=True)
-    compress = 'time bgzip ' + filename
-    subprocess.call(compress, shell=True)
-    index = 'time tabix -p vcf ' + filename + '.gz'
-    subprocess.call(index, shell=True)
+    # delete intermediate/unfinished files
+    clean_files(filename)
+    # run actual commands
+    # split = 'time tabix -h {} {} > {}'.format(input_vcf, chrom, filename)
+    # sp.call(split, shell=True)
+    # compress = 'time bgzip ' + filename
+    # sp.call(compress, shell=True)
+    # index = 'time tabix -p vcf ' + filename + '.gz'
+    # sp.call(index, shell=True)
     return chrom
 
 
