@@ -98,16 +98,18 @@ if __name__ == '__main__':
         # get all chromosomes aka contigs from VCF
         tbx_handle = pysam.TabixFile(kiddo + '_trio.vcf.gz')
         contigs = tbx_handle.contigs
+        # delete intermediate files that take up a lot of memory
         del tbx_handle
         gc.collect()
         split_compress_index_partial = partial(
             split_compress_index, kiddo=kiddo, fam_id=fam_id)
+        chr_done = []
         for chrom in contigs:
-            chr_done = split_compress_index_partial(contigs)
+            chr_done.append(split_compress_index_partial(chrom))
         # pool = mp.Pool(processes=5)
         # range(1, 23)
         # chr_done = pool.map(split_compress_index_partial, contigs)
         print(chr_done)
         # free up memory
-        del kiddo, fam_id, tbx_handle, contigs, pool, chr_done
+        del kiddo, fam_id, contigs, pool, chr_done
         gc.collect()
