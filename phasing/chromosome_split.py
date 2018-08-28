@@ -104,5 +104,6 @@ if __name__ == '__main__':
         # range(1, 23)
         chr_done = pool.map(split_compress_index_partial, contigs)
         print(chr_done)
-        del chr_done
+        # free up memory
+        del kiddo, fam_id, tbx_handle, contigs, pool, chr_done
         gc.collect()
