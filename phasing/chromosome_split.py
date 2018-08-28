@@ -18,7 +18,7 @@ python3 ~/longreadclustersequencing/phasing/chromosome_split.py
 
 import subprocess as sp
 import os
-import multiprocessing as mp
+# import multiprocessing as mp
 from functools import partial
 import gc
 
@@ -71,12 +71,12 @@ def split_compress_index(chrom, kiddo, fam_id):
     # delete intermediate/unfinished files
     clean_files(filename)
     # run actual commands
-    # split = 'time tabix -h {} {} > {}'.format(input_vcf, chrom, filename)
-    # sp.call(split, shell=True)
-    # compress = 'time bgzip ' + filename
-    # sp.call(compress, shell=True)
-    # index = 'time tabix -p vcf ' + filename + '.gz'
-    # sp.call(index, shell=True)
+    split = 'time tabix -h {} {} > {}'.format(input_vcf, chrom, filename)
+    sp.call(split, shell=True)
+    compress = 'time bgzip ' + filename
+    sp.call(compress, shell=True)
+    index = 'time tabix -p vcf ' + filename + '.gz'
+    sp.call(index, shell=True)
     return chrom
 
 
