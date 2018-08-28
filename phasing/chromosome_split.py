@@ -98,6 +98,8 @@ if __name__ == '__main__':
         # get all chromosomes aka contigs from VCF
         tbx_handle = pysam.TabixFile(kiddo + '_trio.vcf.gz')
         contigs = tbx_handle.contigs
+        del tbx_handle
+        gc.collect()
         split_compress_index_partial = partial(
             split_compress_index, kiddo=kiddo, fam_id=fam_id)
         for chrom in contigs:
