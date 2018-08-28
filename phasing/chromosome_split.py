@@ -100,9 +100,11 @@ if __name__ == '__main__':
         contigs = tbx_handle.contigs
         split_compress_index_partial = partial(
             split_compress_index, kiddo=kiddo, fam_id=fam_id)
-        pool = mp.Pool(processes=5)
+        for chrom in contigs:
+            chr_done = split_compress_index_partial(contigs)
+        # pool = mp.Pool(processes=5)
         # range(1, 23)
-        chr_done = pool.map(split_compress_index_partial, contigs)
+        # chr_done = pool.map(split_compress_index_partial, contigs)
         print(chr_done)
         # free up memory
         del kiddo, fam_id, tbx_handle, contigs, pool, chr_done
