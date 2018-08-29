@@ -41,6 +41,7 @@ from utils import get_trio_df, get_batch_pt_ids
 def check_stderr_stdout(proc):
     """Check subprocess stderr and stdout to see if job was killed."""
     print(str(proc.stdout))
+    print(str(proc.stderr))
     if re.search('kill', str(proc.stdout), re.IGNORECASE):
         print(str(proc.stdout))
         raise RuntimeError('Killed by minerva')
@@ -121,7 +122,7 @@ if __name__ == '__main__':
     patientID = get_batch_pt_ids(batch_ct)[:10]
     # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
     # patientID = ['CG0000-1789']  # this is 1-00004
-    patientID = ['CG0026-4554']
+    # patientID = ['CG0026-4554']
     whatshap_partial = partial(illumina_whatshap_per_chrom, batch_ct=batch_ct)
     done_ids = pool.map(whatshap_partial, patientID)
     print(done_ids)
