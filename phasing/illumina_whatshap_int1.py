@@ -27,9 +27,9 @@ deactivate
 
 import os
 import subprocess as sp
-import multiprocessing as mp
+# import multiprocessing as mp
 import re
-from functools import partial
+# from functools import partial
 
 from utils import get_trio_df, get_batch_pt_ids
 
@@ -40,8 +40,8 @@ from utils import get_trio_df, get_batch_pt_ids
 
 def check_stderr_stdout(proc):
     """Check subprocess stderr and stdout to see if job was killed."""
-    print(str(proc.stdout))
-    print(str(proc.stderr))
+    print(str(proc.stdout, 'utf-8'))
+    print(str(proc.stderr, 'utf-8'))
     if re.search('kill', str(proc.stdout), re.IGNORECASE):
         print(str(proc.stdout))
         raise RuntimeError('Killed by minerva')
@@ -84,8 +84,9 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
         # instead of just printing a shell command, get STDERR and
         # STDOUT so that you can check if the job was killed or completed
         # source: https://stackoverflow.com/a/34873354
-        proc = sp.run(command, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
-        check_stderr_stdout(proc)
+        # proc = sp.run(command, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
+        # check_stderr_stdout(proc)
+        sp.call(command, sell=True)
         print('======Sucessfully ran whatshap for ' + ID + ' on chr ' + str(i))
     sp.call('cd ..', shell=True)
 
@@ -117,12 +118,15 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
 
 
 if __name__ == '__main__':
-    pool = mp.Pool(processes=2)
+    # pool = mp.Pool(processes=2)
     batch_ct = 1
-    patientID = get_batch_pt_ids(batch_ct)[:10]
+    patientID_list = get_batch_pt_ids(batch_ct)[:10]
     # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
     # patientID = ['CG0000-1789']  # this is 1-00004
-    # patientID = ['CG0026-4554']
-    whatshap_partial = partial(illumina_whatshap_per_chrom, batch_ct=batch_ct)
-    done_ids = pool.map(whatshap_partial, patientID)
+    # patientID_list = ['CG0026-4554']
+    # whatshap_partial = partial(illumina_whatshap_per_chrom,batch_ct=batch_ct)
+    # done_ids = pool.map(whatshap_partial, patientID)
+    done_ids = []
+    for patientID in patientID_list:
+        illumina_whatshap_per_chrom(patientID, batch_ct)
     print(done_ids)
