@@ -87,7 +87,7 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
         # source: https://stackoverflow.com/a/34873354
         # proc = sp.run(command, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
         # check_stderr_stdout(proc)
-        sp.call(command, sell=True)
+        sp.call(command, shell=True)
         print('======Sucessfully ran whatshap for ' + ID + ' on chr ' + str(i))
     sp.call('cd ..', shell=True)
 
