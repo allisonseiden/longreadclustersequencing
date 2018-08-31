@@ -1,7 +1,7 @@
 #BSUB -W 3:00
 #BSUB -q alloc
 #BUSB -n 2
-#BSUB -R "rusage[mem=40000]"
+#BSUB -R "rusage[mem=50000]"
 #BSUB -P acc_chdiTrios
 #BSUB -J whatshap_b1_t10
 #BSUB -m mothra
