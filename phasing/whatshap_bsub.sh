@@ -1,4 +1,4 @@
-#BSUB -W 3:00
+#BSUB -W 4:00
 #BSUB -q alloc
 #BUSB -n 2
 #BSUB -R "rusage[mem=50000]"

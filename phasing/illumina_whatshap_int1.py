@@ -121,7 +121,7 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
 if __name__ == '__main__':
     # pool = mp.Pool(processes=2)
     batch_ct = 1
-    patientID_list = get_batch_pt_ids(batch_ct)[:10]
+    patientID_list = get_batch_pt_ids(batch_ct)  # [:10]
     # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
     # patientID = ['CG0000-1789']  # this is 1-00004
     # patientID_list = ['CG0026-4554']
