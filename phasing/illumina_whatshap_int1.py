@@ -15,9 +15,10 @@ module load samtools/1.8 bcftools/1.7 tabix
 module load python/3.5.0 py_packages/3.5
 source venv_phasing/bin/activate
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
-IlluminaWhatshapVCFs/Batch1/
+IlluminaWhatshapVCFs/Batch2/
 python3 ~/longreadclustersequencing/phasing/illumina_whatshap_int1.py
 
+CG0011-0730
 # once done, need to confirm that last line is the same in every file
 # e.g.,  zcat GMKF_TrioVCFs/1-00004/Illumina_WGS_1-00004_chr4.vcf.gz | tail
 # and IlluminaWhatshapVCFs/Batch3/CG0000-1789/1-00004_chr4_phased.vcf
@@ -28,6 +29,7 @@ deactivate
 import os
 import subprocess as sp
 # import multiprocessing as mp
+import argparse
 import re
 # from functools import partial
 
@@ -120,14 +122,22 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
 
 if __name__ == '__main__':
     # pool = mp.Pool(processes=2)
-    batch_ct = 2
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--batch', default=1, type=int,
+                        choices=[1, 2, 3], help='Pick the batch')
+    args = parser.parse_args()
+    batch_ct = args.batch  # 2
+    cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
+          'IlluminaWhatshapVCFs/Batch' + batch_ct)
+    sp.call(cd, shell=True)
     patientID_list = get_batch_pt_ids(batch_ct)  # [:10]
+    print(patientID_list)
     # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
     # patientID = ['CG0000-1789']  # this is 1-00004
     # patientID_list = ['CG0026-4554']
     # whatshap_partial = partial(illumina_whatshap_per_chrom,batch_ct=batch_ct)
     # done_ids = pool.map(whatshap_partial, patientID)
     done_ids = []
-    for patientID in patientID_list:
-        illumina_whatshap_per_chrom(patientID, batch_ct)
+    # for patientID in patientID_list:
+    #     illumina_whatshap_per_chrom(patientID, batch_ct)
     print(done_ids)
