@@ -77,11 +77,11 @@ def split_compress_index(chrom, kiddo, fam_id):
     clean_files(filename)
     # run actual commands
     split = 'time tabix -h {} {} > {}'.format(input_vcf, chrom, filename)
-    # sp.call(split, shell=True)
+    sp.call(split, shell=True)
     compress = 'time bgzip ' + filename
-    # sp.call(compress, shell=True)
+    sp.call(compress, shell=True)
     index = 'time tabix -p vcf ' + filename + '.gz'
-    # sp.call(index, shell=True)
+    sp.call(index, shell=True)
     return chrom
 
 
