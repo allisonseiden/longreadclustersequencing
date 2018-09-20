@@ -71,8 +71,10 @@ def split_vcf(num):
         sp.call(cd + 'GMKF_TrioVCFs/Batch3', shell=True)
     sp.call(cd, shell=True)
     """
-    sp.call(command, shell=True)
-    sp.call(index, shell=True)
+    print(command)
+    print(index)
+    # sp.call(command, shell=True)
+    # sp.call(index, shell=True)
     return kiddo
 
 
