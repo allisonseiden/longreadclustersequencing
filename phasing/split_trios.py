@@ -72,8 +72,8 @@ def split_vcf(num):
     sp.call(cd, shell=True)
     """
     print(command)
-    print(index)
     sp.call(command, shell=True)
+    print(index)
     sp.call(index, shell=True)
     return kiddo
 
