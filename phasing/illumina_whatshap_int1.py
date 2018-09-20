@@ -126,18 +126,14 @@ if __name__ == '__main__':
     parser.add_argument('--batch', default=1, type=int,
                         choices=[1, 2, 3], help='Pick the batch')
     args = parser.parse_args()
-    batch_ct = args.batch  # 2
+    batch_ct = args.batch
     cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
           'IlluminaWhatshapVCFs/Batch' + str(batch_ct))
     sp.call(cd, shell=True)
     patientID_list = get_batch_pt_ids(batch_ct)  # [:10]
-    print(patientID_list)
-    # patientID = ["1-00801", "1-01019", "1-03897", "1-04190", "1-04389"]
-    # patientID = ['CG0000-1789']  # this is 1-00004
-    # patientID_list = ['CG0026-4554']
     # whatshap_partial = partial(illumina_whatshap_per_chrom,batch_ct=batch_ct)
     # done_ids = pool.map(whatshap_partial, patientID)
     done_ids = []
-    # for patientID in patientID_list:
-    #     illumina_whatshap_per_chrom(patientID, batch_ct)
+    for patientID in patientID_list:
+        illumina_whatshap_per_chrom(patientID, batch_ct)
     print(done_ids)
