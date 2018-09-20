@@ -128,7 +128,7 @@ if __name__ == '__main__':
     args = parser.parse_args()
     batch_ct = args.batch  # 2
     cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
-          'IlluminaWhatshapVCFs/Batch' + batch_ct)
+          'IlluminaWhatshapVCFs/Batch' + str(batch_ct))
     sp.call(cd, shell=True)
     patientID_list = get_batch_pt_ids(batch_ct)  # [:10]
     print(patientID_list)
