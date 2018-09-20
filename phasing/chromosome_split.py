@@ -70,18 +70,18 @@ def split_compress_index(chrom, kiddo, fam_id):
         # check if empty file
         if os.stat(filename + '.gz.tbi').st_size == 0:
             print('deleting indexed ' + filename)
-            os.remove(filename + '.gz.tbi')
+            # os.remove(filename + '.gz.tbi')
         else:
             return 'not_rerun_' + str(chrom)
     # delete intermediate/unfinished files
     clean_files(filename)
     # run actual commands
     split = 'time tabix -h {} {} > {}'.format(input_vcf, chrom, filename)
-    sp.call(split, shell=True)
+    # sp.call(split, shell=True)
     compress = 'time bgzip ' + filename
-    sp.call(compress, shell=True)
+    # sp.call(compress, shell=True)
     index = 'time tabix -p vcf ' + filename + '.gz'
-    sp.call(index, shell=True)
+    # sp.call(index, shell=True)
     return chrom
 
 
