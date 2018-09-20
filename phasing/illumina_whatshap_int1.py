@@ -82,6 +82,11 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
                    str(i) + '_phased.vcf ' + vcf_filename + ' ' + bam_filename)
         if os.path.exists('{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)):
             print('chr{} from {} already run'.format(i, ID))
+            # check file size (only for cleaning)
+            # if os.stat(filename + '.gz.tbi').st_size == 0:
+            #     print('deleting indexed ' + filename)
+            #     # os.remove(filename + '.gz.tbi')
+            # else:
             continue
         print(command)
         # instead of just printing a shell command, get STDERR and
