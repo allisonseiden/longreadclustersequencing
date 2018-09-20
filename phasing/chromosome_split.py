@@ -67,7 +67,12 @@ def split_compress_index(chrom, kiddo, fam_id):
     filename = '{}/Illumina_WGS_{}_{}.vcf'.format(fam_id, fam_id, chrom)
     # check if already done
     if os.path.exists(filename + '.gz.tbi'):
-        return 'not_rerun_' + str(chrom)
+        # check if empty file
+        if os.stat(filename + '.gz.tbi').st_size == 0:
+            print('deleting indexed ' + filename)
+            os.remove(filename + '.gz.tbi')
+        else:
+            return 'not_rerun_' + str(chrom)
     # delete intermediate/unfinished files
     clean_files(filename)
     # run actual commands
