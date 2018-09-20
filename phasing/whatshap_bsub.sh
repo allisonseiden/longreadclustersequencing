@@ -3,10 +3,10 @@
 #BUSB -n 2
 #BSUB -R "rusage[mem=50000]"
 #BSUB -P acc_chdiTrios
-#BSUB -J whatshap_b1_t10
+#BSUB -J whatshap_b3
 #BSUB -m mothra
-#BSUB -o whatshap_b1_t10.stdout
-#BSUB -e whatshap_b1_t10.stderr
+#BSUB -o whatshap_b3.stdout
+#BSUB -e whatshap_b3.stderr
 
 
 # submit with this command:
