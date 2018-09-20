@@ -16,7 +16,7 @@ module load python/3.5.0 py_packages/3.5
 source venv_phasing/bin/activate
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/Batch2/
-python3 ~/longreadclustersequencing/phasing/illumina_whatshap_int1.py
+python3 ~/longreadclustersequencing/phasing/illumina_whatshap_int1.py 2
 
 CG0011-0730
 # once done, need to confirm that last line is the same in every file
