@@ -52,6 +52,7 @@ def split_vcf(num):
     dad = trio_df.loc[num, 'Father']
     mom = trio_df.loc[num, 'Mother']
     vcf_exists = os.path.exists(kiddo + '_trio.vcf.gz')
+    vcf_done = os.path.exists('done_2018_09_26' + kiddo + '_trio.vcf.gz')
     """
     tbx_exists = os.path.exists(kiddo + '_trio.vcf.gz.tbi')
     # check if VCF created but not indexed (e.g., due to crash)
@@ -61,11 +62,12 @@ def split_vcf(num):
         os.remove(kiddo + '_trio.vcf.gz')
     # """
     # if VCF was created, skip and move on to next one
-    if kiddo not in final_set:
-        return kiddo
-    if vcf_exists:
-        print('Already done with ' + kiddo)
+    if vcf_exists or vcf_done:
+        # print('Already done with ' + kiddo)
         return 'not_rerun_' + kiddo
+    if kiddo not in final_set:
+        print('Should not be here...' + kiddo)
+        return kiddo
     print('Starting ' + kiddo)
     command = 'bcftools view -s ' + kiddo + ',' + mom + ',' + dad
     command += ' -O z -o ' + kiddo + '_trio.vcf.gz /sc/orga/projects/'
@@ -84,9 +86,9 @@ def split_vcf(num):
     sp.call(cd, shell=True)
     """
     print(command)
-    sp.call(command, shell=True)
+    # sp.call(command, shell=True)
     print(index)
-    sp.call(index, shell=True)
+    # sp.call(index, shell=True)
     return kiddo
 
 
