@@ -131,7 +131,6 @@ def clean_old_vcfs(patientID_list, trio_df):
                 print(mv_cmd)
                 sp.call(mv_cmd, shell=True)
             # """
-        break
 
 
 if __name__ == '__main__':
