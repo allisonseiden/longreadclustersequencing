@@ -104,7 +104,7 @@ def clean_old_vcfs(patientID_list, trio_df):
         new_dir = '{}/split_chr_done_2018_09_26/{}/'.format(vcf_dir, fam_id)
         dir_cmd = 'mkdir -p ' + new_dir
         print(dir_cmd)
-        # sp.call(dir_cmd, shell=True)
+        sp.call(dir_cmd, shell=True)
         for i in range(1, 23):
             phase_f = '{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)
             # Moving the corresponding split chromosome file
@@ -113,9 +113,11 @@ def clean_old_vcfs(patientID_list, trio_df):
                        '_chr{}.vcf.g*').format(
                        vcf_dir, fam_id, fam_id, i)
             mv_cmd = 'mv {} {}'.format(vcf_old, new_dir)
-            if os.path.isfile(phase_f):
+            phase_exists = os.path.isfile(phase_f)
+            vcf_old_exists = os.path.isfile(vcf_old)
+            if phase_exists and vcf_old_exists:
                 print(mv_cmd)
-                # sp.call(mv_cmd, shell=True)
+                sp.call(mv_cmd, shell=True)
                 break
         break
 
