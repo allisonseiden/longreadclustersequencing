@@ -11,7 +11,7 @@
 
 # submit with this command: 
 # cd /hpc/users/richtf01/longreadclustersequencing/phasing
-# for i in {1..300}; do echo $i; bsub < whatshap_bsub.sh; done
+# for i in {1..100}; do echo $i; bsub < whatshap_bsub.sh; done
 
 cd ~
 module purge

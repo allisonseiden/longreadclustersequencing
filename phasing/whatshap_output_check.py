@@ -16,6 +16,11 @@ cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/Batch2/
 python3 ~/longreadclustersequencing/phasing/whatshap_output_check.py --batch 2
 
+
+cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
+IlluminaWhatshapVCFs/Batch3/
+python3 ~/longreadclustersequencing/phasing/whatshap_output_check.py --batch 3
+
 """
 
 import argparse
@@ -58,7 +63,7 @@ def remove_incomplete_files(len_dict):
     done_files = 0
     for f, f_len in len_dict.items():
         if f_len != max_len:
-            print('removing {} w lenght {}'.format(f, f_len))
+            print('removing {} w length {}'.format(f, f_len))
             os.remove(f)
         else:
             done_files += 1
