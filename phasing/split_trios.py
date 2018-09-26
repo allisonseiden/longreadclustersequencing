@@ -84,9 +84,9 @@ def split_vcf(num):
     sp.call(cd, shell=True)
     """
     print(command)
-    # sp.call(command, shell=True)
+    sp.call(command, shell=True)
     print(index)
-    # sp.call(index, shell=True)
+    sp.call(index, shell=True)
     return kiddo
 
 
@@ -96,7 +96,7 @@ if __name__ == '__main__':
                             names=['Fam_ID', 'Child', 'Father', 'Mother'],
                             sep='\t', comment='#')
     length = trio_df.shape[0]
-    pool = mp.Pool(processes=1)
+    pool = mp.Pool(processes=3)
     kiddo_done = pool.map(split_vcf, range(length))
     # print('Total number of probands: {}'.format(len(kiddo_done)))
     # kiddo_previously_done = [i for i in kiddo_done if 'not_rerun_' in i]
