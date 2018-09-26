@@ -16,7 +16,7 @@ module load python/3.5.0 py_packages/3.5
 source venv_phasing/bin/activate
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/Batch2/
-python3 ~/longreadclustersequencing/phasing/illumina_whatshap_int1.py 2
+python3 ~/longreadclustersequencing/phasing/illumina_whatshap_int1.py --batch 2
 
 CG0011-0730
 # once done, need to confirm that last line is the same in every file
@@ -84,6 +84,8 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
             print('chr{} from {} already run'.format(i, ID))
             # check file size (only for cleaning)
             out_f = '{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)
+            print(os.stat(out_f).st_size)
+            # delete if less than 100 Mb, suggests it did not complete
             if os.stat(out_f).st_size == 0:
                 print('deleting unfinishing phasing for ' + out_f)
                 # os.remove(out_f)
