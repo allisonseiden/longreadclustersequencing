@@ -94,7 +94,7 @@ if __name__ == '__main__':
     for kiddo_ct in range(0, n_fams):
         kiddo = trio_df.loc[kiddo_ct, 'Child']
         fam_id = trio_df.loc[kiddo_ct, 'Fam_ID']
-        print("Starting {} from {}".format(kiddo, fam_id))
+        print("Current ID {} from {}".format(kiddo, fam_id))
         # skip this trio if it hasn't been extracted from the main VCF
         if not os.path.exists(kiddo + '_trio.vcf.gz.tbi'):
             continue

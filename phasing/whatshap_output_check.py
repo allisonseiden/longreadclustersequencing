@@ -78,7 +78,7 @@ if __name__ == '__main__':
     patientID_list = get_batch_pt_ids(batch_ct)
     trio_df = get_trio_df()
     chr_dict = {}
-    for i in range(3, 23):
+    for i in range(1, 23):
         count = 0
         len_dict = {}
         chr_dict[i] = len_dict
