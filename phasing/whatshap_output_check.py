@@ -119,8 +119,6 @@ def clean_old_vcfs(patientID_list, trio_df):
             if phase_exists and vcf_old_exists:
                 print(mv_cmd)
                 sp.call(mv_cmd, shell=True)
-                break
-        break
 
 
 if __name__ == '__main__':
