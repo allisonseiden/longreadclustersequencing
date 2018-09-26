@@ -114,10 +114,7 @@ if __name__ == '__main__':
         # pool = mp.Pool(processes=5)
         # range(1, 23)
         # chr_done = pool.map(split_compress_index_partial, contigs)
-        print(chr_done)
         not_rerun_chr_list = [i for i in chr_done if 'not_rerun_' in i]
-        print(not_rerun_chr_list)
-        print(len(not_rerun_chr_list))
         if len(not_rerun_chr_list) == 24:
             mv_cmd = 'mv {}_trio.vcf.gz.tbi done_2018_09_26/'.format(kiddo)
             print(mv_cmd)
