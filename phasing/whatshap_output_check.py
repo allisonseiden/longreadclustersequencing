@@ -70,18 +70,8 @@ def remove_incomplete_files(len_dict):
     print('files kept: {}'.format(done_files))
 
 
-if __name__ == '__main__':
-    # pool = mp.Pool(processes=2)
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--batch', default=1, type=int,
-                        choices=[1, 2, 3], help='Pick the batch')
-    args = parser.parse_args()
-    batch_ct = args.batch
-    cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
-          'IlluminaWhatshapVCFs/Batch' + str(batch_ct))
-    sp.call(cd, shell=True)
-    patientID_list = get_batch_pt_ids(batch_ct)
-    trio_df = get_trio_df()
+def check_and_rm_files(patientID_list, trio_df):
+    """Check file length and remove if not complete."""
     chr_dict = {}
     for i in range(1, 23):
         count = 0
@@ -102,5 +92,46 @@ if __name__ == '__main__':
         print('total files: {}'.format(count))
         remove_incomplete_files(len_dict)
 
+
+def clean_old_vcfs(patientID_list, trio_df):
+    """Move old VCF to directory for archiving if phasing is done."""
+    vcf_dir = ('/sc/orga/projects/chdiTrios/' +
+               'WGS_Combined_2017/PacbioProject/' +
+               'GMKF_TrioVCFs')
+    for ID in patientID_list:
+        for i in range(1, 23):
+            fam_id = trio_df.loc[
+                trio_df.Child == ID]['Fam_ID'].to_string(index=False)
+            phase_f = '{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)
+            # Moving the corresponding split chromosome file
+            # to a 'done' location
+            vcf_old = ('{}/{}/Illumina_WGS_{}' +
+                       '_chr{}.vcf.g*').format(
+                       vcf_dir, fam_id, fam_id, i)
+            vcf_done = ('{}/split_chr_done_2018_09_26/{}/Illumina_WGS_{}' +
+                        '_chr{}.vcf.g*').format(
+                        vcf_dir, fam_id, fam_id, i)
+            mv_cmd = 'mv {} {}'.format(vcf_old, vcf_done)
+            if os.path.isfile(phase_f):
+                print(mv_cmd)
+                # sp.call(mv_cmd, shell=True)
+                break
+        break
+
+
+if __name__ == '__main__':
+    # pool = mp.Pool(processes=2)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--batch', default=1, type=int,
+                        choices=[1, 2, 3], help='Pick the batch')
+    args = parser.parse_args()
+    batch_ct = args.batch
+    cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
+          'IlluminaWhatshapVCFs/Batch' + str(batch_ct))
+    sp.call(cd, shell=True)
+    patientID_list = get_batch_pt_ids(batch_ct)
+    trio_df = get_trio_df()
+    # check_and_rm_files(patientID_list, trio_df)
+    clean_old_vcfs(patientID_list, trio_df)
 
 #
