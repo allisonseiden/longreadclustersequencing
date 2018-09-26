@@ -115,7 +115,7 @@ def clean_old_vcfs(patientID_list, trio_df):
                        vcf_dir, fam_id, fam_id, i)
             mv_cmd = 'mv {}.g* {}'.format(vcf_old, new_dir)
             phase_exists = os.path.isfile(phase_f)
-            vcf_old_exists = os.path.isfile(vcf_old + 'gz.tbi')
+            vcf_old_exists = os.path.isfile(vcf_old + '.gz.tbi')
             if phase_exists and vcf_old_exists:
                 print(mv_cmd)
                 sp.call(mv_cmd, shell=True)
