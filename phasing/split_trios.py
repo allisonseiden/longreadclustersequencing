@@ -14,7 +14,11 @@ module load python/3.5.0 py_packages/3.5
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/GMKF_TrioVCFs/
 python3 ~/longreadclustersequencing/phasing/split_trios.py
 
-Once done, check that last line in every file is the same
+Once done, check that last line in every file is the same.
+
+There are 16 that still need to be split, but because of Minerva space
+issues I am moving the 400 already split to a separate directory
+(GMKF_TrioVCFs/done_2018_09_26) that will be archived
 
 """
 
@@ -36,13 +40,19 @@ import os
 # batch3 = batch3_df['ID'].tolist()
 
 
+final_set = ['CG0009-7084', 'CG0015-5533', 'CG0017-4546', 'CG0020-9963',
+             'CG0021-6581', 'CG0020-1859', 'CG0020-8872', 'CG0023-5663',
+             'CG0021-2288', 'CG0023-0457', 'CG0021-3351', 'CG0018-5622',
+             'CG0022-6769', 'CG0019-8485', 'CG0021-6490', 'CG0020-0171']
+
+
 def split_vcf(num):
     """Split VCF into trios to avoid whatshap memory issues."""
     kiddo = trio_df.loc[num, 'Child']
     dad = trio_df.loc[num, 'Father']
     mom = trio_df.loc[num, 'Mother']
     vcf_exists = os.path.exists(kiddo + '_trio.vcf.gz')
-    # """
+    """
     tbx_exists = os.path.exists(kiddo + '_trio.vcf.gz.tbi')
     # check if VCF created but not indexed (e.g., due to crash)
     # DO NOT use if running on multiple screens
@@ -51,6 +61,8 @@ def split_vcf(num):
         os.remove(kiddo + '_trio.vcf.gz')
     # """
     # if VCF was created, skip and move on to next one
+    if kiddo not in final_set:
+        return kiddo
     if vcf_exists:
         print('Already done with ' + kiddo)
         return 'not_rerun_' + kiddo
@@ -86,9 +98,8 @@ if __name__ == '__main__':
     length = trio_df.shape[0]
     pool = mp.Pool(processes=1)
     kiddo_done = pool.map(split_vcf, range(length))
-    print(length)
-    print('Total number of probands: {}'.format(len(kiddo_done)))
-    kiddo_previously_done = [i for i in kiddo_done if 'not_rerun_' in i]
-    print('Probands completed: {}'.format(len(kiddo_previously_done)))
-    print('Probands to do:')
-    print([i for i in kiddo_done if 'not_rerun_' not in i])
+    # print('Total number of probands: {}'.format(len(kiddo_done)))
+    # kiddo_previously_done = [i for i in kiddo_done if 'not_rerun_' in i]
+    # print('Probands completed: {}'.format(len(kiddo_previously_done)))
+    # print('Probands to do:')
+    # print([i for i in kiddo_done if 'not_rerun_' not in i])

@@ -118,7 +118,7 @@ if __name__ == '__main__':
         if len(not_rerun_chr_list) == 24:
             mv_cmd = 'mv {}_trio.vcf.gz.tbi done_2018_09_26/'.format(kiddo)
             print(mv_cmd)
-            # sp.call(mv_cmd, shell=True)
+            sp.call(mv_cmd, shell=True)
         # free up memory pool,
         del kiddo, fam_id, contigs, chr_done
         gc.collect()
