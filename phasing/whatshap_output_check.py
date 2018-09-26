@@ -71,12 +71,15 @@ if __name__ == '__main__':
             phase_f = '{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)
             len_dict[phase_f] = rawgencount(phase_f)
             count += 1
+            if count % 5 == 0:
+                print(count)
             if count > 10:
                 break
         break
     print(chr_dict)
     for chr_i, len_dict in chr_dict.items():
-        max_len = max(len_dict)
+        max_len = max(len_dict.values())
+        print('max length:')
         print(max_len)
         for f, f_len in len_dict.items():
             if f_len != max_len:
