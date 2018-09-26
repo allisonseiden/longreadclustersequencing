@@ -53,7 +53,7 @@ def split_vcf(num):
     # if VCF was created, skip and move on to next one
     if vcf_exists:
         print('Already done with ' + kiddo)
-        return kiddo
+        return 'not_rerun_' + kiddo
     print('Starting ' + kiddo)
     command = 'bcftools view -s ' + kiddo + ',' + mom + ',' + dad
     command += ' -O z -o ' + kiddo + '_trio.vcf.gz /sc/orga/projects/'
@@ -84,5 +84,11 @@ if __name__ == '__main__':
                             names=['Fam_ID', 'Child', 'Father', 'Mother'],
                             sep='\t', comment='#')
     length = trio_df.shape[0]
-    pool = mp.Pool(processes=7)
-    pool.map(split_vcf, range(length))
+    pool = mp.Pool(processes=1)
+    kiddo_done = pool.map(split_vcf, range(length))
+    print(length)
+    print('Total number of probands: {}'.format(len(kiddo_done)))
+    kiddo_previously_done = [i for i in kiddo_done if 'not_rerun_' in i]
+    print('Probands completed: {}'.format(len(kiddo_previously_done)))
+    print('Probands to do:')
+    print([i for i in kiddo_done if 'not_rerun_' not in i])
