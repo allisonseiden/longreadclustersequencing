@@ -55,10 +55,14 @@ def remove_incomplete_files(len_dict):
     max_len = max(len_dict.values())
     print('max length:')
     print(max_len)
+    done_files = 0
     for f, f_len in len_dict.items():
         if f_len != max_len:
             print('removing {} w lenght {}'.format(f, f_len))
             os.remove(f)
+        else:
+            done_files += 1
+    print('files kept: {}'.format(done_files))
 
 
 if __name__ == '__main__':
@@ -75,7 +79,7 @@ if __name__ == '__main__':
     trio_df = get_trio_df()
     chr_dict = {}
     count = 0
-    for i in range(1, 23):
+    for i in range(3, 23):
         len_dict = {}
         chr_dict[i] = len_dict
         for ID in patientID_list:
@@ -90,6 +94,7 @@ if __name__ == '__main__':
                 #     print(count)
             # if count > 5:
             #     break
+        print('total files: {}'.format(count))
         remove_incomplete_files(len_dict)
 
 
