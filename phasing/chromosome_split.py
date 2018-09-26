@@ -119,7 +119,6 @@ if __name__ == '__main__':
             mv_cmd = 'mv {}_trio.vcf.g* done_2018_09_26/'.format(kiddo)
             print(mv_cmd)
             sp.call(mv_cmd, shell=True)
-            break
         # free up memory pool,
         del kiddo, fam_id, contigs, chr_done
         gc.collect()
