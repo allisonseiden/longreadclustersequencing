@@ -106,7 +106,7 @@ def clean_old_vcfs(patientID_list, trio_df):
         print(dir_cmd)
         sp.call(dir_cmd, shell=True)
         for i in range(1, 23):
-            """
+            # """
             phase_f = '{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)
             # Moving the corresponding split chromosome file
             # to a 'done' location
@@ -130,6 +130,7 @@ def clean_old_vcfs(patientID_list, trio_df):
             if vcf_old_exists:
                 print(mv_cmd)
                 sp.call(mv_cmd, shell=True)
+            # """
 
 
 if __name__ == '__main__':
