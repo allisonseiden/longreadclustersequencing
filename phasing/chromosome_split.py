@@ -72,16 +72,18 @@ def split_compress_index(chrom, kiddo, fam_id):
             print('deleting indexed ' + filename)
             # os.remove(filename + '.gz.tbi')
         else:
+            print('Not re-running {} {}'.format(fam_id, chrom))
             return 'not_rerun_' + str(chrom)
+    print('Starting {} {}'.format(fam_id, chrom))
     # delete intermediate/unfinished files
     clean_files(filename)
     # run actual commands
     split = 'time tabix -h {} {} > {}'.format(input_vcf, chrom, filename)
-    # sp.call(split, shell=True)
+    sp.call(split, shell=True)
     compress = 'time bgzip ' + filename
-    # sp.call(compress, shell=True)
+    sp.call(compress, shell=True)
     index = 'time tabix -p vcf ' + filename + '.gz'
-    # sp.call(index, shell=True)
+    sp.call(index, shell=True)
     return chrom
 
 
@@ -112,13 +114,13 @@ if __name__ == '__main__':
         for chrom in contigs:
             chr_done.append(split_compress_index_partial(chrom))
         # pool = mp.Pool(processes=5)
-        # range(1, 23)
+        print(chr_done)
         # chr_done = pool.map(split_compress_index_partial, contigs)
-        not_rerun_chr_list = [i for i in chr_done if 'not_rerun_' in i]
-        if len(not_rerun_chr_list) == 24:
-            mv_cmd = 'mv {}_trio.vcf.g* done_2018_09_26/'.format(kiddo)
-            print(mv_cmd)
-            sp.call(mv_cmd, shell=True)
+        # not_rerun_chr_list = [i for i in chr_done if 'not_rerun_' in i]
+        # if len(not_rerun_chr_list) == 24:
+        #     mv_cmd = 'mv {}_trio.vcf.g* done_2018_09_26/'.format(kiddo)
+        #     print(mv_cmd)
+        #     sp.call(mv_cmd, shell=True)
         # free up memory pool,
         del kiddo, fam_id, contigs, chr_done
         gc.collect()

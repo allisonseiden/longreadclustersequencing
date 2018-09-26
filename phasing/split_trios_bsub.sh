@@ -9,6 +9,8 @@
 #BSUB -e split_trios.stderr
 
 
+#  bsub < split_trios_bsub.sh 
+
 module purge
 module load samtools/1.8 bcftools/1.7 tabix
 module load python/3.5.0 py_packages/3.5
