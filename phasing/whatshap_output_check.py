@@ -49,6 +49,18 @@ def rawgencount(filename):
     return sum(buf.count(b'\n') for buf in f_gen)
 
 
+def remove_incomplete_files(len_dict):
+    """Remove files that are not complete."""
+    # for chr_i, len_dict in chr_dict.items():
+    max_len = max(len_dict.values())
+    print('max length:')
+    print(max_len)
+    for f, f_len in len_dict.items():
+        if f_len != max_len:
+            print('removing {} w lenght {}'.format(f, f_len))
+            os.remove(f)
+
+
 if __name__ == '__main__':
     # pool = mp.Pool(processes=2)
     parser = argparse.ArgumentParser()
@@ -70,27 +82,15 @@ if __name__ == '__main__':
             fam_id = trio_df.loc[
                 trio_df.Child == ID]['Fam_ID'].to_string(index=False)
             phase_f = '{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)
-            # if os.stat(phase_f).st_size == 0:
-            #     print('size is 0 for ' + phase_f)
-            #     os.remove(phase_f)
-            #     count += 1
             if os.path.isfile(phase_f):
                 print(phase_f)
                 len_dict[phase_f] = rawgencount(phase_f)
                 count += 1
-                if count % 5 == 0:
-                    print(count)
-            if count > 5:
-                break
-        break
-    print(chr_dict)
-    for chr_i, len_dict in chr_dict.items():
-        max_len = max(len_dict.values())
-        print('max length:')
-        print(max_len)
-        for f, f_len in len_dict.items():
-            if f_len != max_len:
-                print('removing ' + f)
-                os.remove(f)
+                # if count % 5 == 0:
+                #     print(count)
+            # if count > 5:
+            #     break
+        remove_incomplete_files(len_dict)
+
 
 #
