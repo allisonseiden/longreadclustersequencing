@@ -86,11 +86,11 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
             out_f = '{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)
             print(os.stat(out_f).st_size)
             # delete if less than 100 Mb, suggests it did not complete
-            if os.stat(out_f).st_size == 0:
-                print('deleting unfinishing phasing for ' + out_f)
-                # os.remove(out_f)
-            else:
-                continue
+            # if os.stat(out_f).st_size == 0:
+            #     print('deleting unfinishing phasing for ' + out_f)
+            #     # os.remove(out_f)
+            # else:
+            continue
         print(command)
         # instead of just printing a shell command, get STDERR and
         # STDOUT so that you can check if the job was killed or completed

@@ -70,6 +70,10 @@ if __name__ == '__main__':
             fam_id = trio_df.loc[
                 trio_df.Child == ID]['Fam_ID'].to_string(index=False)
             phase_f = '{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)
+            if os.stat(phase_f).st_size == 0:
+                print('size is 0 for ' + phase_f)
+                os.remove(phase_f)
+                count += 1
             if os.path.exists(phase_f):
                 len_dict[phase_f] = rawgencount(phase_f)
                 count += 1
