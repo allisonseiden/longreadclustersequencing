@@ -101,8 +101,8 @@ def clean_old_vcfs(patientID_list, trio_df):
     for ID in patientID_list:
         fam_id = trio_df.loc[
             trio_df.Child == ID]['Fam_ID'].to_string(index=False)
-        dir_cmd = 'mkdir -p {}/split_chr_done_2018_09_26/{}'.format(
-            vcf_dir, fam_id)
+        new_dir = '{}/split_chr_done_2018_09_26/{}/'.format(vcf_dir, fam_id)
+        dir_cmd = 'mkdir -p ' + new_dir
         print(dir_cmd)
         # sp.call(dir_cmd, shell=True)
         for i in range(1, 23):
@@ -112,10 +112,7 @@ def clean_old_vcfs(patientID_list, trio_df):
             vcf_old = ('{}/{}/Illumina_WGS_{}' +
                        '_chr{}.vcf.g*').format(
                        vcf_dir, fam_id, fam_id, i)
-            vcf_done = ('{}/split_chr_done_2018_09_26/{}/Illumina_WGS_{}' +
-                        '_chr{}.vcf.g*').format(
-                        vcf_dir, fam_id, fam_id, i)
-            mv_cmd = 'mv {} {}'.format(vcf_old, vcf_done)
+            mv_cmd = 'mv {} {}'.format(vcf_old, new_dir)
             if os.path.isfile(phase_f):
                 print(mv_cmd)
                 # sp.call(mv_cmd, shell=True)
