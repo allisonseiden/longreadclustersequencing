@@ -99,9 +99,13 @@ def clean_old_vcfs(patientID_list, trio_df):
                'WGS_Combined_2017/PacbioProject/' +
                'GMKF_TrioVCFs')
     for ID in patientID_list:
+        fam_id = trio_df.loc[
+            trio_df.Child == ID]['Fam_ID'].to_string(index=False)
+        dir_cmd = 'mkdir -p {}/split_chr_done_2018_09_26/{}'.format(
+            vcf_dir, fam_id)
+        print(dir_cmd)
+        # sp.call(dir_cmd, shell=True)
         for i in range(1, 23):
-            fam_id = trio_df.loc[
-                trio_df.Child == ID]['Fam_ID'].to_string(index=False)
             phase_f = '{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)
             # Moving the corresponding split chromosome file
             # to a 'done' location
