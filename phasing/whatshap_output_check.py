@@ -73,6 +73,14 @@ if __name__ == '__main__':
             count += 1
             if count > 10:
                 break
+        break
     print(chr_dict)
+    for chr_i, len_dict in chr_dict.items():
+        max_len = max(len_dict)
+        print(max_len)
+        for f, f_len in len_dict.items():
+            if f_len != max_len:
+                print('removing ' + f)
+                # os.remove(f)
 
 #
