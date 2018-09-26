@@ -20,6 +20,7 @@ python3 ~/longreadclustersequencing/phasing/whatshap_output_check.py --batch 2
 
 import argparse
 import subprocess as sp
+import os
 
 from utils import get_batch_pt_ids, get_trio_df
 
@@ -69,11 +70,12 @@ if __name__ == '__main__':
             fam_id = trio_df.loc[
                 trio_df.Child == ID]['Fam_ID'].to_string(index=False)
             phase_f = '{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)
-            len_dict[phase_f] = rawgencount(phase_f)
-            count += 1
-            if count % 5 == 0:
-                print(count)
-            if count > 10:
+            if os.path.exists(phase_f):
+                len_dict[phase_f] = rawgencount(phase_f)
+                count += 1
+                if count % 5 == 0:
+                    print(count)
+            if count > 5:
                 break
         break
     print(chr_dict)
@@ -84,6 +86,6 @@ if __name__ == '__main__':
         for f, f_len in len_dict.items():
             if f_len != max_len:
                 print('removing ' + f)
-                # os.remove(f)
+                os.remove(f)
 
 #
