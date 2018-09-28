@@ -1,5 +1,5 @@
-#BSUB -W 4:00
-#BSUB -q alloc
+#BSUB -W 2:00
+#BSUB -q expressalloc
 #BUSB -n 2
 #BSUB -R "rusage[mem=50000]"
 #BSUB -P acc_chdiTrios

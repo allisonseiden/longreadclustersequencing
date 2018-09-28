@@ -62,7 +62,6 @@ def clean_files(filename):
 
 def split_compress_index(chrom, kiddo, fam_id):
     """Split trio VCF by chromosome and compress."""
-    print('Starting {} {}'.format(fam_id, chrom))
     input_vcf = kiddo + '_trio.vcf.gz'
     filename = '{}/Illumina_WGS_{}_{}.vcf'.format(fam_id, fam_id, chrom)
     # check if already done
