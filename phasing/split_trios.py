@@ -66,8 +66,8 @@ def split_vcf(num):
         # print('Already done with ' + kiddo)
         return 'not_rerun_' + kiddo
     if kiddo not in final_set:
-        print('Should not be here...' + kiddo)
-        return kiddo
+        # need this if since since vcf_done and vcf_exists were archived
+        return 'not_rerun_' + kiddo
     print('Starting ' + kiddo)
     command = 'bcftools view -s ' + kiddo + ',' + mom + ',' + dad
     command += ' -O z -o ' + kiddo + '_trio.vcf.gz /sc/orga/projects/'
