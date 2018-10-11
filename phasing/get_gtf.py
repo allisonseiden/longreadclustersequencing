@@ -16,6 +16,8 @@ source venv_phasing/bin/activate
 
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/
+python
+
 python3 ~/longreadclustersequencing/phasing/get_gtf.py
 Figure out how to get all files in sub-directories with glob
 
@@ -44,7 +46,8 @@ def get_gtf(ID):
 def get_ilmn_vcf_list():
     """Run Whatshap gtf for contiguously phased variants in Illumina data."""
     id_file_list = []
-    for batch_i in ['1', '2', '3']:
+    # '1',
+    for batch_i in ['2', '3']:
         batch_f = 'Batch{}/*'.format(batch_i)
         id_file_list.extend([i for i in glob.iglob(batch_f)])
     ilmn_vcf_list = []
@@ -55,9 +58,9 @@ def get_ilmn_vcf_list():
 
 def get_gtf_ilmn(vcf):
     """Run Whatshap gtf for contiguously phased variants in Illumina data."""
-    gtf_cmd = "whatshap stats --gtf={}.gtf {}".format(vcf[:-4], vcf)
+    gtf_cmd = "time whatshap stats --gtf={}.gtf {}".format(vcf[:-4], vcf)
     print(gtf_cmd)
-    # sp.call(gtf_cmd, shell=True)
+    sp.call(gtf_cmd, shell=True)
     print("Created gtf for " + vcf)
 
 
@@ -65,6 +68,5 @@ if __name__ == '__main__':
     pool = mp.Pool(processes=5)
     # pool.map(get_gtf, patientID)
     ilmn_vcf_list = get_ilmn_vcf_list()
-    print(ilmn_vcf_list)
     print(len(ilmn_vcf_list))
     pool.map(get_gtf_ilmn, ilmn_vcf_list)
