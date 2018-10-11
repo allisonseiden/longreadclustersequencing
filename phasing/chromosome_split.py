@@ -48,7 +48,7 @@ from utils import get_trio_df
 
 
 def clean_files(filename):
-    """Check if intermediate but not final files exist and clean."""
+    """Check if incomplete intermediate files exist, if yes delete."""
     vcf_exists = os.path.exists(filename)
     gz_vcf_exists = os.path.exists(filename + '.gz')
     tbx_exists = os.path.exists(filename + '.gz.tbi')

@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-r"""Split VCF by chromosome.
+r"""Run whatshap with indels per chromosome.
 
 :Authors: Allison Seiden, Felix Richter
 :Date: 2018-08-19
@@ -30,7 +30,6 @@ import os
 import subprocess as sp
 # import multiprocessing as mp
 import argparse
-import re
 # from functools import partial
 
 from utils import get_trio_df, get_batch_pt_ids
@@ -38,18 +37,6 @@ from utils import get_trio_df, get_batch_pt_ids
 
 """ Script 1/2 to run Whatshap with indels flag using Illumina data for first
     5 patient IDs, uses multiprocessing """
-
-
-def check_stderr_stdout(proc):
-    """Check subprocess stderr and stdout to see if job was killed."""
-    print(str(proc.stdout, 'utf-8'))
-    print(str(proc.stderr, 'utf-8'))
-    if re.search('kill', str(proc.stdout), re.IGNORECASE):
-        print(str(proc.stdout))
-        raise RuntimeError('Killed by minerva')
-    if re.search('kill', str(proc.stderr), re.IGNORECASE):
-        print(str(proc.stderr))
-        raise RuntimeError('Killed by minerva')
 
 
 def illumina_whatshap_per_chrom(ID, batch_ct):
@@ -92,40 +79,9 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
             # else:
             continue
         print(command)
-        # instead of just printing a shell command, get STDERR and
-        # STDOUT so that you can check if the job was killed or completed
-        # source: https://stackoverflow.com/a/34873354
-        # proc = sp.run(command, shell=True, stdout=sp.PIPE, stderr=sp.PIPE)
-        # check_stderr_stdout(proc)
         sp.call(command, shell=True)
         print('======Sucessfully ran whatshap for ' + ID + ' on chr ' + str(i))
     sp.call('cd ..', shell=True)
-
-
-"""def illumina_whatshap(ID):
-    ""Run whatshap for illumina data for all chromosomes in a sample.""
-    print('Starting ' + ID)
-    # check if output file already exists
-    if os.path.exists(ID + '_phased.vcf'):
-        print(ID + ' already run or currently running')
-        return ID + '_already_run'
-    vcf_filename = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-                    'PacbioProject/GMKF_TrioVCFs/' + ID + '_trio.vcf.gz')
-    # only run if VCF trio split has completed and is available
-    if not os.path.exists(vcf_filename + '.tbi'):
-        print(ID + ' not ready yet')
-        return ID + '_not_run'
-    bam_filename = ('/sc/orga/projects/chdiTrios/GMKF_WGS_Trios_Dec_' +
-                    '2017/CRAM/Batch3/' + ID + '.cram')
-    ref_genome = '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa'
-    command = ('time whatshap phase --sample={} --ignore-read-groups ' +
-               '--reference {} --indels -o {}_phased.vcf {} {}').format(
-               ID, ref_genome, ID, vcf_filename, bam_filename)
-    print(command)
-    sp.call(command, shell=True)
-    print('======Sucessfully ran whatshap for ' + ID)
-    return ID
-    """
 
 
 if __name__ == '__main__':
