@@ -64,7 +64,7 @@ def remove_incomplete_files(len_dict):
     for f, f_len in len_dict.items():
         if f_len != max_len:
             print('removing {} w length {}'.format(f, f_len))
-            os.remove(f)
+            # os.remove(f)
         else:
             done_files += 1
     print('files kept: {}'.format(done_files))
@@ -145,7 +145,7 @@ if __name__ == '__main__':
     sp.call(cd, shell=True)
     patientID_list = get_batch_pt_ids(batch_ct)
     trio_df = get_trio_df()
-    # check_and_rm_files(patientID_list, trio_df)
-    clean_old_vcfs(patientID_list, trio_df)
+    check_and_rm_files(patientID_list, trio_df)
+    # clean_old_vcfs(patientID_list, trio_df)
 
 #
