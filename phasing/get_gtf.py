@@ -16,10 +16,7 @@ source venv_phasing/bin/activate
 
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/
-python
-
 python3 ~/longreadclustersequencing/phasing/get_gtf.py
-Figure out how to get all files in sub-directories with glob
 
 """
 
@@ -44,7 +41,7 @@ def get_gtf(ID):
 
 
 def get_ilmn_vcf_list():
-    """Run Whatshap gtf for contiguously phased variants in Illumina data."""
+    """Get a list of VCFs that have been phased."""
     id_file_list = []
     # '1',
     for batch_i in ['2', '3']:
