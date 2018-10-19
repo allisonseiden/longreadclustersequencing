@@ -237,7 +237,8 @@ class PhasedData(object):
 
     def fill_bounds_dictionary(self):
         for chr in self.vcf_dfs:
-            self.bounds[chr] = self.search_discon(chr)
+            if chr in self.dnvs:
+                self.bounds[chr] = self.search_discon(chr)
 
         print('---Bounds dictionary created for ' + self.id)
 
@@ -290,7 +291,8 @@ class PhasedData(object):
 
     def find_variants_for_phasing(self, n):
         for chr in self.vcf_dfs:
-            self.to_phase[chr] = self.find_variants_for_phasing_chr(chr, n)
+            if chr in self.dnvs:
+                self.to_phase[chr] = self.find_variants_for_phasing_chr(chr, n)
 
         print('---Variants to phase dictionary created for ' + self.id)
 
