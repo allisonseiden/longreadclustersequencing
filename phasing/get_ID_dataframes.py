@@ -16,6 +16,21 @@ from utils import get_trio_df
 
 patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
               '1-04460', '1-04537', '1-05443', '1-05673', '1-05846']
+batch_i = str(2)
+
+"""Testing
+
+trio_df = get_trio_df()
+ID = '1-05794'
+patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
+whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+                   'PacbioProject/IlluminaWhatshapVCFs/Batch' + batch_i +
+                   '/{}/{}_chr{}_phased')
+
+patient.illumina(whatshap_prefix)
+
+
+"""
 
 
 def get_pacbio_dataframes(ID):
@@ -32,33 +47,15 @@ def get_illumina_dataframes(ID):
     patient.illumina(whatshap_prefix)
 
 
-# def get_illumina_GMKF2_dataframes(ID):
-"""Get phased de novo variants for Illumina data."""
-# provide trio_df if VCF IDs are not the family IDs
-"""
-from PhasedData import PhasedData
-
-
-trio_df = get_trio_df()
-ID = '1-06149'
-patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
-whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-                   'PacbioProject/IlluminaWhatshapVCFs/Batch2/{}/{}_chr{}_phased')
-
-
-patient.create_vcf_dictionary(whatshap_prefix)
-[i for i in patient.vcf_dfs]
-[i for i in patient.gtf_dfs]
-patient.create_dnvs_dictionary()
-patient.fill_bounds_dictionary()
-patient.find_variants_for_phasing(7)
-patient.assign_to_parent()
-patient.convert_to_dataframe()
-
-
-patient.illumina(whatshap_prefix)
-
-"""
+def get_illumina_GMKF2_dataframes(ID):
+    """Get phased de novo variants for Illumina data."""
+    # provide trio_df if VCF IDs are not the family IDs
+    trio_df = get_trio_df()
+    patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
+    whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+                       'PacbioProject/IlluminaWhatshapVCFs/Batch' + batch_i +
+                       '/{}/{}_chr{}_phased')
+    patient.illumina(whatshap_prefix)
 
 
 if __name__ == '__main__':

@@ -134,6 +134,34 @@ class PhasedData(object):
 
     """
         ------------------------------------------------------------------------
+        Remove incomplete or empty GTFs
+        ------------------------------------------------------------------------
+    """
+
+    def clean_gtf_output(self):
+        gtfs_to_rm = []
+        for chr in self.vcf_dfs:
+            if self.gtf_dfs[chr].empty:
+                gtfs_to_rm.append(chr)
+                continue
+            pt_col = self.vcf_dfs[chr][self.id]
+            phased_vars = ((pt_col.str.startswith('0|1')) |
+                           (pt_col.str.startswith('1|0')))
+            phased_df = self.vcf_dfs[chr][phased_vars]
+            last_el_gtf = self.gtf_dfs[chr].iloc[-1]['End']
+            last_el_vcf = phased_df.iloc[-1]['POS']
+            if last_el_gtf != last_el_vcf:
+                gtfs_to_rm.append(chr)
+        for chr in gtfs_to_rm:
+            whatshap_gtf = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+                            'PacbioProject/IlluminaWhatshapVCFs/Batch2' +
+                            '/{}/{}_{}_phased.gtf').format(
+                            self.vcf_id, self.id, chr)
+            os.remove(whatshap_gtf)
+
+
+    """
+        ------------------------------------------------------------------------
         Method to fill dnvs dictionary from BED file
         ------------------------------------------------------------------------
     """
@@ -433,6 +461,8 @@ class PhasedData(object):
     """
     def illumina(self, whatshap_prefix):
         self.create_vcf_dictionary(whatshap_prefix)
+        # only for Illumina GMKF (to check if analysis is done)
+        self.clean_gtf_output()
         self.create_dnvs_dictionary()
         self.fill_bounds_dictionary()
         self.find_variants_for_phasing(7)

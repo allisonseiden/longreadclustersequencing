@@ -5,19 +5,21 @@ import pybedtools
 """ Program to analyze phasing information given through Whatshap and parent
     assignment code """
 
-
+home_dir = '/hpc/users/seidea02/'
 patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389', '1-04460',
                 '1-04537', '1-05443', '1-05673', '1-05846'];
 bed_list = [];
 parent_df_list = [];
 
+patientIDs = ['1-05794']
+home_dir = '/hpc/users/richtf01/'
 
 # Create lists of pandas dataframes for BED files, Pacbio dataframes, and
 # Illumina dataframes for all patient IDs
 for ID in patientIDs:
-    bed_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/data/' + ID + '_dnv.bed',
+    bed_list.append(pd.read_table(home_dir + 'longreadclustersequencing/data/' + ID + '_dnv.bed',
                                 sep='\t', names = ['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
-    parent_df_list.append(pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/pacbio_dataframes/' + ID + '_dataframe.txt',
+    parent_df_list.append(pd.read_table(home_dir + 'longreadclustersequencing/phasing_analysis/pacbio_dataframes/' + ID + '_dataframe.txt',
                                 sep='\t'));
 
 
@@ -86,7 +88,7 @@ temp_one_df.set_index(['Location'], append=True, inplace=True);
 # Find CpG regions
 cpg_bed_list = [];
 for ID in patientIDs:
-    cpg_bed = pd.read_table('/hpc/users/seidea02/longreadclustersequencing/phasing_analysis/get_fasta_bed/' + ID + '_tri.dnv.bed',
+    cpg_bed = pd.read_table(home_dir + 'longreadclustersequencing/phasing_analysis/get_fasta_bed/' + ID + '_tri.dnv.bed',
                                         sep=':|-|\t', names=['Chrom', 'Start', 'End', 'Tri_Nucleotide'], engine='python');
     cpg_id = [];
     for elem in cpg_bed['Chrom']:
@@ -117,7 +119,7 @@ temp_two_df = temp_one_df.join(cpg_df, how='left');
 # from UCSC Genome Browser
 dnv_bed_list = [];
 for ID in patientIDs:
-    dnv_bed = pybedtools.BedTool('/hpc/users/seidea02/longreadclustersequencing/data/' + ID + '_dnv.bed');
+    dnv_bed = pybedtools.BedTool(home_dir + 'longreadclustersequencing/data/' + ID + '_dnv.bed');
     dnv_bed.intersect('CpG_islands.bed').saveas('CpG_islands/CpG_islands_' + ID + '.bed');
     dnv_bed_list.append(pd.read_table('CpG_islands/CpG_islands_' + ID + '.bed', sep='\t',
                         names=['Chrom', 'Start', 'Location', 'Ref', 'Alt', 'ID']));
