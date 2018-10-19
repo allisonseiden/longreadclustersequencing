@@ -29,3 +29,14 @@ def get_batch_pt_ids(batch_ct):
                        names=['ID'])
     patientID = df['ID'].tolist()
     return patientID
+
+
+def get_done_files():
+    """Get list of files completed."""
+    done_list = []
+    log_f_loc = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+                 'PacbioProject/IlluminaWhatshapVCFs/vcf_cleaning_tracker.txt')
+    with open(log_f_loc, 'r') as log_f:
+        for line in log_f:
+            done_list.append(line.strip())
+    return done_list

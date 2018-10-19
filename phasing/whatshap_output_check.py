@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-r"""Check whatshap output length, then filter for only lines with vars in ID
+r"""Check whatshap output length, then filter for only lines with vars in ID.
 
 :Authors: Allison Seiden, Felix Richter
 :Date: 2018-08-19
@@ -27,7 +27,7 @@ import argparse
 import subprocess as sp
 import os
 
-from utils import get_batch_pt_ids, get_trio_df
+from utils import get_batch_pt_ids, get_trio_df, get_done_files
 
 # def mapcount(filename):
 #     """Source: https://stackoverflow.com/a/850962"""
@@ -81,6 +81,8 @@ def check_and_rm_files(patientID_list, trio_df):
             fam_id = trio_df.loc[
                 trio_df.Child == ID]['Fam_ID'].to_string(index=False)
             phase_f = '{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)
+            if phase_f in done_list:
+                continue
             if os.path.isfile(phase_f):
                 print(phase_f)
                 len_dict[phase_f] = rawgencount(phase_f)
@@ -146,7 +148,10 @@ if __name__ == '__main__':
     sp.call(cd, shell=True)
     patientID_list = get_batch_pt_ids(batch_ct)
     trio_df = get_trio_df()
-    check_and_rm_files(patientID_list, trio_df)
+    done_list = get_done_files()
+    patientID_list = ['1-05794']
+    # Batch2/CG0012-6043/1-05794 to test done_list
+    check_and_rm_files(patientID_list, trio_df, done_list)
     # clean_old_vcfs(patientID_list, trio_df)
 
 #

@@ -54,7 +54,7 @@ class PhasedData(object):
             self.vcf_id = self.id
             self.vcf_id_mom = self.mom
             self.vcf_id_dad = self.dad
-        dnv_f = '{}longreadclustersequencing/data/{}_dnv.bed'.format(
+        dnv_f = '{}longreadclustersequencing/data/gmkf2/{}_dnv.bed'.format(
             home_dir, self.id)
         dnv_cols = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']
         self.bed = pd.read_table(dnv_f, sep='\t', names=dnv_cols)
