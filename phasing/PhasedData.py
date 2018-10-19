@@ -89,14 +89,8 @@ class PhasedData(object):
                 # Switch to break once program works: only want to run
                 # analyses if all data is ready
                 continue
-            self.vcf_dfs["chr{0}".format(i)] = pd.read_table(
-                whatshap_vcf, sep='\t', names=vcf_cols, comment='#')
-            # for compatibility, replace vcf_ids with ids
-            # rename format is old_name:new_name
-            self.vcf_dfs["chr{0}".format(i)].rename(
-                columns={self.vcf_id: self.id, self.vcf_id_mom: self.mom,
-                         self.vcf_id_dad: self.dad},
-                inplace=True)
+            else:
+                print('Loading {}...'.format(whatshap_vcf))
             whatshap_gtf = whatshap_prefix.format(
                 self.vcf_id, self.id, num) + '.gtf'
             gtf_cols = ['Chrom', 'Allison', 'Start', 'End', 'Felix',
@@ -106,6 +100,14 @@ class PhasedData(object):
                 # Switch to break once program works: only want to run
                 # analyses if all data is ready
                 continue
+            self.vcf_dfs["chr{0}".format(i)] = pd.read_table(
+                whatshap_vcf, sep='\t', names=vcf_cols, comment='#')
+            # for compatibility, replace vcf_ids with ids
+            # rename format is old_name:new_name
+            self.vcf_dfs["chr{0}".format(i)].rename(
+                columns={self.vcf_id: self.id, self.vcf_id_mom: self.mom,
+                         self.vcf_id_dad: self.dad},
+                inplace=True)
             self.gtf_dfs["chr{0}".format(i)] = pd.read_table(
                 whatshap_gtf, sep='\t', names=gtf_cols)
         print('---VCF and GTF dictionaries created for ' + self.id)
@@ -206,7 +208,7 @@ class PhasedData(object):
     """
 
     def fill_bounds_dictionary(self):
-        for chr in self.dnvs:
+        for chr in self.vcf_dfs:
             self.bounds[chr] = self.search_discon(chr)
 
         print('---Bounds dictionary created for ' + self.id)

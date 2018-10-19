@@ -40,18 +40,22 @@ trio_df = get_trio_df()
 ID = '1-06149'
 from PhasedData import PhasedData
 patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
-patient.bed.head()
 whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-                   'PacbioProject/IlluminaWhatshapVCFs/{}/{}_chr{}_phased')
+                   'PacbioProject/IlluminaWhatshapVCFs/Batch2/{}/{}_chr{}_phased')
 
-patient.illumina(whatshap_prefix)
 
 patient.create_vcf_dictionary(whatshap_prefix)
+patient.vcf_dfs
+patient.gtf_dfs
+[i for i in patient.vcf_dfs]
 patient.create_dnvs_dictionary()
-self.fill_bounds_dictionary()
-self.find_variants_for_phasing(7)
-self.assign_to_parent()
-self.convert_to_dataframe()
+patient.fill_bounds_dictionary()
+patient.find_variants_for_phasing(7)
+patient.assign_to_parent()
+patient.convert_to_dataframe()
+
+
+patient.illumina(whatshap_prefix)
 
 """
 
