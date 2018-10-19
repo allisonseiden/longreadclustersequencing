@@ -36,18 +36,19 @@ def get_illumina_dataframes(ID):
 """Get phased de novo variants for Illumina data."""
 # provide trio_df if VCF IDs are not the family IDs
 """
+from PhasedData import PhasedData
+
+
 trio_df = get_trio_df()
 ID = '1-06149'
-from PhasedData import PhasedData
 patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
 whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                    'PacbioProject/IlluminaWhatshapVCFs/Batch2/{}/{}_chr{}_phased')
 
 
 patient.create_vcf_dictionary(whatshap_prefix)
-patient.vcf_dfs
-patient.gtf_dfs
 [i for i in patient.vcf_dfs]
+[i for i in patient.gtf_dfs]
 patient.create_dnvs_dictionary()
 patient.fill_bounds_dictionary()
 patient.find_variants_for_phasing(7)

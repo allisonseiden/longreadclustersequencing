@@ -261,7 +261,7 @@ class PhasedData(object):
     """
 
     def find_variants_for_phasing(self, n):
-        for chr in self.dnvs:
+        for chr in self.vcf_dfs:
             self.to_phase[chr] = self.find_variants_for_phasing_chr(chr, n)
 
         print('---Variants to phase dictionary created for ' + self.id)
