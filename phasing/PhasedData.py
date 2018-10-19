@@ -80,7 +80,7 @@ class PhasedData(object):
         for i in range(1, 23):
             num = str(i)
             whatshap_vcf = whatshap_prefix.format(
-                self.vcf_id, self.fam_id, num) + '.vcf'
+                self.vcf_id, self.id, num) + '.vcf'
             vcf_cols = ['CHROM', 'POS', 'ID', 'REF',
                         'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
                         self.vcf_id, self.vcf_id_mom, self.vcf_id_dad]
@@ -91,14 +91,14 @@ class PhasedData(object):
                 continue
             self.vcf_dfs["chr{0}".format(i)] = pd.read_table(
                 whatshap_vcf, sep='\t', names=vcf_cols, comment='#')
-            # for compatibility, replace vcf_ids with fam_ids
+            # for compatibility, replace vcf_ids with ids
             # rename format is old_name:new_name
             self.vcf_dfs["chr{0}".format(i)].rename(
                 columns={self.vcf_id: self.id, self.vcf_id_mom: self.mom,
                          self.vcf_id_dad: self.dad},
                 inplace=True)
             whatshap_gtf = whatshap_prefix.format(
-                self.vcf_id, self.fam_id, num) + '.gtf'
+                self.vcf_id, self.id, num) + '.gtf'
             gtf_cols = ['Chrom', 'Allison', 'Start', 'End', 'Felix',
                         'Plus', 'Dot', 'Madeline']
             if not os.path.exists(whatshap_gtf):

@@ -5,6 +5,7 @@ Whatshap software (without indels flag)
 module purge
 module load python/3.5.0 py_packages/3.5
 cd /hpc/users/richtf01/longreadclustersequencing/phasing
+python3
 
 """
 
@@ -39,6 +40,7 @@ trio_df = get_trio_df()
 ID = '1-06149'
 from PhasedData import PhasedData
 patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
+patient.bed.head()
 whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                    'PacbioProject/IlluminaWhatshapVCFs/{}/{}_chr{}_phased')
 
