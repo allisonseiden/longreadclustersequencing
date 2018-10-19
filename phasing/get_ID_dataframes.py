@@ -38,7 +38,7 @@ def get_illumina_dataframes(ID):
 trio_df = get_trio_df()
 ID = '1-06149'
 from PhasedData import PhasedData
-patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
+patient = PhasedData(fam_id=ID, trio_df=trio_df, home_dir='/hpc/users/richtf01/')
 whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                    'PacbioProject/IlluminaWhatshapVCFs/{}/{}_chr{}_phased')
 patient.illumina(whatshap_prefix)

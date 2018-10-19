@@ -38,7 +38,7 @@ import pandas as pd
 # import numpy as np
 
 
-class PhasedData:
+class PhasedData(object):
     def __init__(self, fam_id, trio_df=None, home_dir='/hpc/users/seidea02/'):
         self.id = fam_id
         self.mom = fam_id + '-01'
