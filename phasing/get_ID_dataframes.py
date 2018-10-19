@@ -4,6 +4,7 @@ Whatshap software (without indels flag)
 
 module purge
 module load python/3.5.0 py_packages/3.5
+cd ~/longreadclustersequencing/phasing/
 
 """
 
@@ -30,14 +31,15 @@ def get_illumina_dataframes(ID):
     patient.illumina(whatshap_prefix)
 
 
-def get_illumina_GMKF2_dataframes(ID):
-    """Get phased de novo variants for Illumina data."""
-    # provide trio_df if VCF IDs are not the family IDs
-    trio_df = get_trio_df()
-    patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
-    whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-                       'PacbioProject/IlluminaWhatshapVCFs/{}/{}_chr{}_phased')
-    patient.illumina(whatshap_prefix)
+# def get_illumina_GMKF2_dataframes(ID):
+"""Get phased de novo variants for Illumina data."""
+# provide trio_df if VCF IDs are not the family IDs
+trio_df = get_trio_df()
+ID = '1-06149'
+patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
+whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+                   'PacbioProject/IlluminaWhatshapVCFs/{}/{}_chr{}_phased')
+patient.illumina(whatshap_prefix)
 
 
 if __name__ == '__main__':
