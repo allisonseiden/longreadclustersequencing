@@ -44,9 +44,6 @@ class PhasedData(object):
         self.mom = fam_id + '-01'
         self.dad = fam_id + '-02'
         # if WGS VCF ID is different from family ID fill it in here
-        print(fam_id)
-        print(trio_df)
-        print(trio_df.head())
         if trio_df is not None:
             trio_df_id_row = trio_df.loc[trio_df.Fam_ID == fam_id]
             self.vcf_id = trio_df_id_row['Child'].to_string(index=False)

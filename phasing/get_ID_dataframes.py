@@ -4,7 +4,7 @@ Whatshap software (without indels flag)
 
 module purge
 module load python/3.5.0 py_packages/3.5
-cd ~/longreadclustersequencing/phasing/
+cd /hpc/users/richtf01/longreadclustersequencing/phasing
 
 """
 
@@ -38,10 +38,19 @@ def get_illumina_dataframes(ID):
 trio_df = get_trio_df()
 ID = '1-06149'
 from PhasedData import PhasedData
-patient = PhasedData(fam_id=ID, trio_df=trio_df, home_dir='/hpc/users/richtf01/')
+patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
 whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                    'PacbioProject/IlluminaWhatshapVCFs/{}/{}_chr{}_phased')
+
 patient.illumina(whatshap_prefix)
+
+patient.create_vcf_dictionary(whatshap_prefix)
+patient.create_dnvs_dictionary()
+self.fill_bounds_dictionary()
+self.find_variants_for_phasing(7)
+self.assign_to_parent()
+self.convert_to_dataframe()
+
 """
 
 
