@@ -9,15 +9,21 @@ python3
 
 """
 
-from PhasedData import PhasedData
 import multiprocessing as mp
-from utils import get_trio_df
+import re
+
+from PhasedData import PhasedData
+from utils import get_trio_df, get_done_files
 
 
 # patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
 #               '1-04460', '1-04537', '1-05443', '1-05673', '1-05846']
 batch_i = str(2)
 patientIDs = ['1-06149', '1-05794', '1-05935', '1-05860', '1-05423']
+done_list = get_done_files()
+patientIDs = list(set([re.sub('.*_fullphased/|_chr.*', '', i)
+                       for i in done_list[1:]]))
+patientIDs.remove('1-05679')
 
 """Testing
 
@@ -29,6 +35,9 @@ whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                    '/{}/{}_chr{}_phased')
 
 patient.illumina(whatshap_prefix)
+
+pool = mp.Pool(processes=3)
+pool.map(get_illumina_GMKF2_dataframes, patientIDs)
 
 
 """
