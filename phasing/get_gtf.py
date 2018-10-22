@@ -69,7 +69,7 @@ def get_gtf_ilmn(vcf):
     gtf_cmd = 'time whatshap stats --gtf={}.gtf {}'.format(vcf[:-4], vcf)
     if not os.path.exists(vcf[:-4] + '.gtf'):
         print(gtf_cmd)
-        # sp.call(gtf_cmd, shell=True)
+        sp.call(gtf_cmd, shell=True)
         print('Created gtf for ' + vcf)
     else:
         print('GTF already done for ' + vcf)
