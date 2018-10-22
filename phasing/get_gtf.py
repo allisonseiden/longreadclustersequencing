@@ -24,6 +24,7 @@ import subprocess as sp
 import multiprocessing as mp
 import glob
 import os
+import re
 
 from utils import get_done_files
 
@@ -32,6 +33,7 @@ from utils import get_done_files
 patientID = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
              '1-04460', '1-04537', '1-05673', '1-05846']
 done_list = get_done_files()
+done_list = [re.sub('.*_fullphased/', '', i) for i in done_list]
 
 
 def get_gtf(ID):
@@ -62,8 +64,8 @@ def get_ilmn_vcf_list():
 
 def get_gtf_ilmn(vcf):
     """Run Whatshap gtf for contiguously phased variants in Illumina data."""
-    if not (vcf in done_list):
-        return None
+    # if not (vcf in done_list):
+    #     return None
     gtf_cmd = 'time whatshap stats --gtf={}.gtf {}'.format(vcf[:-4], vcf)
     if not os.path.exists(vcf[:-4] + '.gtf'):
         print(gtf_cmd)
@@ -78,4 +80,7 @@ if __name__ == '__main__':
     # pool.map(get_gtf, patientID)
     ilmn_vcf_list = get_ilmn_vcf_list()
     print(len(ilmn_vcf_list))
-    _ = pool.map(get_gtf_ilmn, ilmn_vcf_list)
+    ilmn_vcf_list_sub = []
+    for done_f in done_list:
+        ilmn_vcf_list_sub.extend([i for i in ilmn_vcf_list if done_f in i])
+    _ = pool.map(get_gtf_ilmn, ilmn_vcf_list_sub)
