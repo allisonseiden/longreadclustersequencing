@@ -25,10 +25,13 @@ import multiprocessing as mp
 import glob
 import os
 
+from utils import get_done_files
+
 # Script to get gtf files for all chromosomes for all IDs using multiprocessing
 
 patientID = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
              '1-04460', '1-04537', '1-05673', '1-05846']
+done_list = get_done_files()
 
 
 def get_gtf(ID):
@@ -59,10 +62,12 @@ def get_ilmn_vcf_list():
 
 def get_gtf_ilmn(vcf):
     """Run Whatshap gtf for contiguously phased variants in Illumina data."""
+    if not (vcf in done_list):
+        return None
     gtf_cmd = 'time whatshap stats --gtf={}.gtf {}'.format(vcf[:-4], vcf)
     if not os.path.exists(vcf[:-4] + '.gtf'):
         print(gtf_cmd)
-        sp.call(gtf_cmd, shell=True)
+        # sp.call(gtf_cmd, shell=True)
         print('Created gtf for ' + vcf)
     else:
         print('GTF already done for ' + vcf)
@@ -73,4 +78,4 @@ if __name__ == '__main__':
     # pool.map(get_gtf, patientID)
     ilmn_vcf_list = get_ilmn_vcf_list()
     print(len(ilmn_vcf_list))
-    pool.map(get_gtf_ilmn, ilmn_vcf_list)
+    _ = pool.map(get_gtf_ilmn, ilmn_vcf_list)
