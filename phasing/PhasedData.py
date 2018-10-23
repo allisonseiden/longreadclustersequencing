@@ -218,7 +218,11 @@ class PhasedData(object):
             # outside the haplotype block is found, ignore unphased indels
             while (curr_vcf['POS'][u_discon] not in start_list) or (hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1):
                 u_discon -= 1
-                hap = curr_vcf[self.id][u_discon]
+                try:
+                    hap = curr_vcf[self.id][u_discon]
+                except KeyError as exc:
+                    print(chromosome, dnv_index, self.id, u_discon)
+                    raise KeyError('Unclear keyerror') from exc
             chr_bounds[dnv].append(curr_vcf['POS'][u_discon])
             hap = curr_vcf[self.id][dnv_index]
             l_discon = dnv_index

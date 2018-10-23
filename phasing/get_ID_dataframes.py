@@ -5,6 +5,7 @@ Whatshap software (without indels flag)
 module purge
 module load python/3.5.0 py_packages/3.5
 cd /hpc/users/richtf01/longreadclustersequencing/phasing
+python3 get_ID_dataframes.py
 python3
 
 """
