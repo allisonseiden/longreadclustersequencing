@@ -67,7 +67,7 @@ def remove_incomplete_files(len_dict):
     for f, f_len in len_dict.items():
         if f_len != max_len:
             print('removing {} w length {}'.format(f, f_len))
-            # os.remove(f)
+            os.remove(f)
         else:
             done_files += 1
     print('files kept: {}'.format(done_files))
