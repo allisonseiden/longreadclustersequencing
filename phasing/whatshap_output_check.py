@@ -13,6 +13,9 @@ module purge
 module load samtools/1.8 bcftools/1.7 tabix
 module load python/3.5.0 py_packages/3.5
 
+cd ~/longreadclustersequencing/phasing/
+python
+
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/Batch2/
 python3 ~/longreadclustersequencing/phasing/whatshap_output_check.py --batch 2
@@ -64,13 +67,13 @@ def remove_incomplete_files(len_dict):
     for f, f_len in len_dict.items():
         if f_len != max_len:
             print('removing {} w length {}'.format(f, f_len))
-            os.remove(f)
+            # os.remove(f)
         else:
             done_files += 1
     print('files kept: {}'.format(done_files))
 
 
-def check_and_rm_files(patientID_list, trio_df):
+def check_and_rm_files(patientID_list, trio_df, done_list):
     """Check file length and remove if not complete."""
     chr_dict = {}
     for i in range(1, 23):
@@ -80,11 +83,13 @@ def check_and_rm_files(patientID_list, trio_df):
         for ID in patientID_list:
             fam_id = trio_df.loc[
                 trio_df.Child == ID]['Fam_ID'].to_string(index=False)
-            phase_f = '{}/{}_chr{}_phased.vcf'.format(ID, fam_id, i)
-            if phase_f in done_list:
+            phase_f = '/{}_chr{}_phased.vcf'.format(fam_id, i)
+            if any([phase_f in i for i in done_list]):
+                print('Already decreased size of ' + phase_f)
                 continue
+            phase_f = ID + phase_f
+            print(phase_f)
             if os.path.isfile(phase_f):
-                print(phase_f)
                 len_dict[phase_f] = rawgencount(phase_f)
                 print(len_dict[phase_f])
                 count += 1
@@ -93,7 +98,12 @@ def check_and_rm_files(patientID_list, trio_df):
             # if count > 5:
             #     break
         print('total files: {}'.format(count))
-        remove_incomplete_files(len_dict)
+        # only remove files if there are enough representative chromosomes
+        # where you think the maximum length is truly the max
+        if len(len_dict) > 5:
+            remove_incomplete_files(len_dict)
+        else:
+            print(len_dict)
 
 
 def clean_old_vcfs(patientID_list, trio_df):
@@ -143,15 +153,28 @@ if __name__ == '__main__':
                         choices=[1, 2, 3], help='Pick the batch')
     args = parser.parse_args()
     batch_ct = args.batch
-    cd = ('cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
-          'IlluminaWhatshapVCFs/Batch' + str(batch_ct))
-    sp.call(cd, shell=True)
+    os.chdir('/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
+             'IlluminaWhatshapVCFs/Batch' + str(batch_ct))
     patientID_list = get_batch_pt_ids(batch_ct)
     trio_df = get_trio_df()
     done_list = get_done_files()
-    patientID_list = ['1-05794']
     # Batch2/CG0012-6043/1-05794 to test done_list
     check_and_rm_files(patientID_list, trio_df, done_list)
     # clean_old_vcfs(patientID_list, trio_df)
 
+"""Testing
+
+batch_ct = 2
+os.chdir('/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
+         'IlluminaWhatshapVCFs/Batch' + str(batch_ct))
+patientID_list = get_batch_pt_ids(batch_ct)
+trio_df = get_trio_df()
+done_list = get_done_files()
+patientID_list = [i for i in patientID_list if i is '1-05794']
+patientID_list = [trio_df[trio_df.Fam_ID == '1-05794']
+                  ['Child'].to_string(index=False)]
+# Batch2/CG0012-6043/1-05794 to test done_list
+check_and_rm_files(patientID_list, trio_df, done_list)
+# clean_old_vcfs(patientID_list, trio_df)
+"""
 #
