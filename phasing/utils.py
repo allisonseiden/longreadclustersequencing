@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Functions called in multiple files
+"""Functions called in multiple files.
 
 :Authors: Allison Seiden, Felix Richter
 :Date: 2018-08-19

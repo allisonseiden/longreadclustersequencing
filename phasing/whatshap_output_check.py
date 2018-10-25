@@ -21,6 +21,10 @@ cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/Batch3/
 python3 ~/longreadclustersequencing/phasing/whatshap_output_check.py --batch 3
 
+cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
+IlluminaWhatshapVCFs/Batch1/
+python3 ~/longreadclustersequencing/phasing/whatshap_output_check.py --batch 1
+
 cd ~/longreadclustersequencing/phasing/
 python
 
