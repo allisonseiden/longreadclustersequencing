@@ -1,12 +1,12 @@
-#BSUB -W 2:00
-#BSUB -q expressalloc
+#BSUB -W 3:00
+#BSUB -q premium
 #BUSB -n 2
 #BSUB -R "rusage[mem=50000]"
-#BSUB -P acc_chdiTrios
-#BSUB -J whatshap_b2_10_25
+#BSUB -P acc_schade01a
+#BSUB -J whatshap_b2_11_01
 #BSUB -m mothra
-#BSUB -o whatshap_b2_10_25.stdout
-#BSUB -e whatshap_b2_10_25.stderr
+#BSUB -o whatshap_b2_11_01.stdout
+#BSUB -e whatshap_b2_11_01.stderr
 
 
 # submit with this command: 
