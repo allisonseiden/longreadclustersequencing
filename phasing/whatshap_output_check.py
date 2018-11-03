@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-r"""Check whatshap output length, then filter for only lines with vars in ID.
+r"""Check whatshap output length and delete if not consistent.
 
 :Authors: Allison Seiden, Felix Richter
 :Date: 2018-08-19
@@ -118,7 +118,8 @@ def clean_old_vcfs(patientID_list, trio_df):
     for ID in patientID_list:
         fam_id = trio_df.loc[
             trio_df.Child == ID]['Fam_ID'].to_string(index=False)
-        new_dir = '{}/split_chr_done_2018_09_26/{}/'.format(vcf_dir, fam_id)
+        # split_chr_done_2018_09_26
+        new_dir = '{}/split_chr_done_2018_11_03/{}/'.format(vcf_dir, fam_id)
         dir_cmd = 'mkdir -p ' + new_dir
         print(dir_cmd)
         sp.call(dir_cmd, shell=True)
@@ -163,8 +164,8 @@ if __name__ == '__main__':
     trio_df = get_trio_df()
     done_list = get_done_files()
     # Batch2/CG0012-6043/1-05794 to test done_list
-    check_and_rm_files(patientID_list, trio_df, done_list)
-    # clean_old_vcfs(patientID_list, trio_df)
+    # check_and_rm_files(patientID_list, trio_df, done_list)
+    clean_old_vcfs(patientID_list, trio_df)
 
 """Testing
 

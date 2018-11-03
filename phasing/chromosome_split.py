@@ -115,11 +115,12 @@ if __name__ == '__main__':
         # pool = mp.Pool(processes=5)
         print(chr_done)
         # chr_done = pool.map(split_compress_index_partial, contigs)
-        # not_rerun_chr_list = [i for i in chr_done if 'not_rerun_' in i]
-        # if len(not_rerun_chr_list) == 24:
-        #     mv_cmd = 'mv {}_trio.vcf.g* done_2018_09_26/'.format(kiddo)
-        #     print(mv_cmd)
-        #     sp.call(mv_cmd, shell=True)
+        not_rerun_chr_list = [i for i in chr_done if 'not_rerun_' in i]
+        if len(not_rerun_chr_list) == 24:
+            # done_2018_09_26
+            mv_cmd = 'mv {}_trio.vcf.g* done_2018_11_03/'.format(kiddo)
+            print(mv_cmd)
+            sp.call(mv_cmd, shell=True)
         # free up memory pool,
         del kiddo, fam_id, contigs, chr_done
         gc.collect()
