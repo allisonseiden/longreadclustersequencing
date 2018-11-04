@@ -164,7 +164,7 @@ if __name__ == '__main__':
     trio_df = get_trio_df()
     done_list = get_done_files()
     # Batch2/CG0012-6043/1-05794 to test done_list
-    # check_and_rm_files(patientID_list, trio_df, done_list)
+    check_and_rm_files(patientID_list, trio_df, done_list)
     clean_old_vcfs(patientID_list, trio_df)
 
 """Testing
