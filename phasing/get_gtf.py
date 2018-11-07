@@ -24,16 +24,16 @@ import subprocess as sp
 import multiprocessing as mp
 import glob
 import os
-import re
+# import re
 
 from utils import get_done_files
 
 # Script to get gtf files for all chromosomes for all IDs using multiprocessing
 
-patientID = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
-             '1-04460', '1-04537', '1-05673', '1-05846']
+# patientID = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
+#              '1-04460', '1-04537', '1-05673', '1-05846']
 done_list = get_done_files()
-done_list = [re.sub('.*_fullphased/', '', i) for i in done_list]
+# done_list = [re.sub('.*_fullphased/', '', i) for i in done_list]
 
 
 def get_gtf(ID):
