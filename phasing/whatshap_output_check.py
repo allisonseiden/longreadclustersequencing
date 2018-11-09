@@ -68,6 +68,9 @@ def remove_incomplete_files(len_dict):
     print('max length:')
     print(max_len)
     done_files = 0
+    # always remove zero-length files
+    if max_len == 0:
+        max_len = 1
     for f, f_len in len_dict.items():
         if f_len != max_len:
             print('removing {} w length {}'.format(f, f_len))
@@ -92,8 +95,8 @@ def check_and_rm_files(patientID_list, trio_df, done_list):
                 print('Already decreased size of ' + phase_f)
                 continue
             phase_f = ID + phase_f
-            print(phase_f)
             if os.path.isfile(phase_f):
+                print(phase_f)
                 len_dict[phase_f] = rawgencount(phase_f)
                 print(len_dict[phase_f])
                 count += 1
@@ -104,7 +107,7 @@ def check_and_rm_files(patientID_list, trio_df, done_list):
         print('total files: {}'.format(count))
         # only remove files if there are enough representative chromosomes
         # where you think the maximum length is truly the max
-        if len(len_dict) > 5:
+        if len(len_dict) > 0:
             remove_incomplete_files(len_dict)
         else:
             print(len_dict)
@@ -169,17 +172,17 @@ if __name__ == '__main__':
 
 """Testing
 
-batch_ct = 2
+batch_ct = 1
 os.chdir('/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
          'IlluminaWhatshapVCFs/Batch' + str(batch_ct))
 patientID_list = get_batch_pt_ids(batch_ct)
 trio_df = get_trio_df()
 done_list = get_done_files()
-patientID_list = [i for i in patientID_list if i is '1-05794']
-patientID_list = [trio_df[trio_df.Fam_ID == '1-05794']
-                  ['Child'].to_string(index=False)]
+# patientID_list = [i for i in patientID_list if i is '1-05794']
+# patientID_list = [trio_df[trio_df.Fam_ID == '1-05794']
+#                   ['Child'].to_string(index=False)]
 # Batch2/CG0012-6043/1-05794 to test done_list
 check_and_rm_files(patientID_list, trio_df, done_list)
-# clean_old_vcfs(patientID_list, trio_df)
+clean_old_vcfs(patientID_list, trio_df)
 """
 #
