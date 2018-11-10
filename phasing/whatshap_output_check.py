@@ -172,7 +172,7 @@ if __name__ == '__main__':
 
 """Testing
 
-batch_ct = 1
+batch_ct = 3
 os.chdir('/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
          'IlluminaWhatshapVCFs/Batch' + str(batch_ct))
 patientID_list = get_batch_pt_ids(batch_ct)
