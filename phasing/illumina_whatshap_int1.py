@@ -62,6 +62,9 @@ def illumina_whatshap_per_chrom(ID, batch_ct):
             continue
         bam_filename = ('/sc/orga/projects/chdiTrios/GMKF_WGS_Trios_Dec_' +
                         '2017/CRAM/Batch{}/{}.cram').format(batch_ct, ID)
+        if not os.path.exists(bam_filename):
+            print('CRAM/BAM does not exist for {}'.format(ID))
+            continue
         command = ('time whatshap phase --sample=' + ID +
                    ' --ignore-read-groups --reference ' +
                    '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa --indels ' +
