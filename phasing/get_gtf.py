@@ -16,7 +16,7 @@ source venv_phasing/bin/activate
 
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/
-python3 ~/longreadclustersequencing/phasing/get_gtf.py
+python3 ~/longreadclustersequencing/phasing/get_gtf.py --batch 1
 
 """
 
@@ -25,6 +25,7 @@ import multiprocessing as mp
 import glob
 import os
 # import re
+import argparse
 
 from utils import get_done_files
 
@@ -49,13 +50,14 @@ def get_gtf(ID):
         print('Created gtf for ' + ID + ' chromosome ' + str(i))
 
 
-def get_ilmn_vcf_list():
+def get_ilmn_vcf_list(batch_ct):
     """Get a list of VCFs that have been phased."""
-    id_file_list = []
-    # '1',
-    for batch_i in ['1', '2', '3']:
-        batch_f = 'Batch{}/*'.format(batch_i)
-        id_file_list.extend([i for i in glob.iglob(batch_f)])
+    # id_file_list = []
+    # for batch_i in ['1', '2', '3']:
+    #     batch_f = 'Batch{}/*'.format(batch_i)
+    #     id_file_list.extend([i for i in glob.iglob(batch_f)])
+    batch_f = 'Batch{}/*'.format(batch_ct)
+    id_file_list = [i for i in glob.iglob(batch_f)]
     ilmn_vcf_list = []
     for id_folder in id_file_list:
         ilmn_vcf_list.extend([i for i in glob.iglob(id_folder + '/*vcf')])
@@ -77,8 +79,13 @@ def get_gtf_ilmn(vcf):
 
 if __name__ == '__main__':
     pool = mp.Pool(processes=5)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--batch', default='1', type=str,
+                        choices=['1', '2', '3'], help='Pick the batch')
+    args = parser.parse_args()
+    batch_ct = args.batch
     # pool.map(get_gtf, patientID)
-    ilmn_vcf_list = get_ilmn_vcf_list()
+    ilmn_vcf_list = get_ilmn_vcf_list(batch_ct)
     print(len(ilmn_vcf_list))
     ilmn_vcf_list_sub = []
     for done_f in done_list:
