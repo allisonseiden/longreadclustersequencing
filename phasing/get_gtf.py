@@ -24,7 +24,7 @@ import subprocess as sp
 import multiprocessing as mp
 import glob
 import os
-# import re
+import re
 import argparse
 
 from utils import get_done_files
@@ -34,7 +34,7 @@ from utils import get_done_files
 # patientID = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
 #              '1-04460', '1-04537', '1-05673', '1-05846']
 done_list = get_done_files()
-# done_list = [re.sub('.*_fullphased/', '', i) for i in done_list]
+done_list = [re.sub('.*_fullphased/', '', i) for i in done_list]
 
 
 def get_gtf(ID):
@@ -84,10 +84,20 @@ if __name__ == '__main__':
                         choices=['1', '2', '3'], help='Pick the batch')
     args = parser.parse_args()
     batch_ct = args.batch
+    batch_ct = '1'
     # pool.map(get_gtf, patientID)
+    os.chdir('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+             'PacbioProject/IlluminaWhatshapVCFs/')
     ilmn_vcf_list = get_ilmn_vcf_list(batch_ct)
     print(len(ilmn_vcf_list))
     ilmn_vcf_list_sub = []
     for done_f in done_list:
         ilmn_vcf_list_sub.extend([i for i in ilmn_vcf_list if done_f in i])
+    print(len(ilmn_vcf_list_sub))
     _ = pool.map(get_gtf_ilmn, ilmn_vcf_list_sub)
+
+
+"""
+get_gtf_ilmn(ilmn_vcf_list_sub[0])
+
+"""
