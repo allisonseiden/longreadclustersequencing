@@ -13,7 +13,7 @@
 # cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 # IlluminaWhatshapVCFs
 # cp ~/longreadclustersequencing/phasing/whatshap_bsub.sh .
-# for i in {1..1000}; do echo $i; bsub < whatshap_bsub.sh; done
+# for i in {1..250}; do echo $i; bsub < whatshap_bsub.sh; done
 
 cd ~
 module purge

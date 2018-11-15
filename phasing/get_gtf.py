@@ -16,7 +16,10 @@ source venv_phasing/bin/activate
 
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/
-python3 ~/longreadclustersequencing/phasing/get_gtf.py --batch 1
+python3 ~/longreadclustersequencing/phasing/get_gtf.py --batch 2
+
+cd ~/longreadclustersequencing/phasing/
+python
 
 """
 
@@ -91,11 +94,30 @@ if __name__ == '__main__':
     ilmn_vcf_list_sub = []
     for done_f in done_list:
         ilmn_vcf_list_sub.extend([i for i in ilmn_vcf_list if done_f in i])
+    # there are some duplicates in done_list
+    ilmn_vcf_list_sub = list(set(ilmn_vcf_list_sub))
     print(len(ilmn_vcf_list_sub))
     _ = pool.map(get_gtf_ilmn, ilmn_vcf_list_sub)
 
 
 """
 get_gtf_ilmn(ilmn_vcf_list_sub[0])
+
+batch_ct = '2'
+pool = mp.Pool(processes=5)
+os.chdir('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+         'PacbioProject/IlluminaWhatshapVCFs/')
+ilmn_vcf_list = get_ilmn_vcf_list(batch_ct)
+print(len(ilmn_vcf_list))
+ilmn_vcf_list_sub = []
+for done_f in done_list:
+    ilmn_vcf_list_sub.extend([i for i in ilmn_vcf_list if done_f in i])
+
+# there are some duplicates in done_list
+ilmn_vcf_list_sub = list(set(ilmn_vcf_list_sub))
+print(len(ilmn_vcf_list_sub))
+
+_ = pool.map(get_gtf_ilmn, ilmn_vcf_list_sub)
+
 
 """
