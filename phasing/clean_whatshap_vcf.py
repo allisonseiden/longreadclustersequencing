@@ -26,6 +26,7 @@ import glob
 import re
 import os
 import subprocess as sp
+import argparse
 # import multiprocessing as mp
 
 from utils import get_done_files
@@ -151,18 +152,29 @@ def process_vcf(vcf):
 #         print('removing', full_vcf_loc)
 
 
-# if __name__ == '__main__':
-#     pool = mp.Pool(processes=5)
-#     # pool.map(get_gtf, patientID)
-#     ilmn_vcf_list = get_ilmn_vcf_list()
-#     print(len(ilmn_vcf_list))
-#     pool.map(process_vcf, ilmn_vcf_list)
+if __name__ == '__main__':
+    os.chdir('/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
+             'IlluminaWhatshapVCFs/')
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--batch', default='1', type=str,
+                        choices=['1', '2', '3'], help='Pick the batch')
+    args = parser.parse_args()
+    batch_ct = args.batch
+    ilmn_vcf_list = get_ilmn_vcf_list(batch_ct)
+    done_list = get_done_files()
+    print(len(ilmn_vcf_list))
+    print(len(done_list))
+    # pool = mp.Pool(processes=5)
+    # clean_list = pool.map(process_vcf, ilmn_vcf_list)
+    for ilmn_vcf in ilmn_vcf_list:
+        print(ilmn_vcf)
+        process_vcf(ilmn_vcf)
 
 
 """
 os.chdir('/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
          'IlluminaWhatshapVCFs/')
-batch_list = ['1', '2', '3'][2]
+batch_list = ['1', '2', '3'][1]
 ilmn_vcf_list = get_ilmn_vcf_list(batch_list)
 done_list = get_done_files()
 print(len(ilmn_vcf_list))

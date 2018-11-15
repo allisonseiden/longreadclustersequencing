@@ -84,8 +84,6 @@ if __name__ == '__main__':
                         choices=['1', '2', '3'], help='Pick the batch')
     args = parser.parse_args()
     batch_ct = args.batch
-    batch_ct = '1'
-    # pool.map(get_gtf, patientID)
     os.chdir('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
              'PacbioProject/IlluminaWhatshapVCFs/')
     ilmn_vcf_list = get_ilmn_vcf_list(batch_ct)
