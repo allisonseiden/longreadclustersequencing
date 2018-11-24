@@ -12,6 +12,7 @@ python3
 
 import multiprocessing as mp
 import re
+import os
 
 from PhasedData import PhasedData
 from utils import get_trio_df, get_done_files, get_batch_pt_ids
@@ -87,6 +88,8 @@ def get_illumina_GMKF2_dataframes(ID):
     # provide trio_df if VCF IDs are not the family IDs
     trio_df = get_trio_df()
     patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
+    if os.path.exists('phased_data/' + patient.id + '_dataframe.txt'):
+        return('already_done_' + patient.id)
     home_dir = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                 'PacbioProject/IlluminaWhatshapVCFs/')
     whatshap_prefix = (home_dir + 'Batch' + batch_i +
@@ -96,6 +99,7 @@ def get_illumina_GMKF2_dataframes(ID):
         patient.vcfs_todo, '{}vcfs_todo_b{}.txt'.format(home_dir, batch_i))
     write_missing_data(
         patient.gtfs_todo, '{}gtfs_todo{}.txt'.format(home_dir, batch_i))
+    return patient.id
 
 
 if __name__ == '__main__':
