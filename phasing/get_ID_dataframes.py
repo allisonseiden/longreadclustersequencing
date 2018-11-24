@@ -14,6 +14,7 @@ import multiprocessing as mp
 import re
 import os
 from functools import partial
+import argparse
 
 
 from PhasedData import PhasedData
@@ -41,6 +42,8 @@ def get_patient_ids(batch_i):
     patientIDs = [i for i in patientIDs if i in b_fam_id_list]
     print(len(patientIDs))
     # patientIDs.remove('1-05679')
+    patientIDs.remove('1-04891')
+    # KeyError: 175492 on line 244: hap = curr_vcf[self.id][l_discon]
     return patientIDs
 
 
@@ -88,20 +91,24 @@ def get_illumina_GMKF2_dataframes(ID, batch_i):
 
 if __name__ == '__main__':
     pool = mp.Pool(processes=5)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--batch', default='1', type=str,
+                        choices=['1', '2', '3'], help='Pick the batch')
+    args = parser.parse_args()
+    batch_ct = args.batch
     # comment out the one which you're not using at the moment, only call one
     # of these at a time
     # pool.map(get_pacbio_dataframes, patientIDs)
     # pool.map(get_illumina_dataframes, patientIDs)
-    batch_i = str(3)
-    patientIDs = get_patient_ids(batch_i)
+    patientIDs = get_patient_ids(batch_ct)
     get_illumina_GMKF2_dataframes_partial = partial(
-        get_illumina_GMKF2_dataframes, batch_i)
+        get_illumina_GMKF2_dataframes, batch_ct)
     pool.map(get_illumina_GMKF2_dataframes, patientIDs)
 
 
 """Testing
 
-batch_i = str(3)
+batch_i = str(2)
 patientIDs = get_patient_ids(batch_i)
 patientIDs[0]
 get_illumina_GMKF2_dataframes(patientIDs[0], batch_i)
