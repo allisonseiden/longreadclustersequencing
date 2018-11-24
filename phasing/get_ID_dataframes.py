@@ -5,7 +5,7 @@ Whatshap software (without indels flag)
 module purge
 module load python/3.5.0 py_packages/3.5
 cd /hpc/users/richtf01/longreadclustersequencing/phasing
-python3 get_ID_dataframes.py
+# python3 get_ID_dataframes.py
 python3
 
 """
@@ -20,13 +20,16 @@ from utils import get_trio_df, get_done_files
 # patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
 #               '1-04460', '1-04537', '1-05443', '1-05673', '1-05846']
 batch_i = str(2)
-patientIDs = ['1-06149', '1-05794', '1-05935', '1-05860', '1-05423']
+# patientIDs = ['1-06149', '1-05794', '1-05935', '1-05860', '1-05423']
 done_list = get_done_files()
 patientIDs = list(set([re.sub('.*_fullphased/|_chr.*', '', i)
                        for i in done_list[1:]]))
-patientIDs.remove('1-05679')
+print(len(patientIDs))
+# patientIDs.remove('1-05679')
 
 """Testing
+
+get_illumina_GMKF2_dataframes(patientIDs[0])
 
 trio_df = get_trio_df()
 ID = '1-05794'
@@ -40,8 +43,14 @@ patient.illumina(whatshap_prefix)
 pool = mp.Pool(processes=3)
 pool.map(get_illumina_GMKF2_dataframes, patientIDs)
 
-
 """
+
+
+def write_missing_data(missing_list, missing_f):
+    """Write list of missing files to `missing_f`."""
+    with open(missing_f, 'a') as f:
+        for i in missing_list:
+            _ = f.write(i + '\n')
 
 
 def get_pacbio_dataframes(ID):
@@ -63,10 +72,13 @@ def get_illumina_GMKF2_dataframes(ID):
     # provide trio_df if VCF IDs are not the family IDs
     trio_df = get_trio_df()
     patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
-    whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-                       'PacbioProject/IlluminaWhatshapVCFs/Batch' + batch_i +
+    home_dir = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+                'PacbioProject/IlluminaWhatshapVCFs/')
+    whatshap_prefix = (home_dir + 'Batch' + batch_i +
                        '/{}/{}_chr{}_phased')
     patient.illumina(whatshap_prefix)
+    write_missing_data(patient.vcfs_todo, home_dir + 'vcfs_todo.txt')
+    write_missing_data(patient.gtfs_todo, home_dir + 'gtfs_todo.txt')
 
 
 if __name__ == '__main__':

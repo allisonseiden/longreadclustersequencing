@@ -54,6 +54,10 @@ class PhasedData(object):
             self.vcf_id = self.id
             self.vcf_id_mom = self.mom
             self.vcf_id_dad = self.dad
+        # keep a record of files note yet completed
+        self.vcfs_todo = []
+        self.gtfs_todo = []
+        # prepare variables for DNV phasing (and load DNVs)
         dnv_f = '{}longreadclustersequencing/data/gmkf2/{}_dnv.bed'.format(
             home_dir, self.id)
         dnv_cols = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']
@@ -86,6 +90,7 @@ class PhasedData(object):
                         self.vcf_id, self.vcf_id_mom, self.vcf_id_dad]
             if not os.path.exists(whatshap_vcf):
                 print('Whatshap VCF not yet made for', whatshap_vcf)
+                self.vcfs_todo.append(whatshap_vcf)
                 # Switch to break once program works: only want to run
                 # analyses if all data is ready
                 continue
@@ -97,6 +102,7 @@ class PhasedData(object):
                         'Plus', 'Dot', 'Madeline']
             if not os.path.exists(whatshap_gtf):
                 print('Whatshap GTF not yet made for', whatshap_gtf)
+                self.gtfs_todo.append(whatshap_gtf)
                 # Switch to break once program works: only want to run
                 # analyses if all data is ready
                 continue
@@ -141,15 +147,20 @@ class PhasedData(object):
     def clean_gtf_output(self):
         gtfs_to_rm = []
         for chr in self.vcf_dfs:
+            # check if GTF is empty
             if self.gtf_dfs[chr].empty:
                 gtfs_to_rm.append(chr)
                 continue
+            # find the last phased element in the VCF, compare to the
+            # last element in the GTF
             pt_col = self.vcf_dfs[chr][self.id]
             phased_vars = ((pt_col.str.startswith('0|1')) |
                            (pt_col.str.startswith('1|0')))
             phased_df = self.vcf_dfs[chr][phased_vars]
             last_el_gtf = self.gtf_dfs[chr].iloc[-1]['End']
             last_el_vcf = phased_df.iloc[-1]['POS']
+            # if last phased VCF element is not the last GTF element
+            # Remove GTF
             if last_el_gtf != last_el_vcf:
                 gtfs_to_rm.append(chr)
         for chr in gtfs_to_rm:
@@ -157,6 +168,7 @@ class PhasedData(object):
                             'PacbioProject/IlluminaWhatshapVCFs/Batch2' +
                             '/{}/{}_{}_phased.gtf').format(
                             self.vcf_id, self.id, chr)
+            print('Removing ' + whatshap_gtf)
             os.remove(whatshap_gtf)
 
 
@@ -442,7 +454,9 @@ class PhasedData(object):
         self.parent_df['Unphased'] = unphased
         self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'From Mom',
                                          'From Dad', 'Unphased']]
-        self.parent_df.to_csv(path_or_buf=self.id + '_dataframe.txt', sep='\t',
+        out_f = 'phased_data/' + self.id + '_dataframe.txt'
+        print('Saving to ' + out_f)
+        self.parent_df.to_csv(path_or_buf=out_f, sep='\t',
                               float_format='%g', index=False)
 
     """
@@ -467,7 +481,7 @@ class PhasedData(object):
     """
     def illumina(self, whatshap_prefix):
         self.create_vcf_dictionary(whatshap_prefix)
-        # only for Illumina GMKF (to check if analysis is done)
+        # clean_gtf_output is only for Illumina GMKF (to check if done)
         self.clean_gtf_output()
         self.create_dnvs_dictionary()
         self.fill_bounds_dictionary()

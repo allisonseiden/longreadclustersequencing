@@ -18,7 +18,9 @@ IlluminaWhatshapVCFs/
 cd ~/longreadclustersequencing/phasing
 python3
 
-python3 ~/longreadclustersequencing/phasing/clean_whatshap_vcf.py
+cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
+IlluminaWhatshapVCFs/
+python3 ~/longreadclustersequencing/phasing/clean_whatshap_vcf.py --batch 1
 
 """
 
@@ -174,7 +176,7 @@ if __name__ == '__main__':
 """
 os.chdir('/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
          'IlluminaWhatshapVCFs/')
-batch_list = ['1', '2', '3'][1]
+batch_list = ['1', '2', '3'][0]
 ilmn_vcf_list = get_ilmn_vcf_list(batch_list)
 done_list = get_done_files()
 print(len(ilmn_vcf_list))
