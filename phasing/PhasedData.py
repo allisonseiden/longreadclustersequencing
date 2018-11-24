@@ -169,7 +169,7 @@ class PhasedData(object):
                             '/{}/{}_{}_phased.gtf').format(
                             self.vcf_id, self.id, chr)
             whatshap_gtf = whatshap_prefix.format(
-                self.vcf_id, self.id, chr) + '.gtf'
+                self.vcf_id, self.id, chr[3:]) + '.gtf'
             print('Removing ' + whatshap_gtf)
             os.remove(whatshap_gtf)
 
