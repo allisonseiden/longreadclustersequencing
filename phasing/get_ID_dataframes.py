@@ -101,8 +101,10 @@ if __name__ == '__main__':
 
 """Testing
 
+batch_i = str(3)
+patientIDs = get_patient_ids(batch_i)
 patientIDs[0]
-get_illumina_GMKF2_dataframes(patientIDs[0])
+get_illumina_GMKF2_dataframes(patientIDs[0], batch_i)
 
 trio_df = get_trio_df()
 ID = '1-05794'

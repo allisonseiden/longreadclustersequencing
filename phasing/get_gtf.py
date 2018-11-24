@@ -8,6 +8,13 @@ r"""Run whatshap with indels per chromosome.
 :Copyright: 2018, Allison Seiden
 :License: CC BY-SA
 
+Pipeline overview:
+ - whasthap_bsub.sh (or illumina_whatshap_int1.py)
+ - whasthap_output_check.py
+ - clean_whatshap_vcf.py
+ - get_gtf.py
+ - get_ID_dataframes.py
+
 cd ~
 module purge
 module load samtools/1.8 bcftools/1.7 tabix
@@ -16,7 +23,7 @@ source venv_phasing/bin/activate
 
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/
-python3 ~/longreadclustersequencing/phasing/get_gtf.py --batch 3
+python3 ~/longreadclustersequencing/phasing/get_gtf.py --batch 1
 
 cd ~/longreadclustersequencing/phasing/
 python

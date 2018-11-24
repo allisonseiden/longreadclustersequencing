@@ -8,6 +8,13 @@ r"""Check whatshap output length and delete if not consistent.
 :Copyright: 2018, Allison Seiden
 :License: CC BY-SA
 
+Pipeline overview:
+ - whasthap_bsub.sh (or illumina_whatshap_int1.py)
+ - whasthap_output_check.py
+ - clean_whatshap_vcf.py
+ - get_gtf.py
+ - get_ID_dataframes.py
+
 
 module purge
 module load samtools/1.8 bcftools/1.7 tabix
