@@ -27,7 +27,7 @@ def get_patient_ids(batch_i):
     done_list = get_done_files()
     patientIDs = list(set([re.sub('.*_fullphased/|_chr.*', '', i)
                            for i in done_list[1:]]))
-    print(len(patientIDs))
+    print('Number of patients overall: {}'.format(len(patientIDs)))
     # patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
     #               '1-04460', '1-04537', '1-05443', '1-05673', '1-05846']
     # patientIDs = ['1-06149', '1-05794', '1-05935', '1-05860', '1-05423']
@@ -40,7 +40,7 @@ def get_patient_ids(batch_i):
             trio_df.loc[trio_df.Child == b_id][
                 'Fam_ID'].to_string(index=False))
     patientIDs = [i for i in patientIDs if i in b_fam_id_list]
-    print(len(patientIDs))
+    print('Number of patients in batch: {}'.format(len(patientIDs)))
     # patientIDs.remove('1-05679')
     if '1-04891' in patientIDs:
         patientIDs.remove('1-04891')
@@ -104,7 +104,7 @@ if __name__ == '__main__':
     patientIDs = get_patient_ids(batch_ct)
     get_illumina_GMKF2_dataframes_partial = partial(
         get_illumina_GMKF2_dataframes, batch_ct)
-    pool.map(get_illumina_GMKF2_dataframes, patientIDs)
+    pool.map(get_illumina_GMKF2_dataframes_partial, patientIDs)
 
 
 """Testing
