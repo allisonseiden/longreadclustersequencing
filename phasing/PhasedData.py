@@ -144,7 +144,7 @@ class PhasedData(object):
         ------------------------------------------------------------------------
     """
 
-    def clean_gtf_output(self):
+    def clean_gtf_output(self, whatshap_prefix):
         gtfs_to_rm = []
         for chr in self.vcf_dfs:
             # check if GTF is empty
@@ -168,6 +168,8 @@ class PhasedData(object):
                             'PacbioProject/IlluminaWhatshapVCFs/Batch2' +
                             '/{}/{}_{}_phased.gtf').format(
                             self.vcf_id, self.id, chr)
+            whatshap_gtf = whatshap_prefix.format(
+                self.vcf_id, self.id, chr) + '.gtf'
             print('Removing ' + whatshap_gtf)
             os.remove(whatshap_gtf)
 
@@ -487,7 +489,7 @@ class PhasedData(object):
     def illumina(self, whatshap_prefix):
         self.create_vcf_dictionary(whatshap_prefix)
         # clean_gtf_output is only for Illumina GMKF (to check if done)
-        self.clean_gtf_output()
+        self.clean_gtf_output(whatshap_prefix)
         # self.create_dnvs_dictionary()
         # self.fill_bounds_dictionary()
         # self.find_variants_for_phasing(7)

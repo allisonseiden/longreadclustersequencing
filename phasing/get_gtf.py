@@ -104,7 +104,9 @@ if __name__ == '__main__':
     # there are some duplicates in done_list
     ilmn_vcf_list_sub = list(set(ilmn_vcf_list_sub))
     print(len(ilmn_vcf_list_sub))
-    _ = pool.map(get_gtf_ilmn, ilmn_vcf_list_sub)
+    # _ = pool.map(get_gtf_ilmn, ilmn_vcf_list_sub)
+    for ilmn_vcf in ilmn_vcf_list_sub:
+        get_gtf_ilmn(ilmn_vcf)
 
 
 """
