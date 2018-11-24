@@ -14,21 +14,34 @@ import multiprocessing as mp
 import re
 
 from PhasedData import PhasedData
-from utils import get_trio_df, get_done_files
+from utils import get_trio_df, get_done_files, get_batch_pt_ids
 
-
-# patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
-#               '1-04460', '1-04537', '1-05443', '1-05673', '1-05846']
-batch_i = str(2)
-# patientIDs = ['1-06149', '1-05794', '1-05935', '1-05860', '1-05423']
+# get previously completed IDs
 done_list = get_done_files()
 patientIDs = list(set([re.sub('.*_fullphased/|_chr.*', '', i)
                        for i in done_list[1:]]))
+print(len(patientIDs))
+
+# patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
+#               '1-04460', '1-04537', '1-05443', '1-05673', '1-05846']
+# patientIDs = ['1-06149', '1-05794', '1-05935', '1-05860', '1-05423']
+
+# only keep IDs in a specific batch
+batch_i = str(3)
+b_id_list = get_batch_pt_ids(batch_i)
+b_fam_id_list = []
+trio_df = get_trio_df()
+for b_id in b_id_list:
+    b_fam_id_list.append(
+        trio_df.loc[trio_df.Child == b_id]['Fam_ID'].to_string(index=False))
+
+patientIDs = [i for i in patientIDs if i in b_fam_id_list]
 print(len(patientIDs))
 # patientIDs.remove('1-05679')
 
 """Testing
 
+patientIDs[0]
 get_illumina_GMKF2_dataframes(patientIDs[0])
 
 trio_df = get_trio_df()
@@ -51,6 +64,7 @@ def write_missing_data(missing_list, missing_f):
     with open(missing_f, 'a') as f:
         for i in missing_list:
             _ = f.write(i + '\n')
+    print(_)
 
 
 def get_pacbio_dataframes(ID):
@@ -77,8 +91,10 @@ def get_illumina_GMKF2_dataframes(ID):
     whatshap_prefix = (home_dir + 'Batch' + batch_i +
                        '/{}/{}_chr{}_phased')
     patient.illumina(whatshap_prefix)
-    write_missing_data(patient.vcfs_todo, home_dir + 'vcfs_todo.txt')
-    write_missing_data(patient.gtfs_todo, home_dir + 'gtfs_todo.txt')
+    write_missing_data(
+        patient.vcfs_todo, '{}vcfs_todo_b{}.txt'.format(home_dir, batch_i))
+    write_missing_data(
+        patient.gtfs_todo, '{}gtfs_todo{}.txt'.format(home_dir, batch_i))
 
 
 if __name__ == '__main__':

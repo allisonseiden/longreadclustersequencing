@@ -454,7 +454,12 @@ class PhasedData(object):
         self.parent_df['Unphased'] = unphased
         self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'From Mom',
                                          'From Dad', 'Unphased']]
-        out_f = 'phased_data/' + self.id + '_dataframe.txt'
+        out_f = 'phased_data/' + self.id + '_dataframe{}.txt'
+        # mark as incomplete if not done yet
+        if (len(self.vcfs_todo) > 0) or (len(self.gtfs_todo) > 0):
+            out_f = out_f.format('_incomplete')
+        else:
+            out_f = out_f.format('')
         print('Saving to ' + out_f)
         self.parent_df.to_csv(path_or_buf=out_f, sep='\t',
                               float_format='%g', index=False)
