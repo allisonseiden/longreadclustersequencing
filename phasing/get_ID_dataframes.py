@@ -13,51 +13,35 @@ python3
 import multiprocessing as mp
 import re
 import os
+from functools import partial
+
 
 from PhasedData import PhasedData
 from utils import get_trio_df, get_done_files, get_batch_pt_ids
 
-# get previously completed IDs
-done_list = get_done_files()
-patientIDs = list(set([re.sub('.*_fullphased/|_chr.*', '', i)
-                       for i in done_list[1:]]))
-print(len(patientIDs))
 
-# patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
-#               '1-04460', '1-04537', '1-05443', '1-05673', '1-05846']
-# patientIDs = ['1-06149', '1-05794', '1-05935', '1-05860', '1-05423']
-
-# only keep IDs in a specific batch
-batch_i = str(3)
-b_id_list = get_batch_pt_ids(batch_i)
-b_fam_id_list = []
-trio_df = get_trio_df()
-for b_id in b_id_list:
-    b_fam_id_list.append(
-        trio_df.loc[trio_df.Child == b_id]['Fam_ID'].to_string(index=False))
-
-patientIDs = [i for i in patientIDs if i in b_fam_id_list]
-print(len(patientIDs))
-# patientIDs.remove('1-05679')
-
-"""Testing
-
-patientIDs[0]
-get_illumina_GMKF2_dataframes(patientIDs[0])
-
-trio_df = get_trio_df()
-ID = '1-05794'
-patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
-whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-                   'PacbioProject/IlluminaWhatshapVCFs/Batch' + batch_i +
-                   '/{}/{}_chr{}_phased')
-
-patient.illumina(whatshap_prefix)
-
-pool = mp.Pool(processes=3)
-pool.map(get_illumina_GMKF2_dataframes, patientIDs)
-
-"""
+def get_patient_ids(batch_i):
+    """Get list of patients IDs for DNV phasing."""
+    # get previously completed IDs
+    done_list = get_done_files()
+    patientIDs = list(set([re.sub('.*_fullphased/|_chr.*', '', i)
+                           for i in done_list[1:]]))
+    print(len(patientIDs))
+    # patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
+    #               '1-04460', '1-04537', '1-05443', '1-05673', '1-05846']
+    # patientIDs = ['1-06149', '1-05794', '1-05935', '1-05860', '1-05423']
+    # only keep IDs in a specific batch
+    b_id_list = get_batch_pt_ids(batch_i)
+    b_fam_id_list = []
+    trio_df = get_trio_df()
+    for b_id in b_id_list:
+        b_fam_id_list.append(
+            trio_df.loc[trio_df.Child == b_id][
+                'Fam_ID'].to_string(index=False))
+    patientIDs = [i for i in patientIDs if i in b_fam_id_list]
+    print(len(patientIDs))
+    # patientIDs.remove('1-05679')
+    return patientIDs
 
 
 def write_missing_data(missing_list, missing_f):
@@ -83,13 +67,13 @@ def get_illumina_dataframes(ID):
     patient.illumina(whatshap_prefix)
 
 
-def get_illumina_GMKF2_dataframes(ID):
+def get_illumina_GMKF2_dataframes(ID, batch_i):
     """Get phased de novo variants for Illumina data."""
     # provide trio_df if VCF IDs are not the family IDs
     trio_df = get_trio_df()
     patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
     if os.path.exists('phased_data/' + patient.id + '_dataframe.txt'):
-        return('already_done_' + patient.id)
+        return 'already_done_' + patient.id
     home_dir = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                 'PacbioProject/IlluminaWhatshapVCFs/')
     whatshap_prefix = (home_dir + 'Batch' + batch_i +
@@ -108,4 +92,28 @@ if __name__ == '__main__':
     # of these at a time
     # pool.map(get_pacbio_dataframes, patientIDs)
     # pool.map(get_illumina_dataframes, patientIDs)
+    batch_i = str(3)
+    patientIDs = get_patient_ids(batch_i)
+    get_illumina_GMKF2_dataframes_partial = partial(
+        get_illumina_GMKF2_dataframes, batch_i)
     pool.map(get_illumina_GMKF2_dataframes, patientIDs)
+
+
+"""Testing
+
+patientIDs[0]
+get_illumina_GMKF2_dataframes(patientIDs[0])
+
+trio_df = get_trio_df()
+ID = '1-05794'
+patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
+whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+                   'PacbioProject/IlluminaWhatshapVCFs/Batch' + batch_i +
+                   '/{}/{}_chr{}_phased')
+
+patient.illumina(whatshap_prefix)
+
+pool = mp.Pool(processes=3)
+pool.map(get_illumina_GMKF2_dataframes, patientIDs)
+
+"""
