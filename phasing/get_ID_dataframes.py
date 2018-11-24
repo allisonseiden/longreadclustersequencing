@@ -104,7 +104,7 @@ if __name__ == '__main__':
     patientIDs = get_patient_ids(batch_ct)
     get_illumina_GMKF2_dataframes_partial = partial(
         get_illumina_GMKF2_dataframes, batch_ct)
-    pool.map(get_illumina_GMKF2_dataframes_partial, patientIDs)
+    done_pts = pool.map(get_illumina_GMKF2_dataframes_partial, patientIDs)
 
 
 """Testing
