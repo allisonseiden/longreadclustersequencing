@@ -61,10 +61,11 @@ pool.map(get_illumina_GMKF2_dataframes, patientIDs)
 
 def write_missing_data(missing_list, missing_f):
     """Write list of missing files to `missing_f`."""
-    with open(missing_f, 'a') as f:
-        for i in missing_list:
-            _ = f.write(i + '\n')
-    print(_)
+    if len(missing_list) > 0:
+        with open(missing_f, 'a') as f:
+            for i in missing_list:
+                _ = f.write(i + '\n')
+        print(_)
 
 
 def get_pacbio_dataframes(ID):
