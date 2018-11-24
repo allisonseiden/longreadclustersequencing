@@ -5,8 +5,8 @@ Whatshap software (without indels flag)
 module purge
 module load python/3.5.0 py_packages/3.5
 cd /hpc/users/richtf01/longreadclustersequencing/phasing
-# python3 get_ID_dataframes.py
-python3
+python3 get_ID_dataframes.py --batch 1
+# python3
 
 """
 
@@ -42,8 +42,9 @@ def get_patient_ids(batch_i):
     patientIDs = [i for i in patientIDs if i in b_fam_id_list]
     print(len(patientIDs))
     # patientIDs.remove('1-05679')
-    patientIDs.remove('1-04891')
-    # KeyError: 175492 on line 244: hap = curr_vcf[self.id][l_discon]
+    if '1-04891' in patientIDs:
+        patientIDs.remove('1-04891')
+        # KeyError: 175492 on line 244: hap = curr_vcf[self.id][l_discon]
     return patientIDs
 
 
