@@ -86,7 +86,7 @@ def get_illumina_GMKF2_dataframes(ID, batch_i):
     write_missing_data(
         patient.vcfs_todo, '{}vcfs_todo_b{}.txt'.format(home_dir, batch_i))
     write_missing_data(
-        patient.gtfs_todo, '{}gtfs_todo{}.txt'.format(home_dir, batch_i))
+        patient.gtfs_todo, '{}gtfs_todo_b{}.txt'.format(home_dir, batch_i))
     return patient.id
 
 

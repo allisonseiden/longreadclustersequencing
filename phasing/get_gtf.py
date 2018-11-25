@@ -28,6 +28,11 @@ python3 ~/longreadclustersequencing/phasing/get_gtf.py --batch 1
 cd ~/longreadclustersequencing/phasing/
 python
 
+# make sure these are done:
+/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/IlluminaWhatshapVCFs/Batch2/CG0011-3999/1-05255_chr1_phased.gtf
+/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/IlluminaWhatshapVCFs/Batch2/CG0011-3999/1-05255_chr4_phased.gtf
+/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/IlluminaWhatshapVCFs/Batch2/CG0011-3999/1-05255_chr9_phased.gtf
+
 """
 
 import subprocess as sp

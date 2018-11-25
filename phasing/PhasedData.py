@@ -171,6 +171,7 @@ class PhasedData(object):
             whatshap_gtf = whatshap_prefix.format(
                 self.vcf_id, self.id, chr[3:]) + '.gtf'
             print('Removing ' + whatshap_gtf)
+            self.gtfs_todo.append(whatshap_gtf)
             os.remove(whatshap_gtf)
 
 
