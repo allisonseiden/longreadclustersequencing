@@ -23,7 +23,7 @@ source venv_phasing/bin/activate
 
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/
-python3 ~/longreadclustersequencing/phasing/get_gtf.py --batch 1
+python3 ~/longreadclustersequencing/phasing/get_gtf.py --batch 3
 
 cd ~/longreadclustersequencing/phasing/
 python

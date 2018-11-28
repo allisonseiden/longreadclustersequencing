@@ -5,12 +5,12 @@ Whatshap software (without indels flag)
 module purge
 module load python/3.5.0 py_packages/3.5
 cd /hpc/users/richtf01/longreadclustersequencing/phasing
-python3 get_ID_dataframes.py --batch 1
-# python3
+# python3 get_ID_dataframes.py --batch 1
+python3
 
 """
 
-import multiprocessing as mp
+# import multiprocessing as mp
 import re
 import os
 from functools import partial
@@ -57,6 +57,17 @@ def write_missing_data(missing_list, missing_f):
         print(_)
 
 
+def write_problem_data(batch_ct, problem_pts):
+    """Write list of problematic patients to a file."""
+    key_error_f = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+                   'PacbioProject/IlluminaWhatshapVCFs/keyerror_ids_b{}.txt')
+    # Need to decide if writing or appending
+    with open(key_error_f.format(batch_ct), 'w') as f:
+        for id in problem_pts:
+            _ = f.write(id + '\n')
+        print(_)
+
+
 def get_pacbio_dataframes(ID):
     """Get phased de novo variants for PacBio data."""
     patient = PhasedData(ID)
@@ -77,6 +88,7 @@ def get_illumina_GMKF2_dataframes(ID, batch_i):
     trio_df = get_trio_df()
     patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
     if os.path.exists('phased_data/' + patient.id + '_dataframe.txt'):
+        print('already_done_' + patient.id)
         return 'already_done_' + patient.id
     home_dir = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                 'PacbioProject/IlluminaWhatshapVCFs/')
@@ -91,7 +103,7 @@ def get_illumina_GMKF2_dataframes(ID, batch_i):
 
 
 if __name__ == '__main__':
-    pool = mp.Pool(processes=5)
+    # pool = mp.Pool(processes=5)
     parser = argparse.ArgumentParser()
     parser.add_argument('--batch', default='1', type=str,
                         choices=['1', '2', '3'], help='Pick the batch')
@@ -104,12 +116,50 @@ if __name__ == '__main__':
     patientIDs = get_patient_ids(batch_ct)
     get_illumina_GMKF2_dataframes_partial = partial(
         get_illumina_GMKF2_dataframes, batch_i=batch_ct)
-    done_pts = pool.map(get_illumina_GMKF2_dataframes_partial, patientIDs)
+    done_pts = []
+    problem_pts = []
+    for ptID in patientIDs:
+        print(ptID)
+        try:
+            done_pts.append(get_illumina_GMKF2_dataframes_partial(ptID))
+        except KeyError:
+            print('KeyError occurred with ' + ptID)
+            problem_pts.append(ptID)
+        except ValueError:
+            print('ValueError occurred with ' + ptID)
+            problem_pts.append(ptID)
+            break
+    print(len(problem_pts))
+    print(len(done_pts))
+    write_problem_data(batch_ct, problem_pts)
+    # done_pts = pool.map(get_illumina_GMKF2_dataframes_partial, patientIDs)
 
 
-"""Testing
+"""Testing: figure out when and why the KeyErrors occur
 
-batch_i = str(2)
+batch_ct = '3'
+patientIDs = get_patient_ids(batch_ct)
+get_illumina_GMKF2_dataframes_partial = partial(
+    get_illumina_GMKF2_dataframes, batch_i=batch_ct)
+done_pts = []
+problem_pts = []
+for ptID in patientIDs:
+    print(ptID)
+    try:
+        done_pts.append(get_illumina_GMKF2_dataframes_partial(ptID))
+    except KeyError:
+        print('KeyError occured with ' + ptID)
+        problem_pts.append(ptID)
+
+
+key_error_f = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+               'PacbioProject/IlluminaWhatshapVCFs/keyerror_ids_b{}.txt')
+with open(key_error_f.format(batch_ct), 'w') as f:
+    for id in problem_pts:
+        _ = f.write(id + '\n')
+
+
+batch_i = str(1)
 patientIDs = get_patient_ids(batch_i)
 patientIDs[0]
 get_illumina_GMKF2_dataframes(patientIDs[0], batch_i)
@@ -126,4 +176,6 @@ patient.illumina(whatshap_prefix)
 pool = mp.Pool(processes=3)
 pool.map(get_illumina_GMKF2_dataframes, patientIDs)
 
+# confirm all IDs are accounted for. 1 missing, that's fine
+# 123 + 194 + 38, 356
 """
