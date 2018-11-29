@@ -90,6 +90,10 @@ def get_illumina_GMKF2_dataframes(ID, batch_i):
     if os.path.exists('phased_data/' + patient.id + '_dataframe.txt'):
         print('already_done_' + patient.id)
         return 'already_done_' + patient.id
+    if os.path.exists('phased_data/' + patient.id +
+                      '_dataframe_incomplete.txt'):
+        print('previously_incomplete_' + patient.id)
+        return 'previously_incomplete_' + patient.id
     home_dir = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
                 'PacbioProject/IlluminaWhatshapVCFs/')
     whatshap_prefix = (home_dir + 'Batch' + batch_i +

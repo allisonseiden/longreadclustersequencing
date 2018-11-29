@@ -457,7 +457,9 @@ class PhasedData(object):
         self.parent_df['Unphased'] = unphased
         self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'From Mom',
                                          'From Dad', 'Unphased']]
-        out_f = 'phased_data/' + self.id + '_dataframe{}.txt'
+        # out_f = 'phased_data/' + self.id + '_dataframe{}.txt'
+        out_f = ('../phasing_analysis/illumina_dataframes_2018_11_25/' +
+                 self.id + '_dataframe{}.txt')
         # mark as incomplete if not done yet
         if (len(self.vcfs_todo) > 0) or (len(self.gtfs_todo) > 0):
             out_f = out_f.format('_incomplete')
