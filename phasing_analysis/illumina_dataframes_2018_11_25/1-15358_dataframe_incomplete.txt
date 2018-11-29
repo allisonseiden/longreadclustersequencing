@@ -1,0 +1,5 @@
+ID	Chrom	Location	From Mom	From Dad	Unphased
+1-15358	chr1	109857104	0	0	1
+1-15358	chr1	207095931	0	0	1
+1-15358	chr1	211600420	0	1	0
+1-15358	chr1	219077319	1	0	0
