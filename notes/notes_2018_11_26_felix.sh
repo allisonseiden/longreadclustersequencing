@@ -12,7 +12,7 @@ diff <(wc -l gmkf2/*) <(wc -l gmkf2_old/* | sed 's/_old//g')
 
 cd ~
 module purge
-module load samtools/1.8 bcftools/1.7 tabix
+module load samtools/1.8 bcftools/1.7 tabix/0.2.6 bedtools/2.27.1
 module load python/3.5.0 py_packages/3.5
 source venv_phasing/bin/activate
 
@@ -26,4 +26,7 @@ FA='/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa'
 RMSK='/hpc/users/richtf01/longreadclustersequencing/data/repeat_masker.txt'
 time sorting_hat --bed 1-00004_dnv.bed \
                  --fasta $FA \
-                 --repeat $RMSK
+                 --repeat $RMSK \
+                 --output 'sorting_hat_out/1-00004_dnv.txt'
+
+
