@@ -81,7 +81,7 @@ class PhasedData(object):
         ------------------------------------------------------------------------
     """
     def create_vcf_dictionary(self, whatshap_prefix):
-        for i in range(1, 23):
+        for i in range(1, 3):
             num = str(i)
             whatshap_vcf = whatshap_prefix.format(
                 self.vcf_id, self.id, num) + '.vcf'
@@ -194,6 +194,9 @@ class PhasedData(object):
         # Add de novo positions to list, de novo list value of dictionary
         # corresponding to key value of chromosome where de novo is located
         for chrom in chrom_list:
+            if chrom not in self.vcf_dfs:
+                print('No VCF for {} so skipping these DNVs'.format(chrom))
+                continue
             indices = self.bed.index[self.bed['Chrom'] == chrom].tolist()
             self.dnvs[chrom] = []
             for index in indices:

@@ -5,7 +5,7 @@ Whatshap software (without indels flag)
 module purge
 module load python/3.5.0 py_packages/3.5
 cd /hpc/users/richtf01/longreadclustersequencing/phasing
-python3 get_ID_dataframes.py --batch 2
+# python3 get_ID_dataframes.py --batch 2
 python3
 
 """
@@ -140,7 +140,10 @@ if __name__ == '__main__':
 
 """Testing: figure out when and why the KeyErrors and ValueErrors occur
 
-batch_ct = '3'
+batch_ct = '2'
+ptID = '1-12147'
+get_illumina_GMKF2_dataframes(ptID, batch_ct)
+
 patientIDs = get_patient_ids(batch_ct)
 get_illumina_GMKF2_dataframes_partial = partial(
     get_illumina_GMKF2_dataframes, batch_i=batch_ct)
@@ -181,4 +184,11 @@ pool.map(get_illumina_GMKF2_dataframes, patientIDs)
 
 # confirm all IDs are accounted for. 1 missing, that's fine
 # 123 + 194 + 38, 356
+
+
+/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/IlluminaWhatshapVCFs/Batch2/CG0017-8871/
+1-12147_chr1_phased.vcf
+
+chr1:8867755
+
 """
