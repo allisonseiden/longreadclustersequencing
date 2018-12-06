@@ -81,7 +81,7 @@ class PhasedData(object):
         ------------------------------------------------------------------------
     """
     def create_vcf_dictionary(self, whatshap_prefix):
-        for i in range(1, 3):
+        for i in range(1, 23):
             num = str(i)
             whatshap_vcf = whatshap_prefix.format(
                 self.vcf_id, self.id, num) + '.vcf'
@@ -127,15 +127,23 @@ class PhasedData(object):
     """
 
     def create_vcf_no_indels(self):
-        for i in range(1,23):
+        for i in range(1, 23):
             num = str(i)
-            self.vcf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '_no_indels/' + self.id + '_chr' + num + '_phased.vcf',
-                                                sep='\t', names=['CHROM', 'POS', 'ID', 'REF',
-                                                'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
-                                                self.id, self.mom, self.dad],
-                                                comment='#')
-            self.gtf_dfs["chr{0}".format(i)] = pd.read_table('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' + self.id + '_no_indels/' + self.id + '_chr' + num + '_phased.gtf',
-                                                sep='\t', names=['Chrom', 'Allison', 'Start', 'End', 'Felix', 'Plus', 'Dot', 'Madeline'])
+            self.vcf_dfs["chr{0}".format(i)] = pd.read_table(
+                '/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' +
+                self.id + '_no_indels/' +
+                self.id + '_chr' + num + '_phased.vcf',
+                sep='\t', names=[
+                    'CHROM', 'POS', 'ID', 'REF',
+                    'ALT', 'QUAL', 'FILTER', 'INFO', 'FORMAT',
+                    self.id, self.mom, self.dad],
+                comment='#')
+            self.gtf_dfs["chr{0}".format(i)] = pd.read_table(
+                '/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' +
+                self.id + '_no_indels/' + self.id + '_chr' + num +
+                '_phased.gtf', sep='\t', names=[
+                    'Chrom', 'Allison', 'Start', 'End', 'Felix',
+                    'Plus', 'Dot', 'Madeline'])
         print('---VCF and GTF dictionaries created for ' + self.id)
 
     """
@@ -173,7 +181,6 @@ class PhasedData(object):
             print('Removing ' + whatshap_gtf)
             self.gtfs_todo.append(whatshap_gtf)
             os.remove(whatshap_gtf)
-
 
     """
         ------------------------------------------------------------------------
@@ -239,7 +246,12 @@ class PhasedData(object):
             u_discon = dnv_index
             # Loop through lines around de novo in the VCF file until a variant
             # outside the haplotype block is found, ignore unphased indels
-            while (curr_vcf['POS'][u_discon] not in start_list) or (hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1):
+            while (curr_vcf['POS'][u_discon] not in start_list
+                   ) or (
+                   hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1
+                   ) or (
+                   hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1):
+                # see if upstream (preceding variants) are discontinuities
                 u_discon -= 1
                 try:
                     hap = curr_vcf[self.id][u_discon]
@@ -249,8 +261,14 @@ class PhasedData(object):
             chr_bounds[dnv].append(curr_vcf['POS'][u_discon])
             hap = curr_vcf[self.id][dnv_index]
             l_discon = dnv_index
-            distance = abs(dnv - (curr_vcf['POS'][l_discon]))
-            while (curr_vcf['POS'][l_discon] not in end_list) or (hap[:3] == "0/1" and len(curr_vcf['REF'][l_discon]) > 1) or (hap[:3] == "0/1" and len(curr_vcf['ALT'][l_discon]) > 1):
+            # distance = abs(dnv - (curr_vcf['POS'][l_discon]))
+            while (curr_vcf['POS'][l_discon] not in end_list
+                   ) or (
+                   hap[:3] == "0/1" and len(curr_vcf['REF'][l_discon]) > 1
+                   ) or (
+                   hap[:3] == "0/1" and len(curr_vcf['ALT'][l_discon]) > 1):
+                # see if downstream (variants subsequent to DNV)
+                # are discontinuities
                 l_discon += 1
                 hap = curr_vcf[self.id][l_discon]
             chr_bounds[dnv].append(curr_vcf['POS'][l_discon])
@@ -300,7 +318,10 @@ class PhasedData(object):
                         chr_phase[dnv].append(curr_vcf['POS'][position])
                 # Ensure that only the closest n variants are used above and
                 # below the de novo
-                if (len(chr_phase[dnv]) != 0) and (curr_vcf['POS'][position] < dnv) and (len(chr_phase[dnv]) > n):
+                if (len(chr_phase[dnv]) != 0) and (
+                        curr_vcf['POS'][position] < dnv) and (
+                        len(chr_phase[dnv]) > n):
+                    # remove all variants farther than n away
                     chr_phase[dnv] = chr_phase[dnv][-n:]
                 position += 1
             if len(chr_phase[dnv]) > 2*n:
@@ -341,14 +362,17 @@ class PhasedData(object):
         # Determine which parent the '1' or '0' came from based on whether mom
         # and dad are homozygous or heterozygous for a certain variant and then
         # assign the chromosomes to a parent for each informative variant
-        if (ma == '0/1' and pa == '1/1') or (ma == '0/0' and pa == '0/1') or (ma == '0/0' and pa == '1/1'):
+        if (ma == '0/1' and pa == '1/1') or (ma == '0/0' and pa == '0/1') or (
+                ma == '0/0' and pa == '1/1'):
             # Compare the informative variants to the de novo (whether both
             # are 0|1 or 1|0 or they are opposite) and assign accordingly
             if kiddo == dnv_hap[:3]:
                 chr_parent[dnv].append('dad')
             else:
                 chr_parent[dnv].append('mom')
-        if ((ma == '0/1') and (pa == '0/0')) or ((ma == '1/1') and (pa == '0/0')) or ((ma == '1/1') and (pa == '0/1')):
+        if ((ma == '0/1') and (pa == '0/0')) or (
+                (ma == '1/1') and (pa == '0/0')) or (
+                (ma == '1/1') and (pa == '0/1')):
             if kiddo == dnv_hap[:3]:
                 chr_parent[dnv].append('mom')
             else:
@@ -370,13 +394,14 @@ class PhasedData(object):
             de_novo_hap = curr_vcf[self.id][dnv_index]
             for var in self.to_phase[chromosome][dnv]:
                 index = curr_vcf.index[curr_vcf['POS'] == var].item()
-                self.assign_to_parent_logic(index, curr_vcf, de_novo_hap, chr_parent, dnv)
+                self.assign_to_parent_logic(
+                    index, curr_vcf, de_novo_hap, chr_parent, dnv)
         return chr_parent
 
     """
         ------------------------------------------------------------------------
-        Method to fill phased_to_parent dictionary using assign_to_parent_by_chr
-        helper method
+        Method to fill phased_to_parent dictionary using
+        assign_to_parent_by_chr helper method
         ------------------------------------------------------------------------
     """
 
@@ -385,7 +410,6 @@ class PhasedData(object):
             self.phased_to_parent[chr] = self.assign_to_parent_by_chr(chr)
 
         print('---DNVs phased to parent for ' + self.id)
-
 
     """
         ------------------------------------------------------------------------
