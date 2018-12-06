@@ -198,7 +198,8 @@ class PhasedData(object):
             self.dnvs[chrom] = []
             for index in indices:
                 dnv_loc = self.bed['End'][index]
-                if dnv_loc not in self.vcf_dfs[chrom]['POS']:
+                has_dnv = any(self.vcf_dfs[chrom]['POS'] == dnv_loc)
+                if not has_dnv:
                     print('{}:{} DNV not in VCF'.format(chrom, dnv_loc))
                     continue
                 self.dnvs[chrom].append(dnv_loc)
