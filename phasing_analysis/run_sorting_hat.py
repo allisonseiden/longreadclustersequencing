@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-"""Run sorting-hat on all outputs.
+r"""Run sorting-hat on all outputs.
 
 :Authors: Allison Seiden, Felix Richter
 :Date: 2018-12-05
@@ -16,6 +16,12 @@ module load samtools/1.8 bcftools/1.7 tabix/0.2.6 bedtools/2.27.1
 module load python/3.5.0 py_packages/3.5
 source venv_phasing/bin/activate
 python3
+
+Error with:
+time sorting_hat --bed 1-00786_dnv.bed --fasta \
+/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa --repeat \
+/hpc/users/richtf01/longreadclustersequencing/data/repeat_masker.txt \
+--output sorting_hat_out/1-00786_dnv.txt
 
 """
 
