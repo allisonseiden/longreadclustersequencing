@@ -197,7 +197,11 @@ class PhasedData(object):
             indices = self.bed.index[self.bed['Chrom'] == chrom].tolist()
             self.dnvs[chrom] = []
             for index in indices:
-                self.dnvs[chrom].append(self.bed['End'][index])
+                dnv_loc = self.bed['End'][index]
+                if dnv_loc not in self.vcfs[chrom]['POS']:
+                    print('{}:{} DNV not in VCF'.format(chrom, dnv_loc))
+                    continue
+                self.dnvs[chrom].append(dnv_loc)
 
         print('---DNV dictionary created for ' + self.id)
 

@@ -8,6 +8,7 @@
 :Copyright: 2018, Allison Seiden, Felix Richter
 :License: CC BY-SA
 
+cd /hpc/users/richtf01/longreadclustersequencing/data/gmkf2
 
 cd ~
 module purge
@@ -39,14 +40,16 @@ def run_sort_hat(bed_i, fa_loc, rmsk):
 
 os.chdir('/hpc/users/richtf01/longreadclustersequencing/data/gmkf2')
 
-bed_iter = glob.iglob('1-1*_dnv.bed')
+bed_iter = glob.iglob('1-*_dnv.bed')
 fa_loc = '/sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa'
 rmsk = '/hpc/users/richtf01/longreadclustersequencing/data/repeat_masker.txt'
 
+bed_done_list = []
 for bed_i in bed_iter:
     print(bed_i)
     bed_done = run_sort_hat(bed_i, fa_loc, rmsk)
-    break
+    bed_done_list.append(bed_done)
+
 
 #
 #
