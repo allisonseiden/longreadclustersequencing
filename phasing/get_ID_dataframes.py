@@ -5,7 +5,7 @@ Whatshap software (without indels flag)
 module purge
 module load python/3.5.0 py_packages/3.5
 cd /hpc/users/richtf01/longreadclustersequencing/phasing
-# python3 get_ID_dataframes.py --batch 2
+python3 get_ID_dataframes.py --batch 1
 python3
 
 """
@@ -141,7 +141,7 @@ if __name__ == '__main__':
 """Testing: figure out when and why the KeyErrors and ValueErrors occur
 
 batch_ct = '2'
-ptID = '1-12147'
+ptID = '1-09786'
 get_illumina_GMKF2_dataframes(ptID, batch_ct)
 
 patientIDs = get_patient_ids(batch_ct)
