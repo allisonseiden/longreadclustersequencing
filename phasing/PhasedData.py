@@ -230,6 +230,7 @@ class PhasedData(object):
     """
 
     def search_discon(self, chromosome):
+        print('Getting bounds for ' + chromosome)
         chr_bounds = {}
         # Collect correct phased VCF file for the current chromosome
         curr_vcf = self.vcf_dfs[chromosome]
@@ -240,6 +241,7 @@ class PhasedData(object):
         # Loop through de novo positions within list of de novos corresponding
         # to current chromosome
         for dnv in self.dnvs[chromosome]:
+            print('Current DNV{}'.format(dnv))
             chr_bounds[dnv] = []
             # Get index of de novo position within VCF file, will need to look
             # at lines above and below to find discontinuities
@@ -278,6 +280,7 @@ class PhasedData(object):
                 l_discon += 1
                 hap = curr_vcf[self.id][l_discon]
             chr_bounds[dnv].append(curr_vcf['POS'][l_discon])
+            print('DNV bounds are {} and {}'.format(u_discon, l_discon))
         return chr_bounds
 
     """
