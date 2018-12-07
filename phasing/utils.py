@@ -10,6 +10,7 @@
 
 """
 
+import re
 import pandas as pd
 
 
@@ -40,3 +41,30 @@ def get_done_files():
         for line in log_f:
             done_list.append(line.strip())
     return done_list
+
+
+def get_patient_ids(batch_i):
+    """Get list of patients IDs for DNV phasing."""
+    # get previously completed IDs
+    done_list = get_done_files()
+    patientIDs = list(set([re.sub('.*_fullphased/|_chr.*', '', i)
+                           for i in done_list[1:]]))
+    print('Number of patients overall: {}'.format(len(patientIDs)))
+    # patientIDs = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
+    #               '1-04460', '1-04537', '1-05443', '1-05673', '1-05846']
+    # patientIDs = ['1-06149', '1-05794', '1-05935', '1-05860', '1-05423']
+    # only keep IDs in a specific batch
+    b_id_list = get_batch_pt_ids(batch_i)
+    b_fam_id_list = []
+    trio_df = get_trio_df()
+    for b_id in b_id_list:
+        b_fam_id_list.append(
+            trio_df.loc[trio_df.Child == b_id][
+                'Fam_ID'].to_string(index=False))
+    patientIDs = [i for i in patientIDs if i in b_fam_id_list]
+    print('Number of patients in batch: {}'.format(len(patientIDs)))
+    # patientIDs.remove('1-05679')
+    # if '1-04891' in patientIDs:
+    #     patientIDs.remove('1-04891')
+    #     # KeyError: 175492 on line 244: hap = curr_vcf[self.id][l_discon]
+    return patientIDs
