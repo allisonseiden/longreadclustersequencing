@@ -242,7 +242,7 @@ class PhasedData(object):
         # Loop through de novo positions within list of de novos corresponding
         # to current chromosome
         for dnv in self.dnvs[chromosome]:
-            print('Current DNV {}'.format(dnv))
+            # print('Current DNV {}'.format(dnv))
             chr_bounds[dnv] = []
             # Get index of de novo position within VCF file, will need to look
             # at lines above and below to find discontinuities
@@ -250,46 +250,38 @@ class PhasedData(object):
             # Initially set haplotype to de novo haplotype
             hap = curr_vcf[self.id][dnv_index]
             # If the de novo is unphased, skip over it
-            if hap[:3] == "0/1":
+            if hap[1:2] == "/":
                 continue
             u_discon = dnv_index
             # Loop through lines around de novo in the VCF file until a variant
             # outside the haplotype block is found, ignore unphased indels
-            problem_dnv = False
-            if dnv == 174059053:
-                problem_dnv = True
             while (curr_vcf['POS'][u_discon] not in start_list
                    ) or (
-                   hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1
+                   hap[1:2] == "/" and len(curr_vcf['REF'][u_discon]) > 1
                    ) or (
-                   hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1):
+                   hap[1:2] == "/" and len(curr_vcf['ALT'][u_discon]) > 1):
                 # see if upstream (preceding variants) are discontinuities
                 u_discon -= 1
-                if problem_dnv:
-                    print(u_discon)
-                try:
-                    hap = curr_vcf[self.id][u_discon]
-                except KeyError as exc:
-                    print(chromosome, dnv_index, self.id, u_discon)
-                    raise KeyError('Unclear keyerror') from exc
-            if problem_dnv:
-                print('Upstream bound info:')
-                print(chromosome, dnv_index, self.id, u_discon)
+                # try:
+                hap = curr_vcf[self.id][u_discon]
+                # except KeyError as exc:
+                #     print(chromosome, dnv_index, self.id, u_discon)
+                #     raise KeyError('Unclear keyerror') from exc
             chr_bounds[dnv].append(curr_vcf['POS'][u_discon])
             hap = curr_vcf[self.id][dnv_index]
             l_discon = dnv_index
             # distance = abs(dnv - (curr_vcf['POS'][l_discon]))
             while (curr_vcf['POS'][l_discon] not in end_list
                    ) or (
-                   hap[:3] == "0/1" and len(curr_vcf['REF'][l_discon]) > 1
+                   hap[1:2] == "/" and len(curr_vcf['REF'][l_discon]) > 1
                    ) or (
-                   hap[:3] == "0/1" and len(curr_vcf['ALT'][l_discon]) > 1):
+                   hap[1:2] == "/" and len(curr_vcf['ALT'][l_discon]) > 1):
                 # see if downstream (variants subsequent to DNV)
                 # are discontinuities
                 l_discon += 1
                 hap = curr_vcf[self.id][l_discon]
             chr_bounds[dnv].append(curr_vcf['POS'][l_discon])
-            print('DNV bounds are {} and {}'.format(u_discon, l_discon))
+            # print('DNV bounds are {} and {}'.format(u_discon, l_discon))
         return chr_bounds
 
     """
