@@ -56,9 +56,15 @@ assigned_df.shape
 
 dnv_df.set_index(['ID', 'Chrom', 'Location'], inplace=True)
 assigned_df.set_index(['ID', 'Chrom', 'Location'], inplace=True)
+new_col_names = {'From Mom': 'Mom', 'From Dad': 'Dad'}
+assigned_df.rename(columns=new_col_names, inplace=True)
 
 # Join together BED dataframe and parent dataframe
 dnv_full_df = dnv_df.join(assigned_df, how='left')
+
+# these numbers should be the same
+dnv_full_df.Mom.isnull().sum()
+dnv_df.shape[0] - assigned_df.shape[0]
 
 
 """Transition and transversion info."""
@@ -173,11 +179,15 @@ cpg_isle_bed_df = cpg_isle_bed_df[['CpG_Island']]
 print(cpg_isle_bed_df)
 
 analysis_df = dnv_full_df.join(cpg_isle_bed_df, how='left')
-analysis_df.fillna(value=False, inplace=True)
+# just fill the cpg_isle_bed_df columns
+# , inplace=True
+analysis_df.CpG_Island.fillna(value=False, inplace=True)
 analysis_df['CpG_Island'] = analysis_df['CpG_Island'].astype(int)
 
 analysis_df.head()
 analysis_df.shape
+analysis_df.Mom.isnull().sum()
+analysis_df.Dad.isnull().sum()
 
 out_f = home_dir + 'phasing_analysis/phasing_analysis_df_ilmn_2018_12_06.txt'
 analysis_df.to_csv(path_or_buf=out_f, sep='\t')
