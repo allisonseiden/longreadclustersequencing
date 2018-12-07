@@ -214,6 +214,8 @@ class PhasedData(object):
                     continue
                 self.dnvs[chrom].append(dnv_loc)
 
+        print([len(i) for i in self.dnvs])
+        print([len(i) for i in self.vcf_dfs])
         print('---DNV dictionary created for ' + self.id)
 
     """
