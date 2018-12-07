@@ -5,7 +5,7 @@ Whatshap software (without indels flag)
 module purge
 module load python/3.5.0 py_packages/3.5
 cd /hpc/users/richtf01/longreadclustersequencing/phasing
-python3 get_ID_dataframes.py --batch 1
+# python3 get_ID_dataframes.py --batch 1
 python3
 
 """
@@ -87,11 +87,10 @@ def get_illumina_GMKF2_dataframes(ID, batch_i):
     # provide trio_df if VCF IDs are not the family IDs
     trio_df = get_trio_df()
     patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
-    if os.path.exists('phased_data/' + patient.id + '_dataframe.txt'):
+    if os.path.exists(patient.out_f.format('')):
         print('already_done_' + patient.id)
         return 'already_done_' + patient.id
-    if os.path.exists('phased_data/' + patient.id +
-                      '_dataframe_incomplete.txt'):
+    if os.path.exists(patient.out_f.format('_incomplete')):
         print('previously_incomplete_' + patient.id)
         return 'previously_incomplete_' + patient.id
     home_dir = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
@@ -141,7 +140,7 @@ if __name__ == '__main__':
 """Testing: figure out when and why the KeyErrors and ValueErrors occur
 
 batch_ct = '2'
-ptID = '1-09786'
+ptID = '1-06269'
 get_illumina_GMKF2_dataframes(ptID, batch_ct)
 
 patientIDs = get_patient_ids(batch_ct)

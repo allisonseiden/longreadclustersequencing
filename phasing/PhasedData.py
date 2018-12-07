@@ -72,7 +72,8 @@ class PhasedData(object):
                                        'Mom Count': [], 'Dad Count': [],
                                        'From Mom': [], 'From Dad': [],
                                        'Unphased': []})
-
+        self.out_f = ('../phasing_analysis/illumina_dataframes_2018_11_25/' +
+                      self.id + '_dataframe{}.txt')
     """
         ------------------------------------------------------------------------
         Method to fill vcf_dfs with dataframes created from phased vcfs,
@@ -241,7 +242,7 @@ class PhasedData(object):
         # Loop through de novo positions within list of de novos corresponding
         # to current chromosome
         for dnv in self.dnvs[chromosome]:
-            print('Current DNV{}'.format(dnv))
+            print('Current DNV {}'.format(dnv))
             chr_bounds[dnv] = []
             # Get index of de novo position within VCF file, will need to look
             # at lines above and below to find discontinuities
@@ -254,6 +255,9 @@ class PhasedData(object):
             u_discon = dnv_index
             # Loop through lines around de novo in the VCF file until a variant
             # outside the haplotype block is found, ignore unphased indels
+            problem_dnv = False
+            if dnv == 174059053:
+                problem_dnv = True
             while (curr_vcf['POS'][u_discon] not in start_list
                    ) or (
                    hap[:3] == "0/1" and len(curr_vcf['REF'][u_discon]) > 1
@@ -261,11 +265,16 @@ class PhasedData(object):
                    hap[:3] == "0/1" and len(curr_vcf['ALT'][u_discon]) > 1):
                 # see if upstream (preceding variants) are discontinuities
                 u_discon -= 1
+                if problem_dnv:
+                    print(u_discon)
                 try:
                     hap = curr_vcf[self.id][u_discon]
                 except KeyError as exc:
                     print(chromosome, dnv_index, self.id, u_discon)
                     raise KeyError('Unclear keyerror') from exc
+            if problem_dnv:
+                print('Upstream bound info:')
+                print(chromosome, dnv_index, self.id, u_discon)
             chr_bounds[dnv].append(curr_vcf['POS'][u_discon])
             hap = curr_vcf[self.id][dnv_index]
             l_discon = dnv_index
@@ -499,13 +508,11 @@ class PhasedData(object):
         self.parent_df = self.parent_df[['ID', 'Chrom', 'Location', 'From Mom',
                                          'From Dad', 'Unphased']]
         # out_f = 'phased_data/' + self.id + '_dataframe{}.txt'
-        out_f = ('../phasing_analysis/illumina_dataframes_2018_11_25/' +
-                 self.id + '_dataframe{}.txt')
         # mark as incomplete if not done yet
         if (len(self.vcfs_todo) > 0) or (len(self.gtfs_todo) > 0):
-            out_f = out_f.format('_incomplete')
+            out_f = self.out_f.format('_incomplete')
         else:
-            out_f = out_f.format('')
+            out_f = self.out_f.format('')
         print('Saving to ' + out_f)
         self.parent_df.to_csv(path_or_buf=out_f, sep='\t',
                               float_format='%g', index=False)
