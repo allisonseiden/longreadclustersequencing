@@ -5,8 +5,8 @@ Whatshap software (without indels flag)
 module purge
 module load python/3.5.0 py_packages/3.5
 cd /hpc/users/richtf01/longreadclustersequencing/phasing
-# python3 get_ID_dataframes.py --batch 1
-python3
+python3 get_ID_dataframes.py --batch 1
+# python3
 
 """
 
@@ -115,51 +115,37 @@ batch_ct = '2'
 ptID = '1-06269'
 get_illumina_GMKF2_dataframes(ptID, batch_ct)
 
-patientIDs = get_patient_ids(batch_ct)
-get_illumina_GMKF2_dataframes_partial = partial(
-    get_illumina_GMKF2_dataframes, batch_i=batch_ct)
-done_pts = []
-problem_pts = []
-for ptID in patientIDs:
-    print(ptID)
-    try:
-        done_pts.append(get_illumina_GMKF2_dataframes_partial(ptID))
-    except KeyError:
-        print('KeyError occured with ' + ptID)
-        problem_pts.append(ptID)
-
-
-key_error_f = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-               'PacbioProject/IlluminaWhatshapVCFs/keyerror_ids_b{}.txt')
-with open(key_error_f.format(batch_ct), 'w') as f:
-    for id in problem_pts:
-        _ = f.write(id + '\n')
-
-
-batch_i = str(1)
-patientIDs = get_patient_ids(batch_i)
-patientIDs[0]
-get_illumina_GMKF2_dataframes(patientIDs[0], batch_i)
-
+## Troubleshooting specific steps
 trio_df = get_trio_df()
-ID = '1-05794'
-patient = PhasedData(ID, trio_df, home_dir='/hpc/users/richtf01/')
-whatshap_prefix = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-                   'PacbioProject/IlluminaWhatshapVCFs/Batch' + batch_i +
+patient = PhasedData(ptID, trio_df, home_dir='/hpc/users/richtf01/')
+home_dir = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+            'PacbioProject/IlluminaWhatshapVCFs/')
+whatshap_prefix = (home_dir + 'Batch' + batch_ct +
                    '/{}/{}_chr{}_phased')
+patient.create_vcf_dictionary(whatshap_prefix)
+# clean_gtf_output is only for Illumina GMKF (to check if done)
+patient.clean_gtf_output(whatshap_prefix)
+patient.create_dnvs_dictionary()
 
-patient.illumina(whatshap_prefix)
 
-pool = mp.Pool(processes=3)
-pool.map(get_illumina_GMKF2_dataframes, patientIDs)
+# figure out what's going on at chr3 where dnv == 174059053
+chr_bounds = {}
+# Collect correct phased VCF file for the current chromosome
+chromosome = 'chr3'
+curr_vcf = patient.vcf_dfs[chromosome]
+# Collect start and end positions of haplotype blocks from GTF file for
+# current chromosome
+start_list = patient.gtf_dfs[chromosome]['Start'].tolist()
+end_list = patient.gtf_dfs[chromosome]['End'].tolist()
+end_list[-1]
+dnv = 174059053
+
+patient.fill_bounds_dictionary()
+patient.find_variants_for_phasing(7)
+patient.assign_to_parent()
+patient.convert_to_dataframe()
 
 # confirm all IDs are accounted for. 1 missing, that's fine
 # 123 + 194 + 38, 356
-
-
-/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/IlluminaWhatshapVCFs/Batch2/CG0017-8871/
-1-12147_chr1_phased.vcf
-
-chr1:8867755
 
 """

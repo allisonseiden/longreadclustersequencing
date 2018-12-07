@@ -215,12 +215,12 @@ class PhasedData(object):
                     continue
                 self.dnvs[chrom].append(dnv_loc)
 
-        print('chrs in DNVs:')
-        print([i for i in self.dnvs])
-        print([len(self.dnvs[i]) for i in self.dnvs])
-        print('chrs in VCFs:')
-        print([i for i in self.vcf_dfs])
-        print([self.vcf_dfs[i].shape for i in self.vcf_dfs])
+        # print('chrs in DNVs:')
+        # print([i for i in self.dnvs])
+        # print([len(self.dnvs[i]) for i in self.dnvs])
+        # print('chrs in VCFs:')
+        # print([i for i in self.vcf_dfs])
+        # print([self.vcf_dfs[i].shape for i in self.vcf_dfs])
         print('---DNV dictionary created for ' + self.id)
 
     """
@@ -231,7 +231,7 @@ class PhasedData(object):
     """
 
     def search_discon(self, chromosome):
-        print('Getting bounds for ' + chromosome)
+        # print('Getting bounds for ' + chromosome)
         chr_bounds = {}
         # Collect correct phased VCF file for the current chromosome
         curr_vcf = self.vcf_dfs[chromosome]
