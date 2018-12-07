@@ -103,9 +103,9 @@ if __name__ == '__main__':
         # except ValueError:
         #     print('ValueError occurred with ' + ptID)
         #     problem_pts.append(ptID)
-    print('{} patients with KeyError or ValueError'.format(len(problem_pts)))
+    # print('{} patients with KeyError or ValueError'.format(len(problem_pts)))
+    # write_problem_data(batch_ct, problem_pts)
     print('{} patients completed successfully'.format(len(done_pts)))
-    write_problem_data(batch_ct, problem_pts)
     # done_pts = pool.map(get_illumina_GMKF2_dataframes_partial, patientIDs)
 
 
