@@ -24,7 +24,14 @@ time tar -zcvf split_chr_done_2018_11_03_archive.tar.gz split_chr_done_2018_11_0
 # if not on these nodes then ssh in from minerva2
 ssh login1
 time dsmc archive -se=richtf01 done_2018_11_03_archive.tar.gz
-time dsmc archive -se=richtf01 split_chr_done_2018_11_03_archive.tar.gz
+cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/GMKF_TrioVCFs/
+for file in $(find split_chr_done_2018_11_03 -name '*vcf*'); do
+    echo $file
+    time dsmc archive -se=richtf01 $file
+    rm $file
+done
+
+dsmc q archive -se=richtf01 /sc/orga/ -sub=yes | grep "split_chr_done_2018_09_26"
 
 # Once confident that phasing is complete for current dataset,
 # remove line if 0|1 1|0 0/1 or 1/1 are NOT present (i.e., only 0/0 or ./.)
