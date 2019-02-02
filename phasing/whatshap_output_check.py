@@ -81,7 +81,7 @@ def remove_incomplete_files(len_dict):
     for f, f_len in len_dict.items():
         if f_len != max_len:
             print('removing {} w length {}'.format(f, f_len))
-            os.remove(f)
+            # os.remove(f)
         else:
             done_files += 1
     print('files kept: {}'.format(done_files))
@@ -189,7 +189,13 @@ done_list = get_done_files()
 # patientID_list = [trio_df[trio_df.Fam_ID == '1-05794']
 #                   ['Child'].to_string(index=False)]
 # Batch2/CG0012-6043/1-05794 to test done_list
+
+## For pacbio
+patientID_list = ['1-00801', '1-01019', '1-03897', '1-04190', '1-04389'][1:5]
+home_dir = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+            'PacbioProject/WhatshapVCFs/')
+os.chdir(home_dir)
 check_and_rm_files(patientID_list, trio_df, done_list)
-clean_old_vcfs(patientID_list, trio_df)
+clean_old_vcfs(patientID_list, trio_df) # not working (wrong filenames/dirs)
 """
 #

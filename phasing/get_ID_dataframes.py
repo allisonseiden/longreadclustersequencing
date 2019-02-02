@@ -50,7 +50,7 @@ def get_illumina_dataframes(ID):
     """Get phased de novo variants for Illumina data."""
     patient = PhasedData(ID)
     whatshap_prefix = ('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' +
-                       '{}_illumina/{}_chr{}_phased')
+                       '{}_illumina_2019/{}_chr{}_phased')
     patient.illumina(whatshap_prefix)
 
 
@@ -108,6 +108,15 @@ if __name__ == '__main__':
     print('{} patients completed successfully'.format(len(done_pts)))
     # done_pts = pool.map(get_illumina_GMKF2_dataframes_partial, patientIDs)
 
+
+"""Testing for Ilmn 10:
+ID = '1-01019'
+patient = PhasedData(ID)
+whatshap_prefix = ('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' +
+                   '{}_illumina_2019/{}_chr{}_phased')
+patient.illumina(whatshap_prefix)
+
+"""
 
 """Testing: figure out when and why the KeyErrors and ValueErrors occur
 

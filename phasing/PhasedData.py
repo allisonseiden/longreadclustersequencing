@@ -58,7 +58,10 @@ class PhasedData(object):
         self.vcfs_todo = []
         self.gtfs_todo = []
         # prepare variables for DNV phasing (and load DNVs)
-        dnv_f = '{}longreadclustersequencing/data/gmkf2/{}_dnv.bed'.format(
+        # dnv_f = '{}longreadclustersequencing/data/gmkf2/{}_dnv.bed'.format(
+        #     home_dir, self.id)
+        # for the original n+10 (pacbio and illumina)
+        dnv_f = '{}longreadclustersequencing/data/{}_dnv.bed'.format(
             home_dir, self.id)
         dnv_cols = ['Chrom', 'Start', 'End', 'Ref', 'Var', 'ID']
         self.bed = pd.read_table(dnv_f, sep='\t', names=dnv_cols)
@@ -72,7 +75,8 @@ class PhasedData(object):
                                        'Mom Count': [], 'Dad Count': [],
                                        'From Mom': [], 'From Dad': [],
                                        'Unphased': []})
-        self.out_f = ('../phasing_analysis/illumina_dataframes_2018_11_25/' +
+        # illumina_dataframes_2018_11_25
+        self.out_f = ('../phasing_analysis/illumina_dataframes_2019_02_02/' +
                       self.id + '_dataframe{}.txt')
     """
         ------------------------------------------------------------------------
@@ -173,10 +177,11 @@ class PhasedData(object):
             if last_el_gtf != last_el_vcf:
                 gtfs_to_rm.append(chr)
         for chr in gtfs_to_rm:
-            whatshap_gtf = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-                            'PacbioProject/IlluminaWhatshapVCFs/Batch2' +
-                            '/{}/{}_{}_phased.gtf').format(
-                            self.vcf_id, self.id, chr)
+            # whatshap_gtf = ('/sc/orga/projects/chdiTrios/' +
+            #                 'WGS_Combined_2017/PacbioProject/' +
+            #                 'IlluminaWhatshapVCFs/Batch2/' +
+            #                 '{}/{}_{}_phased.gtf').format(
+            #                 self.vcf_id, self.id, chr)
             whatshap_gtf = whatshap_prefix.format(
                 self.vcf_id, self.id, chr[3:]) + '.gtf'
             print('Removing ' + whatshap_gtf)

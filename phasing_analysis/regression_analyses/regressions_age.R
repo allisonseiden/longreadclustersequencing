@@ -57,6 +57,8 @@ cor_tbl = indel_full_ct %>%
             n = n()) %>% ungroup
 
 cor_tbl %>% filter(grepl('decode', cohort))
+cor_tbl %>% write_tsv('longreadclustersequencing/phasing_analysis/regression_analyses/cor_tbl.txt')
+
 cor_tbl$Indel_Class
 cor_tbl$p
 cor_tbl

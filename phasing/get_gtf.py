@@ -28,11 +28,6 @@ python3 ~/longreadclustersequencing/phasing/get_gtf.py --batch 3
 cd ~/longreadclustersequencing/phasing/
 python
 
-# make sure these are done:
-/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/IlluminaWhatshapVCFs/Batch2/CG0011-3999/1-05255_chr1_phased.gtf
-/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/IlluminaWhatshapVCFs/Batch2/CG0011-3999/1-05255_chr4_phased.gtf
-/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/IlluminaWhatshapVCFs/Batch2/CG0011-3999/1-05255_chr9_phased.gtf
-
 """
 
 import subprocess as sp
@@ -63,6 +58,18 @@ def get_gtf(ID):
                    + str(i) + '_phased.vcf')
         sp.call(command, shell=True)
         print('Created gtf for ' + ID + ' chromosome ' + str(i))
+
+
+def get_ilmn_n10_vcf_list():
+    """Get a list of PacBio VCFs that have been phased."""
+    home_dir = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+                'PacbioProject/WhatshapVCFs/')
+    id_dir_list_loc = (home_dir + '*illumina_2019')
+    id_dir_list = [i for i in glob.iglob(id_dir_list_loc)]
+    vcf_list = []
+    for id_folder in id_dir_list:
+        vcf_list.extend([i for i in glob.iglob(id_folder + '/*vcf')])
+    return vcf_list
 
 
 def get_ilmn_vcf_list(batch_ct):
@@ -115,6 +122,13 @@ if __name__ == '__main__':
 
 
 """
+
+# for original 10
+ilmn_vcf_list = get_ilmn_n10_vcf_list()
+for ilmn_vcf in ilmn_vcf_list:
+    get_gtf_ilmn(ilmn_vcf)
+
+
 get_gtf_ilmn(ilmn_vcf_list_sub[0])
 
 batch_ct = '2'

@@ -19,6 +19,9 @@ Pipeline overview:
 module purge
 module load samtools/1.8 bcftools/1.7 tabix
 module load python/3.5.0 py_packages/3.5
+cd ~/longreadclustersequencing/phasing
+python3
+
 
 cd /sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/\
 IlluminaWhatshapVCFs/
@@ -118,8 +121,27 @@ def get_ilmn_vcf_list(batch_list):
     return ilmn_vcf_list
 
 
+def get_ilmn_n10_vcf_list():
+    """Get a list of PacBio VCFs that have been phased."""
+    home_dir = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+                'PacbioProject/WhatshapVCFs/')
+    id_dir_list_loc = (home_dir + '*illumina_2019')
+    id_dir_list = [i for i in glob.iglob(id_dir_list_loc)]
+    vcf_list = []
+    for id_folder in id_dir_list:
+        vcf_list.extend([i for i in glob.iglob(id_folder + '/*vcf')])
+    return vcf_list
+
+
 def process_vcf(vcf):
-    """Move and clean VCF."""
+    """Move and clean VCF.
+
+    Set the final VCF location as the initial VCF locations
+    Move vcf to a temporary directory (IlluminaWhatshapVCFs_fullphased)
+    Print the clean VCF back in the original location
+    Log the completed VCF location in vcf_cleaning_tracker.txt
+
+    """
     final_vcf_loc = vcf
     done_list = get_done_files()
     if not os.path.exists(final_vcf_loc):
@@ -181,6 +203,7 @@ if __name__ == '__main__':
 
 
 """
+# looping over all batches
 os.chdir('/sc/orga/projects/chdiTrios/WGS_Combined_2017/PacbioProject/' +
          'IlluminaWhatshapVCFs/')
 batch_list = ['1', '2', '3'][0]
@@ -195,6 +218,13 @@ for ilmn_vcf in ilmn_vcf_list:
 
 pool = mp.Pool(processes=5)
 clean_list = pool.map(process_vcf, ilmn_vcf_list)
+
+# Checking the original 10
+ilmn_vcf_list = get_ilmn_n10_vcf_list()
+ilmn_vcf = ilmn_vcf_list[0]
+clean_vcf_i = re.sub('.vcf$', '_clean.vcf', ilmn_vcf)
+clean_vcf(ilmn_vcf, clean_vcf_i)
+# actually no need because already cleaned!
 
 """
 
