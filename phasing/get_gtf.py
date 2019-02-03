@@ -60,18 +60,6 @@ def get_gtf(ID):
         print('Created gtf for ' + ID + ' chromosome ' + str(i))
 
 
-def get_ilmn_n10_vcf_list():
-    """Get a list of PacBio VCFs that have been phased."""
-    home_dir = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
-                'PacbioProject/WhatshapVCFs/')
-    id_dir_list_loc = (home_dir + '*illumina_2019')
-    id_dir_list = [i for i in glob.iglob(id_dir_list_loc)]
-    vcf_list = []
-    for id_folder in id_dir_list:
-        vcf_list.extend([i for i in glob.iglob(id_folder + '/*vcf')])
-    return vcf_list
-
-
 def get_ilmn_vcf_list(batch_ct):
     """Get a list of VCFs that have been phased."""
     # id_file_list = []
@@ -124,6 +112,7 @@ if __name__ == '__main__':
 """
 
 # for original 10
+from utils import get_ilmn_n10_vcf_list
 ilmn_vcf_list = get_ilmn_n10_vcf_list()
 for ilmn_vcf in ilmn_vcf_list:
     get_gtf_ilmn(ilmn_vcf)

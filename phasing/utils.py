@@ -12,6 +12,7 @@
 
 import re
 import pandas as pd
+import glob
 
 
 def get_trio_df():
@@ -68,3 +69,15 @@ def get_patient_ids(batch_i):
     #     patientIDs.remove('1-04891')
     #     # KeyError: 175492 on line 244: hap = curr_vcf[self.id][l_discon]
     return patientIDs
+
+
+def get_ilmn_n10_vcf_list():
+    """Get a list of PacBio VCFs that have been phased."""
+    home_dir = ('/sc/orga/projects/chdiTrios/WGS_Combined_2017/' +
+                'PacbioProject/WhatshapVCFs/')
+    id_dir_list_loc = (home_dir + '*illumina_2019')
+    id_dir_list = [i for i in glob.iglob(id_dir_list_loc)]
+    vcf_list = []
+    for id_folder in id_dir_list:
+        vcf_list.extend([i for i in glob.iglob(id_folder + '/*vcf')])
+    return vcf_list
