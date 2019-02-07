@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-13125	chr2	57168589	57168590	TCTAG	T	CTAG	non-CCC	.	.	.
+1-13125	chr2	170420275	170420276	G	GA	A	HR	.	.	.
+1-13125	chr16	25381128	25381129	CG	C	G	CCC	AluSx	SINE	Alu

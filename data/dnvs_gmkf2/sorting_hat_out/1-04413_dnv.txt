@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-04413	chr1	25141237	25141238	AG	A	G	non-CCC	MER5B	DNA	hAT-Charlie
+1-04413	chr11	77375133	77375134	G	GT	T	CCC	Tigger3c	DNA	TcMar-Tigger
+1-04413	chr11	79944000	79944001	TAAG	T	AAG	CCC	L1MEc	LINE	L1

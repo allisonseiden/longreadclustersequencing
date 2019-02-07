@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-01747	chr17	3189107	3189108	G	GTGTT	TGTT	CCC	.	.	.
+1-01747	chr22	39261660	39261661	AG	A	G	non-CCC	.	.	.
+1-01747	chrX	41396249	41396250	TCA	T	CA	CCC	AluSx	SINE	Alu

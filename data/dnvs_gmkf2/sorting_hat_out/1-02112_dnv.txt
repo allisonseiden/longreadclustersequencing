@@ -1,0 +1,3 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-02112	chr6	56970098	56970099	CAT	C	AT	non-CCC	MER112	DNA	hAT-Charlie
+1-02112	chr17	72675289	72675290	GT	G	T	CCC	MLT1A0	LTR	ERVL-MaLR

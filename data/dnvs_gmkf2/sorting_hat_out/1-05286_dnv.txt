@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-05286	chr1	199899670	199899671	AT	A	T	CCC	AluJb	SINE	Alu
+1-05286	chr9	94902139	94902140	CTGAG	C	TGAG	non-CCC	.	.	.
+1-05286	chr17	19783342	19783343	C	CG	G	CCC	AluSg	SINE	Alu

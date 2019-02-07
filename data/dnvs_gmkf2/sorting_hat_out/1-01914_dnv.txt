@@ -1,0 +1,3 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-01914	chr7	26180818	26180819	CATCA	C	ATCA	non-CCC	.	.	.
+1-01914	chr11	3355012	3355013	AGTT	A	GTT	CCC	HERVFH21-int	LTR	ERV1

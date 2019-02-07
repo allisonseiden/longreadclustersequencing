@@ -1,0 +1,2 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-00515	chr2	11971944	11971945	AC	A	C	non-CCC	L1MA4A	LINE	L1

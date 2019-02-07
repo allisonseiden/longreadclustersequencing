@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-06892	chr4	83709215	83709216	CTG	C	TG	non-CCC	.	.	.
+1-06892	chr6	100486795	100486796	TG	T	G	CCC	MARNA	DNA	TcMar-Mariner
+1-06892	chr9	110591808	110591809	CT	C	T	non-CCC	L1MD2	LINE	L1

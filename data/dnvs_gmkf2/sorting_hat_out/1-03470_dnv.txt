@@ -1,0 +1,2 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-03470	chr3	153209634	153209635	TC	T	C	non-CCC	(TTC)n	Simple_repeat	Simple_repeat

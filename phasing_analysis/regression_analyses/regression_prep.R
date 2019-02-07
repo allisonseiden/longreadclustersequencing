@@ -88,30 +88,60 @@ ilmn_indel_df %<>%
   mutate_at(vars(Mom:Unphased), function(x) ifelse(is.na(x), 0, x))
 
 ######################################
+# Create pacbio indel class column
+######################################
+
+pb_indel_class_df %<>% 
+  mutate(Indel_Class = ifelse(HR == 1, 'HR', NA)) %>% 
+  mutate(Indel_Class = ifelse(CCC == 1, 'CCC', Indel_Class)) %>% 
+  mutate(Indel_Class = ifelse(`non-CCC` == 1, 'non-CCC', Indel_Class))
+  
+######################################
+# Add in HR subtypes
+######################################
+
+ilmn_hr_grouping = ilmn_indel_df %>% 
+  filter(Indel_Class == 'HR') %>% 
+  mutate(hr_subtype = ifelse(Allele %in% c('A', 'T'), 'HR_AT', 'HR_GC')) %>% 
+  select(ID:Alt, hr_subtype)
+
+ilmn_indel_df %<>% left_join(ilmn_hr_grouping) 
+
+pb_hr_grouping = pb_indel_class_df %>% 
+  filter(HR == 1) %>% 
+  mutate(hr_subtype = ifelse(Allele %in% c('A', 'T'), 'HR_AT', 'HR_GC')) %>% 
+  select(ID:Location, Ref, Alt, hr_subtype)
+
+pb_indel_class_df %<>% left_join(pb_hr_grouping) 
+
+ilmn_indel_df %<>% mutate(Indel_Class = ifelse(is.na(hr_subtype), Indel_Class, hr_subtype))
+pb_indel_class_df %<>% mutate(Indel_Class = ifelse(is.na(hr_subtype), Indel_Class, hr_subtype))
+
+######################################
 # Sum the number of variants in 
 # each variant class per ID
 ######################################
 
 ilmn_indel_sum = ilmn_indel_df %>% 
+  mutate(in_repeat = ifelse(repClass == '.', 'N', 'Y')) %>% 
+  ## only keep phased indels
   filter((Mom == 1) | (Dad == 1)) %>% 
   mutate(parent = ifelse(Mom == 1, 'mom', 'dad')) %>% 
   mutate(parental_age = ifelse(parent == 'dad',
                                Paternal_age_at_conception,
                                Maternal_age_at_conception)) %>%
-  group_by(ID, Indel_Class, parent, parental_age) %>% 
+  group_by(ID, Indel_Class, parent, parental_age, in_repeat) %>% ## 
   summarise(Indel_ct = n()) %>%
   ungroup
 
 pb_indel_sum = pb_indel_class_df %>% 
+  mutate(in_repeat = ifelse(repClass == '.', 'N', 'Y')) %>% 
   filter((PB_Mom_Indel == 1) | (PB_Dad_Indel == 1)) %>% 
   mutate(parent = ifelse(PB_Mom_Indel == 1, 'mom', 'dad')) %>% 
-  mutate(Indel_Class = ifelse(HR == 1, 'HR', NA)) %>% 
-  mutate(Indel_Class = ifelse(CCC == 1, 'CCC', Indel_Class)) %>% 
-  mutate(Indel_Class = ifelse(`non-CCC` == 1, 'non-CCC', Indel_Class)) %>% 
   mutate(parental_age = ifelse(parent == 'dad',
                                Paternal_age_at_conception,
                                Maternal_age_at_conception)) %>%
-  group_by(ID, Indel_Class, parent, parental_age) %>% 
+  group_by(ID, Indel_Class, parent, parental_age, in_repeat) %>% 
   summarise(Indel_ct = n()) %>%
   ungroup
 
@@ -121,26 +151,30 @@ indel_sum = bind_rows('ilmn_305' = ilmn_indel_sum, 'pb_10' = pb_indel_sum, .id =
 # indel expand DF (get full dataframe accounting for 0 observed)
 ######################################
 
-
+indel_class_vec = c('CCC', 'non-CCC', 'HR_GC', 'HR_AT') # 'HR')
 # need dataframe with columns:
 # ID, parent, Indel_Class, Indel_ct, parental_age, fraction_snvs_phased, ancestry
-# nrows = length(ID) x 2 parents x 3 Indel_Class
-305*2*3
-id_class_df = expand.grid('ID' = age_df_ilmn$ID, 'Indel_Class' = c('CCC', 'non-CCC', 'HR'),
+# nrows = length(ID) x 2 parents x 3 Indel_Class x 2 for repeat
+305*2*4*2
+id_class_df = expand.grid('ID' = age_df_ilmn$ID, 'Indel_Class' = indel_class_vec,
+                          in_repeat = c('N', 'Y'),
                           'parent' = c('mom', 'dad')) %>% full_join(age_df_ilmn) %>% 
   mutate(parental_age = ifelse(parent == 'dad',
                                Paternal_age_at_conception,
                                Maternal_age_at_conception)) %>% 
   select(-Paternal_age_at_conception, -Maternal_age_at_conception)
+nrow(id_class_df)
 
-pb_id_class_df = expand.grid('ID' = age_df_pb$ID, 'Indel_Class' = c('CCC', 'non-CCC', 'HR'),
-                          'parent' = c('mom', 'dad')) %>% full_join(age_df_pb) %>% 
+pb_id_class_df = expand.grid('ID' = age_df_pb$ID, 'Indel_Class' = indel_class_vec,
+                             in_repeat = c('N', 'Y'),
+                             'parent' = c('mom', 'dad')) %>% full_join(age_df_pb) %>% 
   mutate(parental_age = ifelse(parent == 'dad',
                                Paternal_age_at_conception,
                                Maternal_age_at_conception)) %>% 
   select(-Paternal_age_at_conception, -Maternal_age_at_conception)
 
 nrow(pb_id_class_df)
+
 id_class_df = bind_rows('ilmn_305' = id_class_df, 'pb_10' = pb_id_class_df, .id = 'cohort')
 nrow(id_class_df)
 
@@ -149,9 +183,8 @@ indel_full_ct = indel_sum %>% full_join(id_class_df) %>%
   mutate(Indel_ct = ifelse(is.na(Indel_ct), 0, Indel_ct)) %>% 
   arrange(parent, Indel_Class, ID)
 
-
 # add an 'All' category
-indel_all_df = indel_full_ct %>% group_by(ID, parent, parental_age, cohort) %>%
+indel_all_df = indel_full_ct %>% group_by(ID, parent, parental_age, cohort, in_repeat) %>%
   summarise(Indel_ct = sum(Indel_ct)) %>% ungroup %>% 
   mutate(Indel_Class = 'All')
 
@@ -159,9 +192,22 @@ indel_full_ct %<>% bind_rows(indel_all_df)
 
 indel_full_ct %>% group_by(cohort) %>% tally
 
-write_tsv(indel_full_ct, 'longreadclustersequencing/indel_analysis/counts_per_id_ilmn_pb_2019_01_22.txt')
+write_tsv(indel_full_ct, 'longreadclustersequencing/indel_analysis/counts_per_id_ilmn_pb_repeat_HR_AT_GC_2019_02_06.txt')
 
-indel_full_ct %>% head
+ilmn_indel_df %>%
+  mutate(Indel_Class = ifelse(grepl('HR', Indel_Class), 'HR', Indel_Class)) %>% 
+  mutate(ins_del = ifelse((stri_length(Ref) > 1), 'deletion', 'insertion')) %>% 
+  group_by(Indel_Class, ins_del, Mom, Dad, Unphased) %>% tally %>% 
+  ungroup %>% 
+  write_tsv('longreadclustersequencing/indel_analysis/summary_cts_ilmn_305.txt')
+  
+pb_indel_class_df %>% 
+  mutate(Indel_Class = ifelse(grepl('HR', Indel_Class), 'HR', Indel_Class)) %>% 
+  mutate(ins_del = ifelse((stri_length(Ref) > 1), 'deletion', 'insertion')) %>% 
+  group_by(Indel_Class, ins_del, PB_Mom_Indel, PB_Dad_Indel, PB_Unphased_Indel) %>% tally %>% 
+  ungroup %>% 
+  write_tsv('longreadclustersequencing/indel_analysis/summary_cts_pb_10.txt')
+
 ############################################
 # compare to the python dataframes
 ############################################

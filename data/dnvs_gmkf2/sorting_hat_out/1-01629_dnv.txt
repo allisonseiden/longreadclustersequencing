@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-01629	chr2	54036092	54036093	TTTTG	T	TTTG	CCC	AluSx	SINE	Alu
+1-01629	chr2	117544785	117544786	CATGT	C	ATGT	CCC	.	.	.
+1-01629	chr5	19644116	19644117	GAA	G	AA	CCC	.	.	.

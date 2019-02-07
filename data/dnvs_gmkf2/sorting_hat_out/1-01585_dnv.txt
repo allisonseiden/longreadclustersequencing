@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-01585	chr8	138883384	138883385	ATG	A	TG	CCC	.	.	.
+1-01585	chr13	46772285	46772286	TTCTA	T	TCTA	CCC	Helitron2Na_Mam	RC?	Helitron?
+1-01585	chr17	7758466	7758467	CT	C	T	non-CCC	.	.	.

@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-07357	chr3	177310059	177310060	AT	A	T	non-CCC	AluY	SINE	Alu
+1-07357	chr8	9220351	9220352	GC	G	C	non-CCC	AluJb	SINE	Alu
+1-07357	chr18	42743122	42743123	CAAAGGCAGA	C	AAAGGCAGA	non-CCC	.	.	.

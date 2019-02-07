@@ -1,0 +1,2 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-06284	chr14	77712589	77712590	GCC	G	CC	non-CCC	AluSx1	SINE	Alu

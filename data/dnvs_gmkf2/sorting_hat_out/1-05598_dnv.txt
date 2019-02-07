@@ -1,0 +1,3 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-05598	chr3	75136934	75136935	CA	C	A	non-CCC	HERVE-int	LTR	ERV1
+1-05598	chr5	3063128	3063129	T	TCACAGA	CACAGA	non-CCC	MLT1B	LTR	ERVL-MaLR

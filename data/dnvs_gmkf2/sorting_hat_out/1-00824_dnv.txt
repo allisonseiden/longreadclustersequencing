@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-00824	chr5	8857444	8857445	T	TA	A	CCC	L1ME1	LINE	L1
+1-00824	chr13	27567050	27567051	CAGTA	C	AGTA	non-CCC	.	.	.
+1-00824	chr16	775159	775160	GC	G	C	non-CCC	.	.	.

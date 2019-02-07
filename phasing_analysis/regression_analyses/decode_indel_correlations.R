@@ -64,8 +64,21 @@ age_df = decode_dnvs %>%
     mutate(parent = ifelse(parent == 'father', 'dad', 'mom')) %>% 
     mutate(cohort = ifelse(ID %in% three_gen_ids, 'decode_3gen', 'decode_ilmn'))
 
+write_tsv(age_df, 'longreadclustersequencing/literature/jonsson_decode_2017/age_df.txt')
 age_df %>% group_by(cohort, parent) %>% tally
 age_df_3gen = age_df %>% filter(cohort == 'decode_3gen')
+
+######################################
+# Add in HR subtypes
+######################################
+
+decode_hr_grouping = decode_indels %>% 
+  filter(Indel_Class == 'HR') %>% 
+  mutate(hr_subtype = ifelse(Allele %in% c('A', 'T'), 'HR_AT', 'HR_GC')) %>% 
+  select(ID:Alt, hr_subtype)
+
+decode_indels %<>% left_join(decode_hr_grouping) 
+decode_indels %<>% mutate(Indel_Class = ifelse(is.na(hr_subtype), Indel_Class, hr_subtype))
 
 ######################################################
 # join phasing info with indel class assignments
@@ -87,19 +100,24 @@ indels_full_df %>% group_by(Indel_Class) %>% tally
 # 0 of a certain indel class
 ########################################################
 
-expand_df = expand.grid('ID' = age_df_3gen$ID, 'Indel_Class' = c('CCC', 'non-CCC', 'HR'),
+indel_class_vec = c('CCC', 'non-CCC', 'HR_GC', 'HR_AT') # 'HR')
+
+expand_df = expand.grid('ID' = age_df_3gen$ID, 'Indel_Class' = indel_class_vec,
+                        in_repeat = c('N', 'Y'),
                         'parent' = c('mom', 'dad')) %>% 
   full_join(age_df_3gen) %>% unique
 
 ## should be same
 nrow(expand_df)
 225*2*3
+225*2*4*2
 
 ## summarise phasing results per proband
 sum_indels = indels_full_df %>%
   rename(parent = Phase_combined) %>% 
   ## filter for non-repeats
   # filter(repFamily == '.') %>% 
+  mutate(in_repeat = ifelse(repClass == '.', 'N', 'Y')) %>% 
   ## label the na 30/1241 as unphased
   # mutate(parent = ifelse(is.na(parent), 'unphased', parent)) %>% 
   # or just remove:
@@ -110,7 +128,7 @@ sum_indels = indels_full_df %>%
                                Mothers_age_at_conception)) %>%
   mutate(parent = ifelse(parent == 'father', 'dad', 'mom')) %>% 
   select(-Fathers_age_at_conception, -Mothers_age_at_conception) %>%
-  group_by(cohort, ID, Indel_Class, parent, parental_age) %>% 
+  group_by(cohort, ID, Indel_Class, parent, parental_age, in_repeat) %>% 
   # summarise(CCC = sum(Indel_Class == 'CCC'), 
   #           HR = sum(Indel_Class == 'HR'),
   #           non_CCC = sum(Indel_Class == 'non-CCC')) %>% ungroup %>% 
@@ -121,41 +139,66 @@ sum_indels = indels_full_df %>%
 
 # add an all indel category
 decode_indel_all_df = sum_indels %>%
-  group_by(ID, parent, parental_age, cohort) %>%
+  group_by(ID, parent, parental_age, cohort, in_repeat) %>%
   summarise(Indel_ct = sum(Indel_ct)) %>% ungroup %>% 
   mutate(Indel_Class = 'All')
 
 sum_indels %<>% bind_rows(decode_indel_all_df)
 
 ## shoult add up to 225 per category
-sum_indels %>% group_by(Indel_Class, parent) %>% tally
+sum_indels %>% group_by(Indel_Class, parent, in_repeat) %>% tally
 
 ## join with 3-gen phased
 decode_3gen_indels = sum_indels %>% inner_join(fract_3gen_phased)
 write_tsv(decode_3gen_indels,
-          'longreadclustersequencing/literature/jonsson_decode_2017/indel_cts_per_id.txt')
+          'longreadclustersequencing/literature/jonsson_decode_2017/indel_cts_per_id_repeat_HRATGC_2019_02_06.txt')
+
+####################
+# Summary tables
+####################
+
+indels_full_df %>% 
+  rename(parent = Phase_combined) %>% 
+  mutate(parent = ifelse(is.na(parent), 'unphased', parent)) %>% 
+  mutate(Indel_Class = ifelse(grepl('HR', Indel_Class), 'HR', Indel_Class)) %>% 
+  mutate(ins_del = ifelse((stri_length(Ref) > 1), 'deletion', 'insertion')) %>% 
+  group_by(Indel_Class, ins_del, parent) %>% tally %>% 
+  ungroup %>% 
+  write_tsv('longreadclustersequencing/indel_analysis/summary_cts_decode.txt')
 
 
-p = sum_indels %>% 
-  ggplot(aes(x = parental_age, y = Indel_ct, color = parent)) +
-  geom_point() +
-  facet_wrap(~Indel_Class) +
-  scale_color_manual(values = c('#352846', '#E2AE38')) +
-  geom_smooth(method = 'lm') +
-  theme_classic()
-p
+decode_dnvs %>% filter(!(Proband_nr %in% age_df_3gen$ID)) %>% 
+  select(Proband_nr) %>% unique %>% nrow ## 1326
 
-fit = sum_indels %>% 
-  # filter(Indel_ct < 10) %>% 
-  group_by(cohort, Indel_Class, parent) %>% 
-  do(model = lm(Indel_ct ~ parental_age, .))
+decode_indels %>% 
+  filter(!(ID %in% age_df_3gen$ID)) %>% 
+  mutate(ins_del = ifelse((stri_length(Ref) > 1), 'deletion', 'insertion')) %>% 
+  mutate(Indel_Class = ifelse(grepl('HR', Indel_Class), 'HR', Indel_Class)) %>% 
+  group_by(Indel_Class, ins_del) %>% tally %>% 
+  write_tsv('longreadclustersequencing/indel_analysis/unphased_summary_cts_decode.txt')
 
-fit %>% tidy(model) %>% filter(term != '(Intercept)')
-fit %>% glance(model)
-# fit %>% augment(model)
 
-## am I making a mistake?
-sum_indels$ID %>% unique %>% length
-sum_indels %>% unique %>% 
-  group_by(parent, Indel_Class) %>% tally
+#### plot the correlations
+# p = sum_indels %>% 
+#   ggplot(aes(x = parental_age, y = Indel_ct, color = parent)) +
+#   geom_point() +
+#   facet_wrap(~Indel_Class) +
+#   scale_color_manual(values = c('#352846', '#E2AE38')) +
+#   geom_smooth(method = 'lm') +
+#   theme_classic()
+# p
+# 
+# fit = sum_indels %>% 
+#   # filter(Indel_ct < 10) %>% 
+#   group_by(cohort, Indel_Class, parent) %>% 
+#   do(model = lm(Indel_ct ~ parental_age, .))
+# 
+# fit %>% tidy(model) %>% filter(term != '(Intercept)')
+# fit %>% glance(model)
+# # fit %>% augment(model)
+# 
+# ## am I making a mistake?
+# sum_indels$ID %>% unique %>% length
+# sum_indels %>% unique %>% 
+#   group_by(parent, Indel_Class) %>% tally
   

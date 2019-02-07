@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-15150	chr4	120321888	120321889	AG	A	G	CCC	.	.	.
+1-15150	chr4	154798952	154798953	T	TTG	TG	CCC	.	.	.
+1-15150	chr10	100152719	100152720	T	TA	A	HR	.	.	.

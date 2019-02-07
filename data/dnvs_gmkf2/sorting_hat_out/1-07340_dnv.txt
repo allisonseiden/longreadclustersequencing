@@ -1,0 +1,5 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-07340	chr4	130156584	130156585	A	AT	T	HR	.	.	.
+1-07340	chr6	70968434	70968435	TG	T	G	CCC	.	.	.
+1-07340	chr11	16930687	16930688	TTCTG	T	TCTG	non-CCC	.	.	.
+1-07340	chr18	71271891	71271892	TAAG	T	AAG	non-CCC	.	.	.

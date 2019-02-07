@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-11197	chr5	151128965	151128966	G	GAAA	AAA	CCC	.	.	.
+1-11197	chr9	13063372	13063373	T	TTG	TG	CCC	.	.	.
+1-11197	chr12	16065253	16065254	A	AT	T	non-CCC	AluSx3	SINE	Alu

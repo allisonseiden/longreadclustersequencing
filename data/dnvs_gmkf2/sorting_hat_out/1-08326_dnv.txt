@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-08326	chr12	72510657	72510658	GA	G	A	HR	.	.	.
+1-08326	chr13	61094948	61094949	TGA	T	GA	CCC	LTR49	LTR	ERV1
+1-08326	chr15	53520661	53520662	CAT	C	AT	non-CCC	.	.	.

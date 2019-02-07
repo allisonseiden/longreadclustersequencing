@@ -17,11 +17,11 @@ module load python/3.5.0 py_packages/3.5
 source venv_phasing/bin/activate
 python3
 
-Error with:
-time sorting_hat --bed 1-00786_dnv.bed --fasta \
+cd /hpc/users/richtf01/longreadclustersequencing/data
+time sorting_hat --bed dnvs_2019_02_07.bed --fasta \
 /sc/orga/projects/chdiTrios/Felix/dbs/hg38.fa --repeat \
 /hpc/users/richtf01/longreadclustersequencing/data/repeat_masker.txt \
---output sorting_hat_out/1-00786_dnv.txt
+--output dnvs_2019_02_07_dnv_sorting_hat.txt
 
 """
 

@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-05860	chr5	172968023	172968024	CAAAG	C	AAAG	non-CCC	Tigger4a	DNA	TcMar-Tigger
+1-05860	chr7	88149358	88149359	ACT	A	CT	CCC	.	.	.
+1-05860	chr10	115437895	115437896	G	GACAT	ACAT	CCC	MIRb	SINE	MIR

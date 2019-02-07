@@ -1,0 +1,3 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-12123	chr1	22899669	22899670	CA	C	A	non-CCC	.	.	.
+1-12123	chr6	16198280	16198281	G	GT	T	non-CCC	LTR12C	LTR	ERV1

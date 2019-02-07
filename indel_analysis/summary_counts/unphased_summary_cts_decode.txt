@@ -1,0 +1,7 @@
+Indel_Class	ins_del	n
+CCC	deletion	2069
+CCC	insertion	927
+HR	deletion	295
+HR	insertion	777
+non-CCC	deletion	2291
+non-CCC	insertion	225

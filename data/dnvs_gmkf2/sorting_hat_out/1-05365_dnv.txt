@@ -1,0 +1,5 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-05365	chr6	22885699	22885700	AT	A	T	non-CCC	.	.	.
+1-05365	chr9	108922668	108922669	GA	G	A	HR	.	.	.
+1-05365	chr20	20373651	20373652	CAG	C	AG	CCC	.	.	.
+1-05365	chr22	31975943	31975944	CA	C	A	non-CCC	MER33	DNA	hAT-Charlie

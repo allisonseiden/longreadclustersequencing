@@ -1,0 +1,7 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-08773	chr1	102465469	102465470	TAGAC	T	AGAC	non-CCC	.	.	.
+1-08773	chr4	45048516	45048517	A	AC	C	CCC	MER9a3	LTR	ERVK
+1-08773	chr6	9927261	9927262	G	GC	C	CCC	.	.	.
+1-08773	chr8	125438906	125438907	TC	T	C	CCC	Charlie4z	DNA	hAT-Charlie
+1-08773	chr12	115177320	115177321	CAA	C	AA	non-CCC	.	.	.
+1-08773	chr15	37632537	37632538	TAA	T	AA	non-CCC	A-rich	Low_complexity	Low_complexity

@@ -1,0 +1,3 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-07979	chr6	131277474	131277475	CGCCA	C	GCCA	non-CCC	.	.	.
+1-07979	chr8	133075632	133075633	TA	T	A	non-CCC	.	.	.

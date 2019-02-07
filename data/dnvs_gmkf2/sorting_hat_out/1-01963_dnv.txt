@@ -1,0 +1,3 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-01963	chr3	60703534	60703535	CATAAGCAGAT	C	ATAAGCAGAT	non-CCC	.	.	.
+1-01963	chr10	57683385	57683386	AAAAT	A	AAAT	non-CCC	.	.	.

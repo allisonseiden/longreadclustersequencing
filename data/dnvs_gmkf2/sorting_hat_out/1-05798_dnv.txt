@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-05798	chr1	162254065	162254066	CA	C	A	non-CCC	.	.	.
+1-05798	chr2	73663492	73663493	A	AT	T	HR	.	.	.
+1-05798	chr18	73537455	73537456	T	TATATATATATATATATATA	ATATATATATATATATATA	non-CCC	(AT)n	Simple_repeat	Simple_repeat

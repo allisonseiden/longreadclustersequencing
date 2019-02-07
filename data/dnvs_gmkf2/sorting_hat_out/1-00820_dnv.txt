@@ -1,0 +1,6 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-00820	chr2	16366547	16366548	TTA	T	TA	non-CCC	.	.	.
+1-00820	chr6	168116026	168116027	ATCTG	A	TCTG	non-CCC	(ATCT)n	Simple_repeat	Simple_repeat
+1-00820	chr7	98621295	98621296	T	TC	C	non-CCC	.	.	.
+1-00820	chr12	15224478	15224479	AACTG	A	ACTG	CCC	HAL1b	LINE	L1
+1-00820	chr15	65174957	65174958	TA	T	A	HR	.	.	.

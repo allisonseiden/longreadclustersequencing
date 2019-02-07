@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-07925	chr3	176057692	176057693	CT	C	T	non-CCC	.	.	.
+1-07925	chr6	129422041	129422042	TTGACTC	T	TGACTC	non-CCC	.	.	.
+1-07925	chr7	81550507	81550508	TATGGAG	T	ATGGAG	non-CCC	MER51-int	LTR	ERV1

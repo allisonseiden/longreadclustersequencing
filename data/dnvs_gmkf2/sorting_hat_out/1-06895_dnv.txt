@@ -1,0 +1,3 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-06895	chr2	205237086	205237087	C	CTTTG	TTTG	CCC	L1ME3E	LINE	L1
+1-06895	chr15	52160977	52160978	TA	T	A	non-CCC	L1ME4a	LINE	L1

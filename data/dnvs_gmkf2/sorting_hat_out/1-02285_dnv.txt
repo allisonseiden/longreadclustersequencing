@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-02285	chr3	243051	243052	A	AAT	AT	CCC	.	.	.
+1-02285	chr4	170639654	170639655	GC	G	C	CCC	L1PA4	LINE	L1
+1-02285	chr8	76604800	76604801	TA	T	A	CCC	AluSx	SINE	Alu

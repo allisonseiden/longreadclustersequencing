@@ -1,0 +1,2 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-05447	chr10	135352	135353	AGCCG	A	GCCG	non-CCC	.	.	.

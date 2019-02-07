@@ -13,10 +13,14 @@ p = c('magrittr', 'extraDistr', 'broom', 'car',
 lapply(p, require, character.only = TRUE)
 
 # prepared in regression_prep.R
-indel_full_ct = read_tsv('longreadclustersequencing/indel_analysis/counts_per_id_ilmn_pb_2019_01_22.txt')
+indel_full_ct = read_tsv('longreadclustersequencing/indel_analysis/counts_per_id_ilmn_pb_repeat_HR_AT_GC_2019_02_06.txt')
 # prepared in decode_indel_correlations.R
-indel_decode = read_tsv('longreadclustersequencing/literature/jonsson_decode_2017/indel_cts_per_id.txt')
+indel_decode = read_tsv('longreadclustersequencing/literature/jonsson_decode_2017/indel_cts_per_id_repeat_HRATGC_2019_02_06.txt')
 
+# counts_per_id_ilmn_pb_repeat_HR_AT_GC_2019_02_06.txt
+# counts_per_id_ilmn_pb_2019_01_22.txt
+# indel_cts_per_id_repeat_HRATGC_2019_02_06.txt
+# indel_cts_per_id.txt
 ####################################
 # Join with fraction phased
 ####################################
@@ -44,8 +48,11 @@ indel_full_ct %>% group_by(cohort, parent, Indel_Class) %>% tally %>% as.data.fr
 # Run correlations and plot
 ####################################
 
-# check the correlations
+# Sum over repeats for HR AT vs GC
 cor_tbl = indel_full_ct %>% 
+  filter(grepl('HR', Indel_Class)) %>%
+  group_by(cohort, Indel_Class, parent, ID, parental_age) %>% 
+  summarise(Indel_ct = sum(Indel_ct)) %>% ungroup %>% 
   group_by(cohort, Indel_Class, parent) %>% 
   summarise(r = cor(Indel_ct, parental_age),
             # r_kendall = cor(Indel_ct, parental_age, method = 'kendall'),
@@ -56,19 +63,47 @@ cor_tbl = indel_full_ct %>%
             Indel_ct = sum(Indel_ct),
             n = n()) %>% ungroup
 
-cor_tbl %>% filter(grepl('decode', cohort))
-cor_tbl %>% write_tsv('longreadclustersequencing/phasing_analysis/regression_analyses/cor_tbl.txt')
+# cor_tbl %>% write_tsv('longreadclustersequencing/phasing_analysis/regression_analyses/cor_tbl_HR_AT_GC.txt')
 
-cor_tbl$Indel_Class
-cor_tbl$p
-cor_tbl
+# check the correlations
+cor_tbl = indel_full_ct %>% 
+  group_by(cohort, Indel_Class, in_repeat, parent) %>% 
+  summarise(r = cor(Indel_ct, parental_age),
+            # r_kendall = cor(Indel_ct, parental_age, method = 'kendall'),
+            # r_spearman = cor(Indel_ct, parental_age, method = 'spearman'),
+            p = cor.test(Indel_ct, parental_age, method = 'pearson')$p.value,
+            ci_lo = cor.test(Indel_ct, parental_age)$conf.int[[1]],
+            ci_hi = cor.test(Indel_ct, parental_age)$conf.int[[2]],
+            Indel_ct = sum(Indel_ct),
+            n = n()) %>% ungroup
+
+# cor_tbl %>% write_tsv('longreadclustersequencing/phasing_analysis/regression_analyses/cor_tbl_repeat.txt')
+
+####################################
+# calculate meta-analysis p-values
+####################################
+
+cor_tbl %>% #filter(grepl('decode', cohort)) %>% 
+  mutate(transformed_p = -2*log(p)) %>% filter(!is.na(transformed_p)) %>% 
+  arrange(cohort) %>% 
+  group_by(Indel_Class, parent, in_repeat) %>% ## in_repeat
+  summarise(df_i = 2*n(), p_meta = 1 - pchisq(sum(transformed_p), df = df_i),
+            p_list = paste(signif(p, 2), collapse = ', '),
+            # cohort_list = paste(cohort, collapse = ', '),
+            indel_sum = sum(Indel_ct),
+            Indel_ct = paste(Indel_ct, collapse = ', '), 
+            r_list = paste(signif(r, 2), collapse = ', '))
+
+####################################
+# plotting correlations
+####################################
 
 class_order = c('HR', 'CCC', 'non-CCC', 'All') %>% rev
 cohort_order = c('deCODE (N=225)\nHaplotype-sharing',
                  'Illumina (N=308)\nShort-read tracing',
                  'PacBio (N=10)\nLong-read tracing')
 plot_y_min = -0.1
-## plotting
+
 p = cor_tbl %>% 
   mutate(ci_lo = ifelse(ci_lo < plot_y_min, plot_y_min, ci_lo)) %>% 
   mutate(Indel_Class = factor(Indel_Class, levels = class_order)) %>% 

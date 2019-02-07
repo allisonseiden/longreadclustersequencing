@@ -1,0 +1,5 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-05624	chr2	117658704	117658705	AG	A	G	CCC	.	.	.
+1-05624	chr9	122174629	122174630	AG	A	G	CCC	.	.	.
+1-05624	chr11	33043513	33043514	CAACT	C	AACT	CCC	.	.	.
+1-05624	chr11	41877283	41877284	GT	G	T	HR	.	.	.

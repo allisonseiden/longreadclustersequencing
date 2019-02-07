@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-04891	chr1	241844880	241844881	TA	T	A	CCC	MER113	DNA	hAT-Charlie
+1-04891	chr4	133466771	133466772	AG	A	G	non-CCC	.	.	.
+1-04891	chrX	46290872	46290873	TC	T	C	CCC	L1MA8	LINE	L1

@@ -1,0 +1,3 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-06686	chr1	72657318	72657319	TA	T	A	non-CCC	.	.	.
+1-06686	chr2	183187445	183187446	CA	C	A	CCC	MER50B	LTR	ERV1

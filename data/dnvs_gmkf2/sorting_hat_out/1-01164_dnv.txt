@@ -1,0 +1,2 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-01164	chr12	48702313	48702314	T	TA	A	CCC	.	.	.

@@ -1,0 +1,14 @@
+Indel_Class	ins_del	PB_Mom_Indel	PB_Dad_Indel	PB_Unphased_Indel	n
+CCC	deletion	0	0	1	7
+CCC	deletion	0	1	0	9
+CCC	deletion	1	0	0	5
+CCC	insertion	0	1	0	3
+CCC	insertion	1	0	0	2
+HR	deletion	0	1	0	2
+HR	insertion	0	0	1	1
+HR	insertion	0	1	0	3
+HR	insertion	1	0	0	1
+non-CCC	deletion	0	0	1	2
+non-CCC	deletion	0	1	0	20
+non-CCC	deletion	1	0	0	2
+non-CCC	insertion	1	0	0	1

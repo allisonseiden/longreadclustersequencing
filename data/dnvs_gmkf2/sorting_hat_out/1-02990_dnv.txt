@@ -1,0 +1,3 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-02990	chr4	52864394	52864395	A	AT	T	HR	.	.	.
+1-02990	chrX	153710017	153710018	CGAA	C	GAA	non-CCC	.	.	.

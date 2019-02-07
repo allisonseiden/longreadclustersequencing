@@ -116,11 +116,13 @@ whatshap_prefix = ('/hpc/users/seidea02/www/PacbioProject/WhatshapVCFs/' +
                    '{}_illumina_2019/{}_chr{}_phased')
 patient.illumina(whatshap_prefix)
 
-## looping
-from utils import get_ilmn_n10_vcf_list
-ilmn_vcf_list = get_ilmn_n10_vcf_list()
-for ilmn_vcf in ilmn_vcf_list:
-    get_illumina_dataframes(ilmn_vcf)
+## looping (ignoring '1-01019', '1-00801', )
+ID_list = ['1-03897', '1-04190', '1-04389',
+           '1-04460', '1-04537', '1-05443', '1-05673',
+           '1-05846']
+
+for ID_i in ID_list:
+    get_illumina_dataframes(ID_i)
 
 """
 

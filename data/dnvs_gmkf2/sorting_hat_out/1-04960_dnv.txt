@@ -1,0 +1,5 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-04960	chr1	154574840	154574841	CTAAA	C	TAAA	CCC	.	.	.
+1-04960	chr2	13654207	13654208	C	CA	A	HR	.	.	.
+1-04960	chr8	8451843	8451844	GA	G	A	non-CCC	AluJb	SINE	Alu
+1-04960	chr10	72155743	72155744	TAAAG	T	AAAG	non-CCC	.	.	.

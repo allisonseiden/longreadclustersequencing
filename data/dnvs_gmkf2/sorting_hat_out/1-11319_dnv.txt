@@ -1,0 +1,3 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-11319	chr4	11764676	11764677	TATC	T	ATC	non-CCC	L1MA10	LINE	L1
+1-11319	chr6	155955193	155955194	TATA	T	ATA	non-CCC	.	.	.

@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-03482	chr1	8398370	8398371	TCTC	T	CTC	non-CCC	.	.	.
+1-03482	chr2	96842082	96842083	TG	T	G	HR	.	.	.
+1-03482	chr14	92666333	92666334	A	ACTGGCCATGCT	CTGGCCATGCT	CCC	.	.	.

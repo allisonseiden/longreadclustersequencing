@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-06596	chr2	72688525	72688526	T	TACTGGG	ACTGGG	CCC	LTR16C	LTR	ERVL
+1-06596	chr9	94129699	94129700	CA	C	A	non-CCC	MSTA-int	LTR	ERVL-MaLR
+1-06596	chr10	132946645	132946646	GGAT	G	GAT	non-CCC	(CCCAGCAT)n	Simple_repeat	Simple_repeat

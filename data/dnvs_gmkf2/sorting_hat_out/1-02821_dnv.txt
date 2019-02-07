@@ -1,0 +1,4 @@
+ID	Chrom	Start	End	Ref	Alt	Allele	Indel_Class	repName	repClass	repFamily
+1-02821	chr4	184433065	184433066	C	CA	A	CCC	.	.	.
+1-02821	chr5	39751552	39751553	AAGAC	A	AGAC	non-CCC	L1M4c	LINE	L1
+1-02821	chr5	142649854	142649855	G	GA	A	HR	.	.	.
