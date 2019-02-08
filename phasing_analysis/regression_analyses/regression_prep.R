@@ -28,7 +28,11 @@ ilmn_phased_ids = ilmn_phased %>% filter(!is.na(Mom)) %>% select(ID) %>% unique 
 pacbio_ids = c('1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
                '1-04460', '1-04537', '1-05443', '1-05673', '1-05846')
 pb_phased %>% filter(ID %in% pacbio_ids) %>% dim
-pb_indel_phased %>% filter(ID %in% pacbio_ids) %>% dim
+# pb_indel_phased %>% filter(ID %in% pacbio_ids) %>% dim
+
+cbind('phased_ids' = c(ilmn_phased_ids, pacbio_ids)) %>% as.data.frame %>% 
+  arrange(phased_ids) %>% 
+  write_tsv('longreadclustersequencing/data/phased_ids_pcgc.txt')
 
 ###############
 # Parental age
@@ -114,8 +118,11 @@ pb_hr_grouping = pb_indel_class_df %>%
 
 pb_indel_class_df %<>% left_join(pb_hr_grouping) 
 
-ilmn_indel_df %<>% mutate(Indel_Class = ifelse(is.na(hr_subtype), Indel_Class, hr_subtype))
-pb_indel_class_df %<>% mutate(Indel_Class = ifelse(is.na(hr_subtype), Indel_Class, hr_subtype))
+# ilmn_indel_df %<>% mutate(Indel_Class = ifelse(is.na(hr_subtype), Indel_Class, hr_subtype))
+# pb_indel_class_df %<>% mutate(Indel_Class = ifelse(is.na(hr_subtype), Indel_Class, hr_subtype))
+
+write_tsv(ilmn_indel_df, paste0(res_dir, 'indel_df_ilmn_2019_02_07.txt'))
+write_tsv(pb_indel_class_df, paste0(res_dir, 'indel_df_pb_2019_02_07.txt'))
 
 ######################################
 # Sum the number of variants in 
