@@ -47,13 +47,12 @@ no_par_age_ids = dnvs_sorted %>% anti_join(age_df_ilmn) %>% select(ID) %>% uniqu
 
 dnvs_sorted %<>% inner_join(age_df_ilmn) 
 
-dnvs_sorted %>% 
-  mutate(Indel_Class = factor(Indel_Class, levels = c('HR', 'CCC', 'non-CCC'))) %>% 
-  mutate(ins_del = ifelse((stri_length(Ref) > 1), 'deletion', 'insertion')) %>% unique %>% 
-  group_by(cohort, Indel_Class, ins_del) %>% tally %>% ungroup %>% 
-  arrange(cohort, Indel_Class, desc(ins_del)) %>% 
-  write_tsv('longreadclustersequencing/indel_analysis/unphased_summary_cts_pcgc.txt')
-
+# dnvs_sorted %>% 
+#   mutate(Indel_Class = factor(Indel_Class, levels = c('HR', 'CCC', 'non-CCC'))) %>% 
+#   mutate(ins_del = ifelse((stri_length(Ref) > 1), 'deletion', 'insertion')) %>% unique %>% 
+#   group_by(cohort, Indel_Class, ins_del) %>% tally %>% ungroup %>% 
+#   arrange(cohort, Indel_Class, desc(ins_del)) %>% 
+#   write_tsv('longreadclustersequencing/indel_analysis/unphased_summary_cts_pcgc.txt')
 
 ### 
 indel_class_vec = c('CCC', 'non-CCC', 'HR')
@@ -79,25 +78,36 @@ unphased_indel_all_df = unphased_indel_ct %>%
 unphased_indel_ct %<>% bind_rows(unphased_indel_all_df)
 
 unphased_indel_ct %>% group_by(cohort, Indel_Class) %>% tally
-unphased_indel_ct_pcgc = unphased_indel_ct
-fit = unphased_indel_ct %>% group_by(cohort, Indel_Class) %>% ## ins_del
-  do(model = lm(Indel_ct ~ Paternal_age_at_conception + Maternal_age_at_conception, .))
-fit %>% tidy(model) %>% filter(term != '(Intercept)')
+unphased_indel_ct_pcgc = unphased_indel_ct  ## needed for combining w decode
+fit = unphased_indel_ct %>%
+  group_by(Indel_Class, cohort) %>% ## ins_del cohort
+  # do(model = lm(Indel_ct ~ Paternal_age_at_conception + Maternal_age_at_conception, .))
+  do(model = glm(Indel_ct ~ Paternal_age_at_conception + Maternal_age_at_conception, ., family = 'poisson'))
+  # do(model = lme4::glmer(Indel_ct ~ Paternal_age_at_conception + 
+  #                          (Paternal_age_at_conception | cohort) +
+  #                          Maternal_age_at_conception +
+  #                          (Maternal_age_at_conception | cohort), data = .,
+  #                        family = 'poisson'))
+
+fit %>% tidy(model) %>% 
+  # filter(term != '(Intercept)')
+  filter(grepl('age_at_conception$', term))
 fit_pcgc = fit
 
 class_order = c('HR', 'CCC', 'non-CCC', 'All')
-p = unphased_indel_ct %>% 
-  filter(cohort == 'ssc') %>% 
+p = unphased_indel_ct_pcgc %>% 
+  filter(cohort == 'pcgc') %>% 
   mutate(Indel_Class = factor(Indel_Class, levels = class_order)) %>% 
   ggplot(aes(x = Paternal_age_at_conception, y = Indel_ct)) +
   geom_point(color = 'grey70', size = 0.25) +
-  geom_smooth(method = 'lm', color = 'dodgerblue') +
+  # geom_smooth(method = 'lm', color = 'dodgerblue') +
+  geom_smooth(method = 'glm', color = 'dodgerblue', method.args = list(family = "poisson")) +
   facet_wrap(~Indel_Class, nrow = 1) +
   xlab('Paternal age') + ylab('Indels per trio') +
   theme_classic()
 p
-# ggsave('longreadclustersequencing/indel_analysis/unphased_cors/unphased_ssc_cor.png',
-#        p, width = 6, height = 2)
+ggsave('longreadclustersequencing/indel_analysis/unphased_cors/unphased_pcgc_poisson.png',
+       p, width = 6, height = 2)
 
 ########################################
 # decode data
@@ -133,8 +143,10 @@ unphased_indel_all_df = unphased_indel_ct %>%
   mutate(Indel_Class = 'All')
 unphased_indel_ct %<>% bind_rows(unphased_indel_all_df)
 
-fit = unphased_indel_ct %>% group_by(cohort, Indel_Class) %>% ## ins_del
-  do(model = lm(Indel_ct ~ mom + dad, .))
+fit = unphased_indel_ct %>%
+  group_by(cohort, Indel_Class) %>% ## ins_del
+  # do(model = lm(Indel_ct ~ mom + dad, .))
+  do(model = glm(Indel_ct ~ mom + dad, ., family = 'poisson'))
 fit %>% tidy(model) %>% filter(term != '(Intercept)')
 fit_decode = fit
 
@@ -157,47 +169,19 @@ p = unphased_indel_ct %>%
   mutate(Indel_Class = factor(Indel_Class, levels = class_order)) %>% 
   ggplot(aes(x = dad, y = Indel_ct)) +
   geom_point(color = 'grey70', size = 0.25) +
-  geom_smooth(method = 'lm', color = 'dodgerblue') +
+  geom_smooth(method = 'glm', color = 'dodgerblue', method.args = list(family = "poisson")) +
   facet_wrap(~Indel_Class, nrow = 1) +
   xlab('Paternal age') + ylab('Indels per trio') +
   theme_classic()
 p
-# ggsave('longreadclustersequencing/indel_analysis/unphased_decode_cor.png',
-#        p, width = 6, height = 2)
+ggsave('longreadclustersequencing/indel_analysis/unphased_cors/unphased_decode_poisson.png',
+       p, width = 6, height = 2)
 
 unphased_indel_ct_decode = unphased_indel_ct
 
 ##########################################
-# Single correlations
+# Combined Poisson regressions
 ##########################################
-
-cor_tbl_pcgc = unphased_indel_ct_pcgc %>% 
-  group_by(Indel_Class, cohort) %>% 
-  summarise(r_dad = cor(Indel_ct, Paternal_age_at_conception),
-            r_mom = cor(Indel_ct, Maternal_age_at_conception),
-            # r_kendall = cor(Indel_ct, parental_age, method = 'kendall'),
-            # r_spearman = cor(Indel_ct, parental_age, method = 'spearman'),
-            p_dad = cor.test(Indel_ct, Paternal_age_at_conception, method = 'pearson')$p.value,
-            p_mom = cor.test(Indel_ct, Maternal_age_at_conception, method = 'pearson')$p.value,
-            # ci_lo = cor.test(Indel_ct, parental_age)$conf.int[[1]],
-            # ci_hi = cor.test(Indel_ct, parental_age)$conf.int[[2]],
-            Indel_ct = sum(Indel_ct),
-            n = n()) %>% ungroup
-
-cor_tbl_decode = unphased_indel_ct_decode %>% 
-  # filter(is.na(dad) | is.na(mom))
-  group_by(Indel_Class, cohort) %>% 
-  summarise(r_dad = cor(Indel_ct, dad),
-            r_mom = cor(Indel_ct, mom),
-            # r_kendall = cor(Indel_ct, parental_age, method = 'kendall'),
-            # r_spearman = cor(Indel_ct, parental_age, method = 'spearman'),
-            p_dad = cor.test(Indel_ct, dad, method = 'pearson')$p.value,
-            p_mom = cor.test(Indel_ct, mom, method = 'pearson')$p.value,
-            # ci_lo = cor.test(Indel_ct, parental_age)$conf.int[[1]],
-            # ci_hi = cor.test(Indel_ct, parental_age)$conf.int[[2]],
-            Indel_ct = sum(Indel_ct),
-            n = n()) %>% ungroup
-
 
 ##########################################
 # Meta-analysis
@@ -222,16 +206,54 @@ fit_meta %>%
             beta_list = paste(signif(estimate, 2), collapse = ', '))
 
 
-cor_tbl_meta = bind_rows(cor_tbl_decode, cor_tbl_pcgc) 
+##########################################
+# Single correlations
+# DONT USE THESE BECAUSE DON'T ACCOUNT
+# FOR MATERNAL/PATERNAL correlation
+##########################################
+# 
+# cor_tbl_pcgc = unphased_indel_ct_pcgc %>% 
+#   group_by(Indel_Class, cohort) %>% 
+#   summarise(r_dad = cor(Indel_ct, Paternal_age_at_conception, method = 'spearman'),
+#             r_mom = cor(Indel_ct, Maternal_age_at_conception, method = 'spearman'),
+#             # r_kendall = cor(Indel_ct, parental_age, method = 'kendall'),
+#             # r_spearman = cor(Indel_ct, parental_age, method = 'spearman'),
+#             p_dad = cor.test(Indel_ct, Paternal_age_at_conception, method = 'spearman', exact = F)$p.value,
+#             p_mom = cor.test(Indel_ct, Maternal_age_at_conception, method = 'spearman', exact = F)$p.value,
+#             # ci_lo = cor.test(Indel_ct, parental_age)$conf.int[[1]],
+#             # ci_hi = cor.test(Indel_ct, parental_age)$conf.int[[2]],
+#             Indel_ct = sum(Indel_ct),
+#             n = n()) %>% ungroup
+# 
+# cor_tbl_decode = unphased_indel_ct_decode %>% 
+#   # filter(is.na(dad) | is.na(mom))
+#   group_by(Indel_Class, cohort) %>% 
+#   summarise(r_dad = cor(Indel_ct, dad, method = 'spearman'),
+#             r_mom = cor(Indel_ct, mom, method = 'spearman'),
+#             # r_kendall = cor(Indel_ct, parental_age, method = 'kendall'),
+#             # r_spearman = cor(Indel_ct, parental_age, method = 'spearman'),
+#             p_dad = cor.test(Indel_ct, dad, method = 'spearman', exact = F)$p.value,
+#             p_mom = cor.test(Indel_ct, mom, method = 'spearman', exact = F)$p.value,
+#             # ci_lo = cor.test(Indel_ct, parental_age)$conf.int[[1]],
+#             # ci_hi = cor.test(Indel_ct, parental_age)$conf.int[[2]],
+#             Indel_ct = sum(Indel_ct),
+#             n = n()) %>% ungroup
+# 
+# 
+# cor_tbl_meta = bind_rows(cor_tbl_decode, cor_tbl_pcgc) 
+# 
+# cor_tbl_meta %>%
+#   mutate(p_interest = p_mom) %>%
+#   mutate(transformed_p = -2*log(p_interest)) %>% filter(!is.na(transformed_p)) %>% 
+#   arrange(cohort) %>% 
+#   group_by(Indel_Class) %>% ## in_repeat
+#   summarise(df_i = 2*n(),
+#             p_chisq_log = pchisq(sum(transformed_p), df = df_i, log.p = T),
+#             p_meta = 1 - pchisq(sum(transformed_p), df = df_i),
+#             p_list = paste(signif(p_interest, 2), collapse = ', '),
+#             # cohort_list = paste(cohort, collapse = ', '),
+#             indel_sum = sum(Indel_ct),
+#             Indel_ct = paste(Indel_ct, collapse = ', '),
+#             r_list = paste(signif(r_dad, 2), collapse = ', '))
 
-cor_tbl_meta %>%
-  mutate(p_interest = p_dad) %>%
-  mutate(transformed_p = -2*log(p_interest)) %>% filter(!is.na(transformed_p)) %>% 
-  arrange(cohort) %>% 
-  group_by(Indel_Class) %>% ## in_repeat
-  summarise(df_i = 2*n(), p_meta = 1 - pchisq(sum(transformed_p), df = df_i),
-            p_list = paste(signif(p_interest, 2), collapse = ', '),
-            # cohort_list = paste(cohort, collapse = ', '),
-            indel_sum = sum(Indel_ct),
-            Indel_ct = paste(Indel_ct, collapse = ', '),
-            r_list = paste(signif(r_dad, 2), collapse = ', '))
+

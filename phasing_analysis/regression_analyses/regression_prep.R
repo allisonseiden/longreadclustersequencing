@@ -30,9 +30,9 @@ pacbio_ids = c('1-00801', '1-01019', '1-03897', '1-04190', '1-04389',
 pb_phased %>% filter(ID %in% pacbio_ids) %>% dim
 # pb_indel_phased %>% filter(ID %in% pacbio_ids) %>% dim
 
-cbind('phased_ids' = c(ilmn_phased_ids, pacbio_ids)) %>% as.data.frame %>% 
-  arrange(phased_ids) %>% 
-  write_tsv('longreadclustersequencing/data/phased_ids_pcgc.txt')
+# cbind('phased_ids' = c(ilmn_phased_ids, pacbio_ids)) %>% as.data.frame %>% 
+#   arrange(phased_ids) %>% 
+#   write_tsv('longreadclustersequencing/data/phased_ids_pcgc.txt')
 
 ###############
 # Parental age
@@ -109,20 +109,21 @@ ilmn_hr_grouping = ilmn_indel_df %>%
   mutate(hr_subtype = ifelse(Allele %in% c('A', 'T'), 'HR_AT', 'HR_GC')) %>% 
   select(ID:Alt, hr_subtype)
 
-ilmn_indel_df %<>% left_join(ilmn_hr_grouping) 
+# ilmn_indel_df %<>% left_join(ilmn_hr_grouping) 
 
 pb_hr_grouping = pb_indel_class_df %>% 
   filter(HR == 1) %>% 
   mutate(hr_subtype = ifelse(Allele %in% c('A', 'T'), 'HR_AT', 'HR_GC')) %>% 
   select(ID:Location, Ref, Alt, hr_subtype)
 
-pb_indel_class_df %<>% left_join(pb_hr_grouping) 
+# pb_indel_class_df %<>% left_join(pb_hr_grouping) 
 
 # ilmn_indel_df %<>% mutate(Indel_Class = ifelse(is.na(hr_subtype), Indel_Class, hr_subtype))
 # pb_indel_class_df %<>% mutate(Indel_Class = ifelse(is.na(hr_subtype), Indel_Class, hr_subtype))
 
 write_tsv(ilmn_indel_df, paste0(res_dir, 'indel_df_ilmn_2019_02_07.txt'))
 write_tsv(pb_indel_class_df, paste0(res_dir, 'indel_df_pb_2019_02_07.txt'))
+
 
 ######################################
 # Sum the number of variants in 
@@ -131,6 +132,8 @@ write_tsv(pb_indel_class_df, paste0(res_dir, 'indel_df_pb_2019_02_07.txt'))
 
 ilmn_indel_sum = ilmn_indel_df %>% 
   mutate(in_repeat = ifelse(repClass == '.', 'N', 'Y')) %>% 
+  # mutate(repClassSuper = ifelse(repClass %in% c('LINE', 'SINE', 'LTR'), repClass, 'Other')) %>% 
+  # mutate(repClassSuper = ifelse(in_repeat == 'Y', repClassSuper, '.')) %>% 
   ## only keep phased indels
   filter((Mom == 1) | (Dad == 1)) %>% 
   mutate(parent = ifelse(Mom == 1, 'mom', 'dad')) %>% 
@@ -142,7 +145,11 @@ ilmn_indel_sum = ilmn_indel_df %>%
   ungroup
 
 pb_indel_sum = pb_indel_class_df %>% 
+  ## account for repeats
   mutate(in_repeat = ifelse(repClass == '.', 'N', 'Y')) %>% 
+  # mutate(repClassSuper = ifelse(repClass %in% c('LINE', 'SINE', 'LTR'), repClass, 'Other')) %>% 
+  # mutate(repClassSuper = ifelse(in_repeat == 'Y', repClassSuper, '.')) %>% 
+  ## assign parents
   filter((PB_Mom_Indel == 1) | (PB_Dad_Indel == 1)) %>% 
   mutate(parent = ifelse(PB_Mom_Indel == 1, 'mom', 'dad')) %>% 
   mutate(parental_age = ifelse(parent == 'dad',
@@ -158,7 +165,7 @@ indel_sum = bind_rows('ilmn_305' = ilmn_indel_sum, 'pb_10' = pb_indel_sum, .id =
 # indel expand DF (get full dataframe accounting for 0 observed)
 ######################################
 
-indel_class_vec = c('CCC', 'non-CCC', 'HR_GC', 'HR_AT') # 'HR')
+indel_class_vec = c('CCC', 'non-CCC', 'HR') ## 'HR_GC', 'HR_AT') #
 # need dataframe with columns:
 # ID, parent, Indel_Class, Indel_ct, parental_age, fraction_snvs_phased, ancestry
 # nrows = length(ID) x 2 parents x 3 Indel_Class x 2 for repeat
@@ -250,3 +257,23 @@ pb_indel_class_df %>%
 #   filter(parental_age > (dad_age_python + 0.1))
 # 
 
+
+# ######################################
+# # Investigate the proportion of DNVs
+# # in specific repeats
+# ######################################
+# ilmn_indels_per_repClass = ilmn_indel_df %>% 
+#   filter(repClass != '.') %>%
+#   filter((Mom == 1) | (Dad == 1)) %>% 
+#   mutate(parent = ifelse(Mom == 1, 'mom', 'dad')) %>% 
+#   mutate(parental_age = ifelse(parent == 'dad',
+#                                Paternal_age_at_conception,
+#                                Maternal_age_at_conception)) %>%
+#   mutate(ins_del = ifelse((stri_length(Ref) > 1), 'deletion', 'insertion')) %>% 
+#   # filter(Indel_Class == 'CCC') %>% #head %>% as.data.frame
+#   mutate(repClassSuper = ifelse(repClass %in% c('LINE', 'SINE', 'LTR'), repClass, 'Other')) %>% 
+#   # filter(parent == 'mom') %>% 
+#   # filter(repClass == 'LTR') %>% as.data.frame
+#   ### ins_del, 
+#   group_by(Indel_Class, parent, ins_del, repClassSuper) %>%
+#   summarise(Indel_Ct = n()) %>% ungroup
