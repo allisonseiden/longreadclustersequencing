@@ -1,6 +1,5 @@
 # IGV plot for manual indel phasing
 
-## Directory descriptions
 Directories are labeled by patient ID number. Within each of these directories is:
 - a screenshot of the de novo variant in IGV
 - a screenshot for each of the informative variants in IGV or a screenshot showing there are no reliable informative variants
