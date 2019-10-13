@@ -1,0 +1,34 @@
+Track order for all plots, in order from top to bottom:
+- PacBio reads for patient
+- Illumina reads for patient
+- Illumina reads for Mom
+- Illumina reads for Dad
+
+Two different sets represent two different phasing attempts using different reads.
+
+file name: set1_zoomedout.png
+description: a screenshot to show how close the informative variants are to the
+de novo variant, and to show the coverage of the reads used for phasing. Highlighted
+reads are ones that contain the de novo variant. Informative insertion on the left
+is an insertion inherited by the father and not present on any of the reads containing
+the de novo. So we phase the de novo to the mother.
+
+file name: set2_inform1.png
+description: shows first informative variant. We see a SNP shared by patient and
+father, not possessed by mother. The variant is not present on the reads that contain
+the de novo variant so we use this variant to phase the de novo to the mother.
+
+file name: set2_inform2.png
+description: we see two informative variants. We see both SNPs shared by patient and
+father, neither possessed by mother. The variants are not present on the reads that contain
+the de novo variant so we use this variant to phase the de novo to the mother.
+
+file name: set2_inform3.png
+description: here we see Illumina reads that are highlighted if they do not contain
+the de novo variant. We also see an insertion on the left inherited by the father
+that is present on these reads that do not contain the de novo variant. So we
+phase the de novo to the mother.
+
+file name: set2_inform4.png
+description: a screenshot to show how close the informative variants are to the
+de novo variant, and to show the coverage of the reads used for phasing.
