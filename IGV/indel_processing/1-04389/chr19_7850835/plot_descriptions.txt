@@ -1,0 +1,24 @@
+Track order for all plots, in order from top to bottom:
+- PacBio reads for patient
+- Illumina reads for patient
+- Illumina reads for Mom
+- Illumina reads for Dad
+
+file name: dnv.png
+description: de novo deletion contained in read highlighted in purple.
+
+file name: inform1.png
+description: we see a SNP shared by patient and mother, not possessed by father.
+The variant is not present on the highlighted read, which contains the de novo insertion,
+so we phase the de novo to the father.
+
+file name: inform2.png
+description: we see a SNP shared by patient and mother, not possessed by father.
+The variant is not present on the highlighted read, which contains the de novo insertion,
+so we phase the de novo to the father.
+
+file name: inform3.png
+description: here we highlight Illumina reads containing the de novo deletion. We
+see that a SNP shared by patient and mother, not possessed by father, is not contained
+in the reads that have the de novo deletion. So we phase the de novo variant to
+the father.
