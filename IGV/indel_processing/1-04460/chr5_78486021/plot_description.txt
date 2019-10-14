@@ -1,0 +1,5 @@
+There were no informative variants that had read overlap with our de novo
+variant so we are unable to phase this de novo variant. no_inform.png is
+a zoomedout screenshot to show that there are no informative variants covered
+by the PacBio reads that we are confident give us information about the de novo
+variant.

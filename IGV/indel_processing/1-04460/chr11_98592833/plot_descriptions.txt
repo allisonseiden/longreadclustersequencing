@@ -1,0 +1,20 @@
+Track order for all plots, in order from top to bottom:
+- PacBio reads for patient
+- Illumina reads for patient
+- Illumina reads for Mom
+- Illumina reads for Dad
+
+file name: dnv.png
+description: de novo deletion contained in reads highlighted.
+
+file name: inform1.png
+description: we see a SNP where patient and mother are heterozygous and father
+is homozygous. Thus, the patient must have gotten the Cs from the mother, which
+are not present on the reads that contain the de novo variant. So we phase the
+deletion to the father.
+
+file name: inform2.png
+description: we see a SNP where patient and mother are heterozygous and father
+is homozygous. Thus, the patient must have gotten the Cs from the mother, which
+are not present on the reads that contain the de novo variant. So we phase the
+deletion to the father.
