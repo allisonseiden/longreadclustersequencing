@@ -1,0 +1,23 @@
+Track order for all plots, in order from top to bottom:
+- PacBio reads for patient
+- Illumina reads for patient
+- Illumina reads for Mom
+- Illumina reads for Dad
+
+file name: inform1.png
+description: the highlighted reads contain the de novo variant.
+We see a SNP where both patient and mother are heterozygous and father
+is homozygous. Thus, the patient must have gotten the Gs from the mother and the Ts
+from the father. The variant (T) is present on the highlighted reads, which contain
+the de novo variant, so we phase the de novo to the father.
+
+file name: inform2.png
+description: we see a SNP where both patient and mother are heterozygous and father
+is homozygous. Thus, the patient must have gotten the As from the mother and the Gs
+from the father. The variant (G) is present on the highlighted reads, which contain
+the de novo variant, so we phase the de novo to the father.
+
+file name: inform3.png
+description: we see a SNP shared by patient and mother, not possessed by father.
+The variant is not present on the highlighted read, which contains the de novo
+variant, so we phase the de novo to the father.
