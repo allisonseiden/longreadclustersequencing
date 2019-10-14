@@ -1,0 +1,13 @@
+Track order for all plots, in order from top to bottom:
+- PacBio reads for patient
+- Illumina reads for patient
+- Illumina reads for Mom
+- Illumina reads for Dad
+
+file name: dnv.png
+description: de novo deletion contained in reads highlighted in purple and orange.
+
+file name: inform.png
+description: we see a deletion shared by patient and mother, not possessed by father.
+The variant is not present on the highlighted reads, which contain the de novo deletion,
+so we phase the de novo to the father.
