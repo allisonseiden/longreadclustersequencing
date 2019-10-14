@@ -1,0 +1,55 @@
+Track order for all plots, in order from top to bottom:
+- PacBio reads for patient
+- Illumina reads for patient
+- Illumina reads for Mom
+- Illumina reads for Dad
+
+Two different sets represent two different phasing attempts using different reads.
+
+file name: set1_dnv.png
+description: highlighted reads (red and blue) contain de novo deletion
+
+file name: set1_inform1.png
+description: shows first informative variant. We see a SNP shared by patient and
+father, and not possessed by mother. Since the variant is present on our
+highlighted read, which also contains the de novo variant, we use this SNP
+to phase the de novo to the father.
+
+file name: set1_inform2.png
+description: shows second informative variant. We see a SNP shared by patient and
+mother, and not possessed by father. Since the variant is not present on our
+highlighted read, which contains the de novo variant, we use this SNP
+to phase the de novo to the father.
+
+file name: set1_zoomedout.png
+description: a screenshot to show how close the informative variants are to the
+de novo variant, and to show the coverage of the reads used for phasing.
+
+file name: set2_inform1.png
+description: shows first informative variant. We see a SNP shared by patient and
+mother, and not possessed by father. Since the variant is not present on our
+highlighted read, which contains the de novo variant, we use this SNP
+to phase the de novo to the father.
+
+file name: set2_inform2.png
+description: shows second informative variant. We see a SNP shared by patient and
+father, and not possessed by mother. Since the variant is present on our
+highlighted read, which also contains the de novo variant, we use this SNP
+to phase the de novo to the father.
+
+file name: set2_inform3.png
+description: shows third informative variant. We see a SNP shared by patient and
+mother, and not possessed by father. Since the variant is not present on our
+highlighted read, which contains the de novo variant, we use this SNP
+to phase the de novo to the father.
+
+file name: set2_inform4.png
+description: here we highlight the Illumina reads that contain the de novo deletion.
+The insertion to the left of the de novo is shared by patient and mother, not
+possessed by father. Since the variant is not present on our highlighted Illumina
+reads, which contain the de novo variant, we use this insertion to phase the
+de novo to the father.
+
+file name: set2_zoomedout.png
+description: a screenshot to show how close the informative variants are to the
+de novo variant, and to show the coverage of the reads used for phasing.
