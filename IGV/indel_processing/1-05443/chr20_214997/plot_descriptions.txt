@@ -1,0 +1,16 @@
+Track order for all plots, in order from top to bottom:
+- PacBio reads for patient
+- Illumina reads for patient
+- Illumina reads for Mom
+- Illumina reads for Dad
+
+file name: inform1.png
+description: reads containing de novo variant are highlighted in blue and ref.
+We see two SNPs, both shared by patient and father, neither possessed by mother.
+The variants are both present on the highlighted reads, which contain the de novo
+variant, so we phase the de novo to the father.
+
+file name: inform2.png
+description: we see a SNP shared by patient and father, not possessed by mother.
+The variant is present on the highlighted reads, which contain the de novo variant,
+so we phase the de novo to the father.
